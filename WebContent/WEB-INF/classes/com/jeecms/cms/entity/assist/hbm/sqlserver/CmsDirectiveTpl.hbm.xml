@@ -3,7 +3,7 @@
 	"-//Hibernate/Hibernate Mapping DTD//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 
-<hibernate-mapping package="com.jeecms.cms.entity.assist">
+<hibernate-mapping package="com.caihong.cms.entity.assist">
 	<class
 		name="CmsDirectiveTpl"
 		table="jc_directive_tpl"
@@ -38,7 +38,7 @@
 			not-null="false"
 		/>
 		
-		<many-to-one name="user" column="user_id" class="com.jeecms.core.entity.CmsUser" not-null="true"></many-to-one>
+		<many-to-one name="user" column="user_id" class="com.caihong.core.entity.CmsUser" not-null="true"></many-to-one>
 		
 
 

@@ -6,7 +6,7 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
 	default-lazy-init="true">
 	
-	<bean id="weixinAct" class="com.jeecms.plug.weixin.action.admin.WeixinAct"/>
-	<bean id="weixinMenuAct" class="com.jeecms.plug.weixin.action.admin.WeixinMenuAct"/>
-	<bean id="weixinMessageAct" class="com.jeecms.plug.weixin.action.admin.WeixinMessageAct"/>
+	<bean id="weixinAct" class="com.caihong.plug.weixin.action.admin.WeixinAct"/>
+	<bean id="weixinMenuAct" class="com.caihong.plug.weixin.action.admin.WeixinMenuAct"/>
+	<bean id="weixinMessageAct" class="com.caihong.plug.weixin.action.admin.WeixinMessageAct"/>
 </beans>

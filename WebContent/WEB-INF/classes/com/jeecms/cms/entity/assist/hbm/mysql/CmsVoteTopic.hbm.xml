@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="com.jeecms.cms.entity.assist">
+<hibernate-mapping package="com.caihong.cms.entity.assist">
 	<class name="CmsVoteTopic" table="jc_vote_topic">
 		<meta attribute="sync-DAO">false</meta>
 		<cache usage="read-write"/>
@@ -17,12 +17,12 @@
 		<property name="restrictCookie" column="is_restrict_cookie" type="java.lang.Boolean" not-null="true"/>
 		<property name="disabled" column="is_disabled" type="java.lang.Boolean" not-null="true"/>
 		<property name="def" column="is_def" type="java.lang.Boolean" not-null="true"/>
-		<many-to-one name="site" column="site_id" class="com.jeecms.core.entity.CmsSite" not-null="true"></many-to-one>
-		<set name="subtopics" inverse="true" cascade="delete-orphan" sort="com.jeecms.common.hibernate4.PriorityComparator">
+		<many-to-one name="site" column="site_id" class="com.caihong.core.entity.CmsSite" not-null="true"></many-to-one>
+		<set name="subtopics" inverse="true" cascade="delete-orphan" sort="com.caihong.common.hibernate4.PriorityComparator">
 			<key column="votetopic_id"/>
 			<one-to-many class="CmsVoteSubTopic"/>
 		</set>		
-		<set name="items" inverse="true" cascade="delete-orphan" sort="com.jeecms.common.hibernate4.PriorityComparator">
+		<set name="items" inverse="true" cascade="delete-orphan" sort="com.caihong.common.hibernate4.PriorityComparator">
 			<key column="votetopic_id"/>
 			<one-to-many class="CmsVoteItem"/>
 		</set>

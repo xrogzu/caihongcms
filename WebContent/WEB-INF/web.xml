@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:javaee="http://xmlns.jcp.org/xml/ns/javaee" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.4">
-  <display-name>JeeCmsV8.1</display-name>
+  <display-name>cms</display-name>
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
 			/WEB-INF/config/application-context.xml
 			/WEB-INF/config/cache-context.xml
 			/WEB-INF/config/captcha-context.xml
-			/WEB-INF/config/jeecms/jeecore-context.xml
-			/WEB-INF/config/jeecms/jeecms-context.xml
+			/WEB-INF/config/caihong/jeecore-context.xml
+			/WEB-INF/config/caihong/jeecms-context.xml
 			/WEB-INF/config/shiro-context.xml
 			/WEB-INF/config/plug/**/*-context.xml
 			/WEB-INF/config/quartz-task.xml
@@ -16,7 +16,7 @@
   </context-param>
   <filter>
     <filter-name>processTime</filter-name>
-    <filter-class>com.jeecms.common.web.ProcessTimeFilter</filter-class>
+    <filter-class>com.caihong.common.web.ProcessTimeFilter</filter-class>
   </filter>
   <filter>
     <filter-name>encoding</filter-name>
@@ -40,7 +40,7 @@
   </filter>
   <filter>
     <filter-name>XssFilter</filter-name>
-    <filter-class>com.jeecms.common.web.XssFilter</filter-class>
+    <filter-class>com.caihong.common.web.XssFilter</filter-class>
     <init-param>
       <param-name>excludeUrls</param-name>
       <param-value>/member@/flow_statistic@/search@/api
@@ -49,7 +49,7 @@
   </filter>
   <filter>
     <filter-name>resourceCheck</filter-name>
-    <filter-class>com.jeecms.common.web.ResourceFilter</filter-class>
+    <filter-class>com.caihong.common.web.ResourceFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>resourceCheck</filter-name>
@@ -165,7 +165,7 @@
   </servlet>
   <servlet>
     <servlet-name>Jcaptcha</servlet-name>
-    <servlet-class>com.jeecms.common.captcha.JcaptchaServlet</servlet-class>
+    <servlet-class>com.caihong.common.captcha.JcaptchaServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Jcaptcha</servlet-name>
@@ -173,7 +173,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>DbFile</servlet-name>
-    <servlet-class>com.jeecms.core.action.front.DbFileServlet</servlet-class>
+    <servlet-class>com.caihong.core.action.front.DbFileServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>DbFile</servlet-name>
@@ -181,7 +181,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>SnapScreen</servlet-name>
-    <servlet-class>com.jeecms.core.action.front.SnapScreenServlet</servlet-class>
+    <servlet-class>com.caihong.core.action.front.SnapScreenServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>SnapScreen</servlet-name>
@@ -189,7 +189,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>JeeCmsAdmin</servlet-name>
-    <url-pattern>/jeeadmin/jeecms/*</url-pattern>
+    <url-pattern>/admin/cms/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>JeeCmsFront</servlet-name>

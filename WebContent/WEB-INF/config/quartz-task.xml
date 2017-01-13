@@ -9,7 +9,7 @@
 		<property name="queueCapacity" value="500" />
 	</bean>
 	<!--每日任务(内容相关) -->
-	<bean id="contentDayJob" class="com.jeecms.cms.task.job.ContentDayJob"></bean>
+	<bean id="contentDayJob" class="com.caihong.cms.task.job.ContentDayJob"></bean>
 	<bean id="contentDayJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="contentDayJob" />
 		<property name="targetMethod" value="execute" />
@@ -18,7 +18,7 @@
 		<property name="jobDetail" ref="contentDayJobDetail" />
 		<property name="cronExpression" value="0 0 0 * * ?" />
 	</bean>
-	<bean id="siteDayJob" class="com.jeecms.cms.task.job.SiteDayJob"></bean>
+	<bean id="siteDayJob" class="com.caihong.cms.task.job.SiteDayJob"></bean>
 	<bean id="siteDayJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="siteDayJob" />
 		<property name="targetMethod" value="execute" />
@@ -42,6 +42,6 @@
     	<property name="taskExecutor" ref="executor" /> 
    	</bean> 
     <!--加载数据库任务-->
-    <bean id="loadTask" class="com.jeecms.cms.task.LoadTask" init-method="loadTask" />
+    <bean id="loadTask" class="com.caihong.cms.task.LoadTask" init-method="loadTask" />
     
 </beans>

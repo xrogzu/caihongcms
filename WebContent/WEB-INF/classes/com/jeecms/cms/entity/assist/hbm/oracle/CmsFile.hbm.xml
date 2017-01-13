@@ -3,7 +3,7 @@
 	"-//Hibernate/Hibernate Mapping DTD//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 
-<hibernate-mapping package="com.jeecms.cms.entity.assist">
+<hibernate-mapping package="com.caihong.cms.entity.assist">
 	<class
 		name="CmsFile"
 		table="jc_file"
@@ -33,7 +33,7 @@
 		<many-to-one
 			name="content"
 			column="content_id"
-			class="com.jeecms.cms.entity.main.Content"
+			class="com.caihong.cms.entity.main.Content"
 			not-null="false"
 		>
 		</many-to-one>

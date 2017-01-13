@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="com.jeecms.cms.entity.main">
+<hibernate-mapping package="com.caihong.cms.entity.main">
 	<class name="ContentCheck" table="jc_content_check">
 		<meta attribute="sync-DAO">false</meta>
 		<cache usage="read-write"/>
@@ -11,7 +11,7 @@
 		<property name="checkOpinion" column="check_opinion" type="string" not-null="false" length="255"/>
 		<property name="rejected" column="is_rejected" type="java.lang.Boolean" not-null="true"/>
 		<property name="checkDate" column="check_date" type="timestamp" not-null="false" length="19"/>
-		<many-to-one name="reviewer" column="reviewer" class="com.jeecms.core.entity.CmsUser" not-null="false"></many-to-one>
+		<many-to-one name="reviewer" column="reviewer" class="com.caihong.core.entity.CmsUser" not-null="false"></many-to-one>
 		<one-to-one name="content" class="Content" constrained="true"/>
 	</class>
 </hibernate-mapping>

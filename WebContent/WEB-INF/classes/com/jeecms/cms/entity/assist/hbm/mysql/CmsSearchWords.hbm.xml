@@ -3,7 +3,7 @@
 	"-//Hibernate/Hibernate Mapping DTD//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 
-<hibernate-mapping package="com.jeecms.cms.entity.assist">
+<hibernate-mapping package="com.caihong.cms.entity.assist">
 	<class
 		name="CmsSearchWords"
 		table="jc_search_words"

@@ -20,13 +20,13 @@ default-lazy-init="true">
 		<property name="locations">
 			<list>
 				<value>/WEB-INF/config/jdbc.properties</value>
-				<value>/WEB-INF/config/jeecms/jeecms.properties</value>
+				<value>/WEB-INF/config/caihong/jeecms.properties</value>
 				<value>/WEB-INF/config/plug/**/*.properties</value>
 			</list>
 		</property>
 		<qualifier value="main"/>
 	</bean>
-	<bean id="propertyUtils" class="com.jeecms.common.util.PropertyUtils">
+	<bean id="propertyUtils" class="com.caihong.common.util.PropertyUtils">
 		<property name="properties" ref="properties"/>
 	</bean>
 	
@@ -53,7 +53,7 @@ default-lazy-init="true">
     </bean>
 	 -->
 	 
-	<bean id="cacheRegionFactory" class="com.jeecms.common.web.WebSingletonEhCacheRegionFactory"/>
+	<bean id="cacheRegionFactory" class="com.caihong.common.web.WebSingletonEhCacheRegionFactory"/>
 	
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
@@ -80,7 +80,7 @@ default-lazy-init="true">
 			<ref bean="treeInterceptor"/>
 		</property>
 	</bean>
-    <bean id="treeInterceptor" class="com.jeecms.common.hibernate4.TreeIntercptor"/>
+    <bean id="treeInterceptor" class="com.caihong.common.hibernate4.TreeIntercptor"/>
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>

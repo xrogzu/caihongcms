@@ -3,7 +3,7 @@
 	"-//Hibernate/Hibernate Mapping DTD//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 
-<hibernate-mapping package="com.jeecms.cms.entity.assist">
+<hibernate-mapping package="com.caihong.cms.entity.assist">
 	<class
 		name="CmsVoteSubTopic"
 		table="jc_vote_subtopic"
@@ -41,7 +41,7 @@
 		</many-to-one>
 	
 
-		<set name="voteItems" inverse="true" cascade="delete-orphan" sort="com.jeecms.common.hibernate4.PriorityComparator">
+		<set name="voteItems" inverse="true" cascade="delete-orphan" sort="com.caihong.common.hibernate4.PriorityComparator">
 			<key column="subtopic_id"/>
 			<one-to-many class="CmsVoteItem"/>
 		</set>

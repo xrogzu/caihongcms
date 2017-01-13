@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="com.jeecms.cms.entity.assist">
+<hibernate-mapping package="com.caihong.cms.entity.assist">
 	<class name="CmsFriendlink" table="jc_friendlink">
 		<meta attribute="sync-DAO">false</meta>
 		<cache usage="read-write"/>
@@ -14,6 +14,6 @@
 		<property name="priority" column="priority" type="integer" not-null="true" length="10"/>
 		<property name="enabled" column="is_enabled" type="java.lang.Boolean" not-null="true" length="1"/>
 		<many-to-one name="category" column="friendlinkctg_id" class="CmsFriendlinkCtg" not-null="true"></many-to-one>
-		<many-to-one name="site" column="site_id" class="com.jeecms.core.entity.CmsSite" not-null="true"></many-to-one>
+		<many-to-one name="site" column="site_id" class="com.caihong.core.entity.CmsSite" not-null="true"></many-to-one>
 	</class>
 </hibernate-mapping>

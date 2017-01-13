@@ -3,7 +3,7 @@
 	"-//Hibernate/Hibernate Mapping DTD//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 
-<hibernate-mapping package="com.jeecms.plug.weixin.entity">
+<hibernate-mapping package="com.caihong.plug.weixin.entity">
 	<class
 		name="Weixin"
 		table="jg_weixin"
@@ -26,6 +26,6 @@
 			not-null="false"
 			length="255"
 		/>
-		<one-to-one name="site" class="com.jeecms.core.entity.CmsSite" constrained="true"/>
+		<one-to-one name="site" class="com.caihong.core.entity.CmsSite" constrained="true"/>
 	</class>	
 </hibernate-mapping>

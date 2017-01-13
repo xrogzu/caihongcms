@@ -14,11 +14,11 @@
 	</bean>
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 	<!--
-	<bean id="multipartResolver" class="com.jeecms.common.web.cos.CosMultipartResolver"/>
+	<bean id="multipartResolver" class="com.caihong.common.web.cos.CosMultipartResolver"/>
 	-->
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="webBindingInitializer">
-			<bean class=" com.jeecms.common.web.springmvc.BindingInitializer"/>
+			<bean class=" com.caihong.common.web.springmvc.BindingInitializer"/>
 		</property>
 	</bean>
 	
@@ -39,7 +39,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="adminContextInterceptor" class="com.jeecms.cms.web.AdminContextInterceptor">
+	<bean id="adminContextInterceptor" class="com.caihong.cms.web.AdminContextInterceptor">
 		<!--<property name="adminId" value="1"/>-->
 		<property name="auth" value="true"/>
 		<property name="excludeUrls">
@@ -49,9 +49,9 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="adminLocaleIntercept" class="com.jeecms.cms.web.AdminLocaleInterceptor"/>
+	<bean id="adminLocaleIntercept" class="com.caihong.cms.web.AdminLocaleInterceptor"/>
 	
-	<bean id="fireWallInterceptor" class="com.jeecms.cms.web.FireWallInterceptor"/>
+	<bean id="fireWallInterceptor" class="com.caihong.cms.web.FireWallInterceptor"/>
 	
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
 		<property name="cookieName" value="clientlanguage"/>
@@ -67,8 +67,8 @@
 			</props>
 		</property>
 	</bean>
-	<bean id="freemarkerViewResolver" class="com.jeecms.common.web.springmvc.RichFreeMarkerViewResolver">
-		<property name="prefix" value="/jeecms_sys/"/>
+	<bean id="freemarkerViewResolver" class="com.caihong.common.web.springmvc.RichFreeMarkerViewResolver">
+		<property name="prefix" value="/cms_sys/"/>
 		<property name="suffix" value=".html"/>
 		<property name="contentType" value="text/html; charset=UTF-8"/>
 		<property name="exposeRequestAttributes" value="false"/>
@@ -101,12 +101,12 @@
 				<prop key="time_format">HH:mm:ss</prop>
 				<prop key="number_format">0.######</prop>
 				<prop key="whitespace_stripping">true</prop>
-				<prop key="auto_import">/ftl/jeecms/index.ftl as p,/ftl/spring.ftl as s</prop>
+				<prop key="auto_import">/ftl/caihong/index.ftl as p,/ftl/spring.ftl as s</prop>
 			</props>
 		</property>
 	</bean>
 	<!--
-	<bean class="com.jeecms.common.web.springmvc.HandlerExceptionResolver"/> 
+	<bean class="com.caihong.common.web.springmvc.HandlerExceptionResolver"/> 
 	-->
 	<context:annotation-config/>
 	<!-- AOP式方法级权限检查  -->
@@ -116,5 +116,5 @@
     	<property name="securityManager" ref="securityManager"/>
 	</bean>
 	<!--包含action-->
-	<import resource="jeecms/jeecms-servlet-admin-action.xml"/>
+	<import resource="caihong/jeecms-servlet-admin-action.xml"/>
 </beans>

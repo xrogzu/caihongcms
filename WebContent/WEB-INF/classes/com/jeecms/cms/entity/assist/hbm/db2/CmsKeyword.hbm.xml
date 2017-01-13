@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="com.jeecms.cms.entity.assist">
+<hibernate-mapping package="com.caihong.cms.entity.assist">
 	<class name="CmsKeyword" table="jc_keyword">
 		<meta attribute="sync-DAO">false</meta>
 		<cache usage="read-write"/>
@@ -8,6 +8,6 @@
 		<property name="name" column="keyword_name" type="string" not-null="true" length="100"/>
 		<property name="url" column="url" type="string" not-null="true" length="255"/>
 		<property name="disabled" column="is_disabled" type="java.lang.Boolean" not-null="true"/>
-		<many-to-one name="site" column="site_id" class="com.jeecms.core.entity.CmsSite" not-null="false"></many-to-one>
+		<many-to-one name="site" column="site_id" class="com.caihong.core.entity.CmsSite" not-null="false"></many-to-one>
 	</class>
 </hibernate-mapping>

@@ -3,7 +3,7 @@
 	"-//Hibernate/Hibernate Mapping DTD//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 
-<hibernate-mapping package="com.jeecms.plug.store.entity">
+<hibernate-mapping package="com.caihong.plug.store.entity">
 	<class
 		name="PlugStoreConfig"
 		table="jc_plug_store_config"

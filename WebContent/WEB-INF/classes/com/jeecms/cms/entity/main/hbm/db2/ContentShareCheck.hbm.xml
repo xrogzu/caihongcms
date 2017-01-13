@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="com.jeecms.cms.entity.main">
+<hibernate-mapping package="com.caihong.cms.entity.main">
 	<class name="ContentShareCheck" table="jc_content_share_check">
 		<meta attribute="sync-DAO">false</meta>
 		<cache usage="read-write"/>

@@ -3,7 +3,7 @@
 	"-//Hibernate/Hibernate Mapping DTD//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 
-<hibernate-mapping package="com.jeecms.cms.entity.assist">
+<hibernate-mapping package="com.caihong.cms.entity.assist">
 	<class
 		name="CmsMessage"
 		table="jc_message"
@@ -55,21 +55,21 @@
 		<many-to-one
 			name="msgReceiverUser"
 			column="msg_receiver_user"
-			class="com.jeecms.core.entity.CmsUser"
+			class="com.caihong.core.entity.CmsUser"
 			not-null="true"
 		>
 		</many-to-one>
 		<many-to-one
 			name="msgSendUser"
 			column="msg_send_user"
-			class="com.jeecms.core.entity.CmsUser"
+			class="com.caihong.core.entity.CmsUser"
 			not-null="true"
 		>
 		</many-to-one>
 		<many-to-one
 			name="site"
 			column="site_id"
-			class="com.jeecms.core.entity.CmsSite"
+			class="com.caihong.core.entity.CmsSite"
 			not-null="true"
 		>
 		</many-to-one>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="com.jeecms.core.entity">
+<hibernate-mapping package="com.caihong.core.entity">
 	<class name="CmsSite" table="jc_site">
 		<meta attribute="sync-DAO">false</meta>
 		<cache usage="read-write"/>
@@ -31,7 +31,7 @@
 		<property name="description" column="description" type="string" not-null="false" length="255"/>
 		<one-to-one name="siteCompany" class="CmsSiteCompany" cascade="delete"/>
 		<many-to-one name="parent" column="parent_id" class="CmsSite" not-null="false"></many-to-one>
-		<many-to-one name="uploadFtp" column="ftp_upload_id" class="com.jeecms.core.entity.Ftp" not-null="false"></many-to-one>
+		<many-to-one name="uploadFtp" column="ftp_upload_id" class="com.caihong.core.entity.Ftp" not-null="false"></many-to-one>
 		<many-to-one name="config" column="config_id" class="CmsConfig" not-null="true"></many-to-one>
 		<map name="attr" table="jc_site_attr" cascade="all-delete-orphan">
 			<cache usage="read-write"/>
@@ -78,22 +78,22 @@
 		<set name="accessCounts" inverse="true" cascade="delete">
 			<cache usage="read-write"/>
 			<key column="site_id"/>
-			<one-to-many class="com.jeecms.cms.entity.assist.CmsSiteAccessCount"/>
+			<one-to-many class="com.caihong.cms.entity.assist.CmsSiteAccessCount"/>
 		</set>
 		<set name="accesses" inverse="true" cascade="delete">
 			<cache usage="read-write"/>
 			<key column="site_id"/>
-			<one-to-many class="com.jeecms.cms.entity.assist.CmsSiteAccess"/>
+			<one-to-many class="com.caihong.cms.entity.assist.CmsSiteAccess"/>
 		</set>
 		<set name="accessPages" inverse="true" cascade="delete">
 			<cache usage="read-write"/>
 			<key column="site_id"/>
-			<one-to-many class="com.jeecms.cms.entity.assist.CmsSiteAccessPages"/>
+			<one-to-many class="com.caihong.cms.entity.assist.CmsSiteAccessPages"/>
 		</set>
 		<set name="accessStatistics" inverse="true" cascade="delete">
 			<cache usage="read-write"/>
 			<key column="site_id"/>
-			<one-to-many class="com.jeecms.cms.entity.assist.CmsSiteAccessStatistic"/>
+			<one-to-many class="com.caihong.cms.entity.assist.CmsSiteAccessStatistic"/>
 		</set>
 	</class>
 </hibernate-mapping>

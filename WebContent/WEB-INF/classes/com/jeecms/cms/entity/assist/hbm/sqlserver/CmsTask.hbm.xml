@@ -3,7 +3,7 @@
 	"-//Hibernate/Hibernate Mapping DTD//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 
-<hibernate-mapping package="com.jeecms.cms.entity.assist">
+<hibernate-mapping package="com.caihong.cms.entity.assist">
 	<class
 		name="CmsTask"
 		table="jc_task"
@@ -125,8 +125,8 @@
 			not-null="true"
 			length="19"
 		/>
-		<many-to-one name="user" column="user_id" class="com.jeecms.core.entity.CmsUser" not-null="true"></many-to-one>
-		<many-to-one name="site" column="site_id" class="com.jeecms.core.entity.CmsSite" not-null="true"></many-to-one>
+		<many-to-one name="user" column="user_id" class="com.caihong.core.entity.CmsUser" not-null="true"></many-to-one>
+		<many-to-one name="site" column="site_id" class="com.caihong.core.entity.CmsSite" not-null="true"></many-to-one>
 	
 		<map name="attr" table="jc_task_attr" lazy="false">
 			<cache usage="read-write"/>

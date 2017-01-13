@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="com.jeecms.core.entity">
+<hibernate-mapping package="com.caihong.core.entity">
 	<class name="CmsGroup" table="jc_group">
 		<meta attribute="sync-DAO">false</meta>
 		<cache usage="read-write"/>
@@ -18,12 +18,12 @@
 		<set name="viewChannels" table="jc_chnl_group_view" inverse="true">
 			<cache usage="read-write"/>
 			<key column="group_id"/>
-			<many-to-many column="channel_id" class="com.jeecms.cms.entity.main.Channel"/>
+			<many-to-many column="channel_id" class="com.caihong.cms.entity.main.Channel"/>
 		</set>
 		<set name="contriChannels" table="jc_chnl_group_contri" inverse="true">
 			<cache usage="read-write"/>
 			<key column="group_id"/>
-			<many-to-many column="channel_id" class="com.jeecms.cms.entity.main.Channel"/>
+			<many-to-many column="channel_id" class="com.caihong.cms.entity.main.Channel"/>
 		</set>
 	</class>
 </hibernate-mapping>

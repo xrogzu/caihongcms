@@ -27,28 +27,28 @@
 				/login.jspx = authc
 				/logout.jspx = logout
 				/member/** = user
-				/jeeadmin/jeecms/login.do = authc
-				/jeeadmin/jeecms/logout.do = logout
-				/jeeadmin/jeecms/** =user
+				/admin/cms/login.do = authc
+				/admin/cms/logout.do = logout
+				/admin/cms/** =user
 			</value>
 		</property>
 	</bean>
 	<!-- Shiro Filter -->	
-	<bean id="adminUrlBean" class="com.jeecms.core.security.CmsAdminUrl">
-		<property name="adminLogin" value="/jeeadmin/jeecms/login.do"/>
-		<property name="adminPrefix" value="/jeeadmin/jeecms/"/>
+	<bean id="adminUrlBean" class="com.caihong.core.security.CmsAdminUrl">
+		<property name="adminLogin" value="/admin/cms/login.do"/>
+		<property name="adminPrefix" value="/admin/cms/"/>
 	</bean>
-	<bean id="authcFilter" class="com.jeecms.core.security.CmsAuthenticationFilter" parent="adminUrlBean">
-		<property name="adminIndex" value="/jeeadmin/jeecms/index.do"/>
+	<bean id="authcFilter" class="com.caihong.core.security.CmsAuthenticationFilter" parent="adminUrlBean">
+		<property name="adminIndex" value="/admin/cms/index.do"/>
 	</bean>
-	<bean id="userFilter" class="com.jeecms.core.security.CmsUserFilter" parent="adminUrlBean"/>
-	<bean id="logoutFilter" class="com.jeecms.core.security.CmsLogoutFilter" parent="adminUrlBean"/>
+	<bean id="userFilter" class="com.caihong.core.security.CmsUserFilter" parent="adminUrlBean"/>
+	<bean id="logoutFilter" class="com.caihong.core.security.CmsLogoutFilter" parent="adminUrlBean"/>
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="cacheManager" ref="shiroEhcacheManager"/> 
 		<property name="rememberMeManager" ref="rememberMeManager"/> 
 		<property name="realm" ref="authorizingRealm" />
 	</bean>
-	<bean id="authorizingRealm" class="com.jeecms.core.security.CmsAuthorizingRealm">
+	<bean id="authorizingRealm" class="com.caihong.core.security.CmsAuthorizingRealm">
 		<property name="credentialsMatcher">
            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
                <property name="hashAlgorithmName" value="MD5"/>
