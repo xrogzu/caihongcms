@@ -1,0 +1,41 @@
+	.contentThree {
+				text-align: center;
+			}
+			.contentThree ul{
+				text-align: left;
+				
+			}
+			.contentThree ul li {
+				position: relative;
+				list-style: none;
+			}
+			.contentThree p{
+				text-indent: 2em;
+				text-align: left;
+				color: #666666;
+			}
+			.contentThree ul li a {
+				font: 14px/20px "微软雅黑";
+				color: #333333;
+				display: block;
+			}
+		
+			.contentThree ul li span {
+				font: 14px/20px "微软雅黑";
+				color: #999999;
+				position: absolute;
+				right: 0;
+				top: 0;
+			}
+			
+			.biaoti {
+				margin: 0 auto;
+				margin-top: .4rem;
+				margin-bottom: .2rem;
+			}
+			
+			@media only screen and (max-width:320px) {
+				.biaoti {
+					width: 70%;
+				}
+			}

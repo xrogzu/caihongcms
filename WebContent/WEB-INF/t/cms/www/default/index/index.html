@@ -1,19 +1,18 @@
 <!DOCTYPE HTML>
 <html>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>首页 - ${site.name} - Powered by caihong</title>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>首页 - ${site.name}</title>
 <meta http-equiv="keywords" content="${site.keywords!}"/>
 <meta http-equiv="description" content="${site.description!}"/>
+<link rel="stylesheet" type="text/css" href="/${res}/css/bootstrap.css" />
+<link rel="stylesheet" href="/${res}/css/index-new.css" />
 <script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script type="text/javascript" src="/${res}/js/bootstrap.min.js"></script>
 <script src="${resSys}/front.js" type="text/javascript"></script>
 <script type="text/javascript" src="/${res}/js/jquery.SuperSlide.js"></script>
-<link type="text/css" rel="stylesheet" href="/${res}/css/home.css" />
-
-<!--[if lt IE 9]> 
-<script src="/${res}/js/html5shiv.min.js"></script>
-<script src="/${res}/js/respond.min.js"></script>
-<![endif]-->
+</head>
 <script type="text/javascript">
 $(function() {
 	Cms.siteFlow("${base}", location.href, document.referrer, "${site.config.flowSwitch?string}");
@@ -22,252 +21,321 @@ $(function() {
 </script>
 <head>
 <body>
-<section class="top">
-  <div class="red" style="width:100%;"></div>	
-</section>
 [#include "../include/header.html"/]
-<div class="main container home-main clearfix">
-  <section class="top-ad">
-    <a class="top-ad-pic"><img src="/${res}/images/top-ad.jpg"><i>广告</i></a>
-  </section>
-  <section class="home-top clearfix">
-    <div class="left-two fl">
-      <div class="rmht">
-        <div class="left-nav"><span>热门话题</span></div>
-        <div class="rmht-list">
-           [@cms_content_list typeId='2' count='5' orderBy='9' channelId='75' channelOption='0']
-             [#list tag_list as a]
-          <div [#if a_index<1]class="item first"[#else]class="item"[/#if]>
-            <a href="${a.url}" target="_blank" class="title">[@text_cut s=a.title len='19' append='...' /]</a>
-            [#if a_index<1]<div class="first-des clearfix"><a href="${a.url}" target="_blank"><img src="${a.typeImg!}"></a><span>[@text_cut s=a.description! len='34' append='...' /]</span></div>[/#if]
-          </div>
-          [/#list]
-   [/@cms_content_list]
-        </div>
-      </div>
-      <div class="jcpl">
-        <div class="left-nav"><span>精彩评论</span></div>
-        <div class="jcpl-list">
-        [@cms_comment_list siteId=site.id checked='true' recommend='true' count='4' ]
-          [#list tag_list as c]
-          <div class="item">
-            <a href="${c.content.url}" target="_blank">${c.textHtml!}</a>
-            <span>原新闻：${c.content.title!}</span>
-          </div>
-          [/#list]
-        [/@cms_comment_list]
-        </div>
-      </div>
-    </div>
-    <div class="rdjj fl">
-      <div class="nav-link"><a href="${base}/news/index.jhtml">热点聚焦</a></div>
-      [@cms_content_list typeId='4' count='1' titLen='25' channelId='75' orderBy='4' channelOption='0' dateFormat='yyyy-MM-dd']
-      [#list tag_list as a]
-      <div class="rdjj-top-news"><a href="${a.url}" target="_blank">[@text_cut s=a.title len=titLen append='...'/]</a></div>
-      [/#list]
-      [/@cms_content_list]
-      <div class="rdjj-list">
-      [@cms_content_list typeId='1,2,3' count='18' orderBy='4' channelId='75' channelOption='0' dateFormat='yyyy-MM-dd HH-mm']
-        <ul>
-        [#list tag_list as a]
-          <li><a href="${a.url}" target="_blank" [#if (a_index)%6=0]class="bold"[/#if]>[@text_cut s=a.title len=28 append='...'/]</a></li>
-        [/#list]
-        </ul>
-      [/@cms_content_list]
-      </div>
-    </div>
-    <div class="right-fr fr">
-      <div class="home-banner" id="section-focus-pic">
-        <div class="bd" data-scro="list">          
-          [@cms_content_list typeId='2' recommend='1' channelId='75,76' orderBy='4' titLen='22' channelOption='0' dateFormat='yyyy-MM-dd']      
-          <ul>
-            [#list tag_list as a]
-            <li class="item" [#if a_index<1]style="left:0;"[/#if]><a href="${a.url}" target="_blank"><img src="${a.typeImg!}"><div class="banner-title"><i class="Cpic"></i><span>[@text_cut s=a.title len=titLen /]</span></div></a></li>
-            [/#list]
-          </ul>
-         [/@cms_content_list]
-        </div>
-        <div class="hd" data-scro="controler">
-            [@cms_content_list typeId='2' recommend='1' channelId='75,76' orderBy='4' titLen='22' channelOption='0' dateFormat='yyyy-MM-dd']
-               [#list tag_list as a]
-               <b [#if a_index<1]class="down"[/#if]>${a_index+1}</b>
-               [/#list]
-               <span>/${tag_list?size}</span>
-            [/@cms_content_list]
-        </div>
-        <div class="controler2" data-scro="controler2">
-		  <a href="javascript:;" class="prev"><i></i></a>
-		  <a href="javascript:;" class="next"><i></i></a>
-	    </div>
-        <script type="text/javascript" src="/${res}/js/script.js"></script>
-      </div>
-      <div class="home-video">
-        <div class="nav-link"><a href="${base}/video/index.jhtml">视频新闻</a></div>
-        <div class="item clearfix" style="margin-top:14px;">
-          [@cms_content_list count='1' typeId='2' channelId='77' recommend='1' orderBy='4' titLen='11' channelOption='0']
-          [#list tag_list as a]
-          <div class="video-pic fl"><a href="${a.url}" target="_blank"><img src="${a.typeImg!}"><span>[@text_cut s=a.title len=titLen /]</span></a></div>
-          [/#list]
-          [/@cms_content_list]
-          <div class="video-txt">
-          [@cms_content_list count='3' typeId='2' channelId='77' recommend='2' orderBy='4' titLen='19' channelOption='0'] 
-            <ul>
-            [#list tag_list as a]
-              <li><a href="${a.url}" target="_blank">[@text_cut s=a.title len=titLen /]</a></li>
-            [/#list]
-            </ul>
-          [/@cms_content_list]
-          </div>
-        </div>
-        <div class="item clearfix">
-          [@cms_content_list count='2' typeId='2' channelId='77' recommend='1' orderBy='4' titLen='11' channelOption='0']
-          [#list tag_list as a]
-          [#if a_index>0]
-          <div class="video-pic fl"><a href="${a.url}" target="_blank"><img src="${a.typeImg!}"><span>[@text_cut s=a.title len=titLen /]</span></a></div>
-          [/#if]
-          [/#list]
-          [/@cms_content_list]
-          <div class="video-txt">
-          [@cms_content_list count='6' typeId='2' channelId='77' recommend='2' orderBy='4' titLen='19' channelOption='0'] 
-            <ul>
-            [#list tag_list as a]
-            [#if a_index>2]
-              <li><a href="${a.url}" target="_blank">[@text_cut s=a.title len=titLen /]</a></li>
-            [/#if]
-            [/#list]
-            </ul>
-          [/@cms_content_list]
-          </div>
-        </div>
-        <div class="video-list">
-           [@cms_content_list count='10' typeId='2' channelId='77' recommend='2' orderBy='4' titLen='26' channelOption='0'] 
-            <ul>
-            [#list tag_list as a]
-            [#if a_index>5]
-              <li><a href="${a.url}" target="_blank">[@text_cut s=a.title len=titLen /]</a></li>
-            [/#if]
-            [/#list]
-            </ul>
-          [/@cms_content_list]
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="home-ad02"><a><img src="/${res}/images/ds_banner.png"></a></section>
-  <section class="home-ch clearfix">
-    <div class="home-ch-left fl">
-      <div class="jczt">
-        <div class="jczt-nav">精彩专题</div>
-        <div class="jczt-list">
-          <div class="home-jczt">
-          [@cms_topic_list count='3' recommend='1' orderBy='4' descLen='36' append='...']
-          [#list tag_list as t] 
-          <a href="${base}/topic/${t.id}.jspx" target="_blank"><img src="${t.titleImg!site.defImg}"></a>
-          [/#list]
-          [/@cms_topic_list] 
-          </div>
-        </div>
-      </div>
-      <div class="zxly">
-        <div class="left-nav"><span>最新留言</span></div>
-        <div class="jcpl-list" style="padding-top:10px;">
-         [@cms_guestbook_list count='4' checked='true' recommend='true']
-           [#list tag_list as m]
-          <div class="item" [#if m_index<1]style="border-top:none;"[/#if]>
-            <a>${m.titleHtml!}</a>
-          </div>
-           [/#list]     
-         [/@cms_guestbook_list] 
-        </div>
-        <div class="message"><a href="${base}/guestbook.jspx"><img src="/${res}/images/message.png"></a></div>
-      </div>
-    </div>
-    <div class="home-ch-m fl">
-    <div class="rdjj">
-      <div class="nav-link"><a href="${base}/job/index.jhtml">招聘板块</a></div>
-      <div class="rdjj-list job-list">
-     [@cms_content_list count='10' orderBy='4' channelId='79' channelOption='0' dateFormat='yyyy-MM-dd']
-        <ul>
-       [#list tag_list as a]   
-          <li><a [#if (a_index)%6=0]class="bold"[/#if] href="${a.url}" target="_blank">${a.title}/<span>${a.attr.workplace!}</span>/${a.companyName!}${a.date?string(dateFormat)}</a></li>
-       [/#list]
-        </ul>
-     [/@cms_content_list]
-      </div>
-    </div>
-    <div class="rdjj" style="margin-top:16px;">
-      <div class="nav-link"><a href="${base}/doc/index.jhtml">文库板块</a></div>
-      <div class="rdjj-list job-list doc-list">
-      [@cms_content_list count='10' orderBy='4' channelId='81' titLen='30' channelOption='0' dateFormat='yyyy-MM-dd']
-        <ul>
-      [#list tag_list as a] 
-          <li [#if a.fileSuffix??]
-	          [#if a.fileSuffix="doc"||a.fileSuffix="docx"||a.fileSuffix="wps"]class="doc"[/#if]
-    [#if a.fileSuffix="ppt"||a.fileSuffix="pptx"]class="ppt"[/#if]
-    [#if a.fileSuffix="pdf"]class="pdf"[/#if]
-	           [/#if]><a [#if (a_index)%6=0]class="bold"[/#if] href="${a.url}" target="_blank">[@text_cut s=a.title! len=titLen append='...'/]|${a.date?string(dateFormat)}</a></li>
-          [/#list]
-        </ul>
-     [/@cms_content_list]
-      </div>
-    </div>
-    </div>
-    <div class="home-ch-m fr clearfix">
-    <div class="rdjj" style="margin:0; overflow:hidden;">
-      <div class="nav-link"><a href="${base}/download/index.jhtml">下载板块</a></div>
-      <div class="dl-list clearfix">
-        [@cms_content_list count='12' orderBy='4' channelId='90,91,92,93' titLen='10' channelOption='0' dateFormat='yyyy-MM-dd']
-        [#list tag_list as a] 
-        <div class="item clearfix">
-          <div class="dl-pic"><a href="${a.url}" target="_blank"><img src="${a.titleImg!}"></a></div>
-          <div>
-            <a href="${a.url}" target="_blank" class="dl-txt">[#if a.shortTitle??][@text_cut s=a.shortTitle! len=titLen append='...'/][#else][@text_cut s=a.title! len=titLen append='...'/][/#if]</a>
-            <a href="${a.url}" target="_blank" class="dl-btn"><img src="/${res}/images/dl-btn.gif"></a>
-          </div>
-        </div>
-        [/#list]
-     [/@cms_content_list]
-      </div>
-    </div>
-    <div class="rdjj" style="margin-top:16px; margin-left:0">
-      <div class="nav-link"><a href="${base}/survey/index.jhtml">网络调查</a></div>
-      <div class="rdjj-list job-list">
-       [@cms_vote_list  siteId=site.id count='10'] 
-        <ul>
-          [#list tag_list as vote]
-          <li><a [#if (vote_index)%6=0]class="bold"[/#if] href="${base}/vote.jspx?voteId=${vote.id}" target="_blank">${vote.title?html}|[#if vote.endTime??]${vote.endTime?string("yyyy-MM-dd")}[#else]已结束[/#if]</a></li>
-          [/#list]
-        </ul>
-      [/@cms_vote_list]
-      </div>
-    </div>
-    </div>
-  </section>
-  <section class="rdjj tssj">
-    <div class="nav-link"><a>图说世界</a></div>
-    <script type="text/javascript" src="/${res}/js/jquery.bxslider.js"></script>
-    <link href="/${res}/css/jquery.bxslider.css" rel="stylesheet" type="text/css">
-    <div class="tssj-list">
-      [@cms_content_list typeId='2' titLen='14' count='10' channelId='76' orderBy='4' channelOption='0']
-      [#list tag_list as a]
-      <div class="item">
-        <a href="${a.url}" target="_blank"><img src="${a.typeImg!}"><span>[@text_cut s=a.title len=titLen /]</span></a>
-      </div>
-      [/#list]
-      [/@cms_content_list]
-    </div>
-    <script type="text/javascript">
-        $(document).ready(function(){
-          $('.tssj-list').bxSlider({
-            slideWidth: 224,
-            minSlides: 1,
-            maxSlides: 5,
-            slideMargin: 20
-          });
-        });
-    </script> 
-  </section>
-</div>
+<!--banner代码开始-->
+		<div class="container" style="padding: 0;">
+			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+				<!-- Indicators -->
+				<ol class="carousel-indicators">
+					<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+					<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+					<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+				</ol>
+
+				<!-- Wrapper for slides -->
+				<div class="carousel-inner" role="listbox">
+					<div class="item active">
+						<img src="/${res}/img/b1.jpg" alt="teacher">
+						<div class="carousel-caption">
+
+						</div>
+					</div>
+					<div class="item">
+						<img src="/${res}/img/banner-about.png" alt="teacher">
+						<div class="carousel-caption">
+
+						</div>
+					</div>
+					<div class="item">
+						<img src="/${res}/img/b1.jpg" alt="teacher">
+						<div class="carousel-caption">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--banner代码结束-->
+			<!--main开始-->
+			<div class="container contentOne">
+				<div class="row">
+					<div class="col-lg-4">
+						<img src="/${res}/img/index_03.png" alt="" />
+						<p>这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显介绍这里显示介绍这里示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍...</p>
+						<a href="#">详情</a>
+					</div>
+					<div class="col-lg-4">
+						<img src="/${res}/img/index_05.png" alt="" />
+						<p>这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显介绍这里显示介绍这里示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍...</p>
+						<a href="#">详情</a>
+					</div>
+					<div class="col-lg-4">
+						<img src="/${res}/img/index_07.png" alt="" />
+						<p>这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显介绍这里显示介绍这里示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍这里显示介绍...</p>
+						<a href="#">详情</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="container contentTwo">
+				<div class="row">
+					<img class="center-block specialImg" src="/${res}/img/index_17.png" alt="" />
+					 [@cms_topic_list count='4' recommend='1' orderBy='4' descLen='36' append='...']
+          				[#list tag_list as t] 
+          				<div class="col-lg-3">
+							<a href="${base}/topic/${t.id}.jspx" target="_blank"><img width="222px" height="156px" src="${t.titleImg!site.defImg}" alt="" /></a>
+							<h4>${t.name}</h4>
+						</div>          				
+          				[/#list]
+          			[/@cms_topic_list] 
+					
+				
+				</div>
+			</div>
+
+			<div class="container contentThree">
+
+				<img class="center-block specialImg" src="/${res}/img/index_34.png" />
+				<ul id="myTab" class="nav nav-tabs">
+					<li class="active">
+						<a href="#jc" data-toggle="tab">
+							网站新闻
+						</a>
+					</li>
+					<li>
+						<a href="#zt" data-toggle="tab">医生论坛</a>
+					</li>
+					<li>
+						<a href="#hz" data-toggle="tab">患者园地</a>
+					</li>
+				</ul>
+				<div id="myTabContent" class="tab-content container">
+					<div class="tab-pane fade in active row" id="jc">
+
+						<div class="col-lg-6">
+							<ul>
+								<li style="list-style: none;">
+									<ol>
+										<li>
+											<img src="/${res}/img/index_381.png" />
+										</li>
+										<li style="width:60%;" class="specialLi">
+											<h5>群发短信，免费试用，中国权威的短信网</h5>
+											<strong>2015.12.29</strong>
+											<p>
+												<a href="#">制服是有生命的。初初见它，抚过它的纹路，没有任何不 同。但它陪伴着每个人的欢笑与泪水，勤恳与执着，经过 时间的洗礼，它便成为了身体的一部分，.......
+												</a>
+											</p>
+										</li>
+									</ol>
+								</li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+							</ul>
+						</div>
+						<div class="col-lg-6">
+							<ul>
+								<li style="list-style: none;">
+									<ol>
+										<li>
+											<img src="/${res}/img/index_381.png" />
+										</li>
+										<li style="width:60%;" class="specialLi">
+											<h5>群发短信，免费试用，中国权威的短信网</h5>
+											<strong>2015.12.29</strong>
+											<p>
+												<a href="#">制服是有生命的。初初见它，抚过它的纹路，没有任何不 同。但它陪伴着每个人的欢笑与泪水，勤恳与执着，经过 时间的洗礼，它便成为了身体的一部分，.......
+												</a>
+											</p>
+										</li>
+									</ol>
+								</li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+							</ul>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="zt">
+						<div class="col-lg-6">
+							<ul>
+								<li style="list-style: none;">
+									<ol>
+										<li>
+											<img src="/${res}/img/index_381.png" />
+										</li>
+										<li style="width:60%;" class="specialLi">
+											<h5>群发短信，免费试用，中国权威的短信网</h5>
+											<strong>2015.12.29</strong>
+											<p>
+												<a href="#">制服是有生命的。初初见它，抚过它的纹路，没有任何不 同。但它陪伴着每个人的欢笑与泪水，勤恳与执着，经过 时间的洗礼，它便成为了身体的一部分，.......
+												</a>
+											</p>
+										</li>
+									</ol>
+								</li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+							</ul>
+						</div>
+						<div class="col-lg-6">
+							<ul>
+								<li style="list-style: none;">
+									<ol>
+										<li>
+											<img src="/${res}/img/index_381.png" />
+										</li>
+										<li style="width:60%;" class="specialLi">
+											<h5>群发短信，免费试用，中国权威的短信网</h5>
+											<strong>2015.12.29</strong>
+											<p>
+												<a href="#">制服是有生命的。初初见它，抚过它的纹路，没有任何不 同。但它陪伴着每个人的欢笑与泪水，勤恳与执着，经过 时间的洗礼，它便成为了身体的一部分，.......
+												</a>
+											</p>
+										</li>
+									</ol>
+								</li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+							</ul>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="hz">
+						<div class="col-lg-6">
+							<ul>
+								<li style="list-style: none;">
+									<ol>
+										<li>
+											<img src="/${res}/img/index_411.png" />
+										</li>
+										<li style="width:60%;" class="specialLi">
+											<h5>群发短信，免费试用，中国权威的短信网</h5>
+											<strong>2015.12.29</strong>
+											<p>
+												<a href="#">制服是有生命的。初初见它，抚过它的纹路，没有任何不 同。但它陪伴着每个人的欢笑与泪水，勤恳与执着，经过 时间的洗礼，它便成为了身体的一部分，.......
+												</a>
+											</p>
+										</li>
+									</ol>
+								</li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+							</ul>
+						</div>
+						<div class="col-lg-6">
+							<ul>
+								<li style="list-style: none;">
+									<ol>
+										<li>
+											<img src="/${res}/img/index_381.png" />
+										</li>
+										<li style="width:60%;" class="specialLi">
+											<h5>群发短信，免费试用，中国权威的短信网</h5>
+											<strong>2015.12.29</strong>
+											<p>
+												<a href="#">制服是有生命的。初初见它，抚过它的纹路，没有任何不 同。但它陪伴着每个人的欢笑与泪水，勤恳与执着，经过 时间的洗礼，它便成为了身体的一部分，.......
+												</a>
+											</p>
+										</li>
+									</ol>
+								</li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+								<li>
+									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<a class="buttonCircle" href="#">更多</a>
+			</div>
+			<!--main结束-->
+
+			<!--footer开始-->
+			<!--友情链接开始-->
+			<div class="container frendLink xiaoshi">
+				<ul>
+				[@cms_friendlink_list ctgId='1']
+ 				[#list tag_list as link]   						
+					<li>
+						<a href="${link.domain}" onclick="$.get('${base}/friendlink_view.jspx?id=${link.id}')"target="_blank">${link.name}</a>
+					</li>
+        		[/#list]
+       		  [/@cms_friendlink_list]					
+				</ul>
+
+			</div>
+			<!--友情链接结束-->
+
+
 [#include "../include/footer.html"/]
 [#include "../include/right-fixed.html"/]
 </body>

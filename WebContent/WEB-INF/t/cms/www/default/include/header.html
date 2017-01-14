@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="/${res}/css/login.css" />
+
 <script>
 function qkeypress(){
 	var q=$("input[name=q]");
@@ -9,21 +9,37 @@ function qkeypress(){
 	}
 }
 </script>
-<header class="header rel">
-  <div class="header-jf"><a class="jf-btn" name="gb2big5" id="gb2big5">繁</a></div>
-  <Script Language=Javascript Src="${resSys}/gb2big5.js"></Script>
-  <div class="header-rss"><a class="rss-btn" href="${base}/rss.jspx" target="_blank" title="RSS订阅">RSS</a></div>
-  <div class="header-tag"><a class="tag-btn" href="${base}/tag.jspx" target="_blank" title="Tags标签">Tags</a></div>
-  <div class="container clearfix">
-    <a class="logo" href="${base}/"></a>
+<div class="container header-top xiaoshi">
+			<div class="header-left">
+				<span><div id="loginCsiDiv" style="float:left;"></div></span>
+			</div>
+			<ul class="header-right">
+				<li class="search xiaoshi">
+			
+				  <form action="${base}/search.jspx" target="_blank" id="searchForm">
+        			<input type="text" name="q" value="${oldq!}" maxlength="50" autocomplete="off" class="searchCon" style="width:202px;">
+        			<span class="glyphicon glyphicon-search"></span>
+        			<!-- <input type="submit" value="" class="glyphicon glyphicon-search"> -->
+        		</form>
+					
+				</li>
+				<li class="xiaoshi">
+					<a href="javascript:void(0)" onClick="this.style.behavior='url(#default#homepage)';SetHome('http://www.caihongyixue.com');">设为首页</a>
+				</li>
+				<li class="xiaoshi">
+					<a onclick="AddFavorite('index.html', '${site.name}');" href="javascript:void(0)">加入收藏</a>
+				</li>
+				
+				
+			</ul>
+			<div class="clearfix">
+
+			</div>
+		</div>
+
+
     [#include "../include/nav.html"]
-    <div class="header-r">     
-      <div class="search">
-        <form action="${base}/search.jspx" target="_blank" id="searchForm">
-        <input type="text" name="q" value="${oldq!}" maxlength="50" autocomplete="off" class="searchCon" style="width:202px;"><input type="submit" value="" class="searchMenu">
-        </form>
-      </div>      
-      <div id="loginCsiDiv" style="float:left;"></div>
+   
 	  <script type="text/javascript">
 		$(function(){
 			[#if site.config.ssoEnable]
@@ -32,6 +48,4 @@ function qkeypress(){
 			Cms.loginCsi("${base}","loginCsiDiv",{"returnUrl":"${location}"});
 		});
 	   </script>
-    </div> 
-  </div>
-</header>
+   

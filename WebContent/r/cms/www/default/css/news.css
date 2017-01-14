@@ -1,0 +1,73 @@
+	.contentThree .col-lg-6 {
+		padding-top: 50px;
+		padding-bottom: 50px;
+	}
+	
+	.contentThree ol {
+		list-style: none;
+		padding: 0;
+	}
+	
+	.contentThree ol li {
+		margin-right: 10px;
+	}
+	
+	.contentThree ul li {
+		position: relative;
+	}
+	
+	.contentThree ul li a {
+		font: 14px/20px "微软雅黑";
+		color: #333333;
+		display: block;
+	}
+	
+	.contentThree ul li span {
+		font: 14px/20px "微软雅黑";
+		color: #999999;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+	
+	.contentThree ol li strong {
+		color: #333333;
+		font: 14px/20px "微软雅黑";
+	}
+	
+	.contentThree ol img {
+		vertical-align: bottom;
+	}
+	
+	.contentThree ol h5 {
+		color: #0099cc;
+		font: 16px/20px "微软雅黑"
+	}
+	
+	.contentThree ol p a {
+		color: #666666;
+		font: 12px/14px "微软雅黑";
+	}
+	
+	.contentThree ol li {
+		display: inline-block;
+	}
+	
+	@media only screen and (max-width:) {
+		.contentThree ol {
+			margin-bottom: 20px;
+		}
+		.contentThree .col-lg-6 {
+			padding-top: 0px!important;
+			padding-bottom: 32px!important;
+		}
+	}
+	
+	@media only screen and (max-width:767px) {
+		.biaoti {
+			width: 70%;
+		}
+		.biaotione {
+			margin-bottom: 1rem;
+		}
+	}

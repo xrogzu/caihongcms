@@ -1,0 +1,32 @@
+@charset "utf-8";
+/* CSS Document */
+html{font-size:100px;}
+/*头部开始*/
+
+/*头部结束*/
+/*content开始*/
+*{
+	padding: 0; margin: 0;
+}
+.company{
+	padding-top:1.92rem;
+	padding-bottom: 2rem;
+}
+.companyText{
+	padding-top: 2.15rem;
+}
+
+.companyText h2{padding:0 24px; color:#303335; font:bold 30px "微软雅黑"; transition:0.2s;}
+.companyText p{padding:0 24px; color:#303335; font: 20px/36PX "微软雅黑";}
+ .positionDiv{
+ 	position: absolute;
+ 	top:2.38rem;
+ 	left:3.5rem;
+ 
+ }
+.positionDiv h2{
+ 	padding:0 24px; color:#FFFFFF; font:bold 30px "微软雅黑";
+ }
+ .positionDiv p{padding:0 24px; color:#FFFFFF; font: 20px/36PX "微软雅黑";}
+/*content开始*/
+
