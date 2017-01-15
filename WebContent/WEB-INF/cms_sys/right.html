@@ -36,7 +36,7 @@ function clickPvTab(type){
     <div class="position-div"><@s.m "global.position"/>: <@s.m "global.admin.home"/> > <@s.m "global.admin.index"/></div>
      </div>
      <div class="welcome-con">
-       <span><@s.m "welcome.usedMemory"/>: <em class="yync">${(usedMemory/1024/1024)?string("0.##")}MB</em><@s.m "welcome.useableMemory"/>: <em class="sync">${(useableMemory/1024/1024)?string("0.##")}MB</em><@s.m "welcome.maxMemory"/>: ${(maxMemory/1024/1024)?string("0.##")}MB</span><@s.m "welcome.word.login"/>${site.name!}<a class="change-inf" href="personal/v_profile.do"><@s.m "welcome.personinfo.edit"/></a><@s.m "welcome.lastlogintime"/>: ${user.lastLoginTime?string("yyyy-MM-dd")}
+       <span><@s.m "welcome.usedMemory"/>: <em class="yync">${(usedMemory/1024/1024)?string("0.##")}MB</em><@s.m "welcome.useableMemory"/>: <em class="sync">${(useableMemory/1024/1024)?string("0.##")}MB</em><@s.m "welcome.maxMemory"/>: ${(maxMemory/1024/1024)?string("0.##")}MB</span><@s.m "welcome.word.login"/>${site.name!}  <@s.m "welcome.lastlogintime"/>: ${user.lastLoginTime?string("yyyy-MM-dd")}
      </div>
      <div class="home-main">
        <div class="home-main-l f_l">
@@ -66,9 +66,9 @@ function clickPvTab(type){
                      </div>
                    </td>
                    <td>
-                     <div class="home-examine">
-                       <div class="home-view-img"><img src="${base}/res/caihong/images/examine-icon.png"></div>
-                       <div class="home-view-txt"><span id="checkingdayCount"><img src="${base}/res/common/img/theme/loading.gif" alt="loading"/></span><p><@s.m "statistic.content.checkingCount"/></p></div>
+                    <div class="home-member">
+                       <div class="home-view-img"><img src="${base}/res/caihong/images/member-icon.png"></div>
+                       <div class="home-view-txt"><span id="memberdayCount"><img src="${base}/res/common/img/theme/loading.gif" alt="loading"/></span><p><@s.m "statistic.member.registers"/></p></div>
                      </div>
                    </td>
                  </tr>
@@ -86,10 +86,7 @@ function clickPvTab(type){
                      </div>
                    </td>
                    <td>
-                     <div class="home-member">
-                       <div class="home-view-img"><img src="${base}/res/caihong/images/member-icon.png"></div>
-                       <div class="home-view-txt"><span id="memberdayCount"><img src="${base}/res/common/img/theme/loading.gif" alt="loading"/></span><p><@s.m "statistic.member.registers"/></p></div>
-                     </div>
+                     
                    </td>
                  </tr>
                </tbody>
@@ -112,9 +109,9 @@ function clickPvTab(type){
                      </div>
                    </td>
                    <td>
-                     <div class="home-examine">
-                       <div class="home-view-img"><img src="${base}/res/caihong/images/examine-icon.png"></div>
-                       <div class="home-view-txt"><span id="checkingweekCount"><img src="${base}/res/common/img/theme/loading.gif" alt="loading"/></span><p><@s.m "statistic.content.checkingCount"/></p></div>
+                      <div class="home-member">
+                       <div class="home-view-img"><img src="${base}/res/caihong/images/member-icon.png"></div>
+                       <div class="home-view-txt"><span id="memberweekCount"><img src="${base}/res/common/img/theme/loading.gif" alt="loading"/></span><p><@s.m "statistic.member.registers"/></p></div>
                      </div>
                    </td>
                  </tr>
@@ -132,10 +129,7 @@ function clickPvTab(type){
                      </div>
                    </td>
                    <td>
-                     <div class="home-member">
-                       <div class="home-view-img"><img src="${base}/res/caihong/images/member-icon.png"></div>
-                       <div class="home-view-txt"><span id="memberweekCount"><img src="${base}/res/common/img/theme/loading.gif" alt="loading"/></span><p><@s.m "statistic.member.registers"/></p></div>
-                     </div>
+                    
                    </td>
                  </tr>
                </tbody>
@@ -158,10 +152,11 @@ function clickPvTab(type){
                      </div>
                    </td>
                    <td>
-                     <div class="home-examine">
-                       <div class="home-view-img"><img src="${base}/res/caihong/images/examine-icon.png"></div>
-                       <div class="home-view-txt"><span id="checkingmonthCount"><img src="${base}/res/common/img/theme/loading.gif" alt="loading"/></span><p><@s.m "statistic.content.checkingCount"/></p></div>
+                    <div class="home-member">
+                       <div class="home-view-img"><img src="${base}/res/caihong/images/member-icon.png"></div>
+                       <div class="home-view-txt"><span id="membermonthCount"><img src="${base}/res/common/img/theme/loading.gif" alt="loading"/></span><p><@s.m "statistic.member.registers"/></p></div>
                      </div>
+                    
                    </td>
                  </tr>
                  <tr>
@@ -178,10 +173,7 @@ function clickPvTab(type){
                      </div>
                    </td>
                    <td>
-                     <div class="home-member">
-                       <div class="home-view-img"><img src="${base}/res/caihong/images/member-icon.png"></div>
-                       <div class="home-view-txt"><span id="membermonthCount"><img src="${base}/res/common/img/theme/loading.gif" alt="loading"/></span><p><@s.m "statistic.member.registers"/></p></div>
-                     </div>
+                    
                    </td>
                  </tr>
                </tbody>
@@ -204,10 +196,11 @@ function clickPvTab(type){
                      </div>
                    </td>
                    <td>
-                     <div class="home-examine">
-                       <div class="home-view-img"><img src="${base}/res/caihong/images/examine-icon.png"></div>
-                       <div class="home-view-txt"><span id="checkingtotalCount"><img src="${base}/res/common/img/theme/loading.gif" alt="loading"/></span><p><@s.m "statistic.content.checkingCount"/></p></div>
+                    <div class="home-member">
+                       <div class="home-view-img"><img src="${base}/res/caihong/images/member-icon.png"></div>
+                       <div class="home-view-txt"><span id="membertotalCount"><img src="${base}/res/common/img/theme/loading.gif" alt="loading"/></span><p><@s.m "statistic.member.registers"/></p></div>
                      </div>
+                    
                    </td>
                  </tr>
                  <tr>
@@ -224,10 +217,7 @@ function clickPvTab(type){
                      </div>
                    </td>
                    <td>
-                     <div class="home-member">
-                       <div class="home-view-img"><img src="${base}/res/caihong/images/member-icon.png"></div>
-                       <div class="home-view-txt"><span id="membertotalCount"><img src="${base}/res/common/img/theme/loading.gif" alt="loading"/></span><p><@s.m "statistic.member.registers"/></p></div>
-                     </div>
+                    
                    </td>
                  </tr>
                </tbody>
