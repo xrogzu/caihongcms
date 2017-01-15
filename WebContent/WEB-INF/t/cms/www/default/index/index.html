@@ -110,207 +110,179 @@ $(function() {
 				</ul>
 				<div id="myTabContent" class="tab-content container">
 					<div class="tab-pane fade in active row" id="jc">
-
-						<div class="col-lg-6">
+					<div class="col-lg-6">
 							<ul>
-								<li style="list-style: none;">
+					[@cms_content_list typeId='2' count='8' orderBy='9' channelId='96' channelOption='0'  dateFormat='yyyy-MM-dd']
+		             [#list tag_list as a]
+			          [#if a_index==0]
+			          <li style="list-style: none;">
 									<ol>
 										<li>
-											<img src="/${res}/img/index_381.png" width="174px" height="110"/>
+											<img src="${a.typeImg!}" width="174px" height="110"/>
 										</li>
 										<li style="width:60%;" class="specialLi">
-											<h5>群发短信，免费试用，中国权威的短信网</h5>
-											<strong>2015.12.29</strong>
+											<h5>[@text_cut s=a.title len='19' append='...' /]</h5>
+											<strong>${a.date?string(dateFormat)}</strong>
 											<p>
-												<a href="#">制服是有生命的。初初见它，抚过它的纹路，没有任何不 同。但它陪伴着每个人的欢笑与泪水，勤恳与执着，经过 时间的洗礼，它便成为了身体的一部分，.......
+												<a href="${a.url}" target="_blank" class="title">[@text_cut s=a.description! len='34' append='...' /]
 												</a>
 											</p>
 										</li>
 									</ol>
 								</li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-							</ul>
-						</div>
+			          [#else]
+			          <li><a href="${a.url}">[@text_cut s=a.title len='30' append='...' /]</a> <span class="xiaoshi">${a.date?string(dateFormat)}</span></li>
+			          [/#if]
+			            
+			          [/#list]
+	   				[/@cms_content_list]
+	   			</ul></div>						
 						<div class="col-lg-6">
 							<ul>
-								<li style="list-style: none;">
-									<ol>
-										<li>
-											<img src="/${res}/img/index_381.png" />
+							[@cms_content_list typeId='2' count='16' orderBy='9' channelId='96' channelOption='0'  dateFormat='yyyy-MM-dd']
+				             [#list tag_list as a]
+				             [#if a_index>7]
+					          [#if a_index==8]
+					          <li style="list-style: none;">
+											<ol>
+												<li>
+													<img src="${a.typeImg!}" width="174px" height="110"/>
+												</li>
+												<li style="width:60%;" class="specialLi">
+													<h5>[@text_cut s=a.title len='19' append='...' /]</h5>
+													<strong>${a.date?string(dateFormat)}</strong>
+													<p>
+														<a href="${a.url}" target="_blank" class="title">[@text_cut s=a.description! len='34' append='...' /]
+														</a>
+													</p>
+												</li>
+											</ol>
 										</li>
-										<li style="width:60%;" class="specialLi">
-											<h5>群发短信，免费试用，中国权威的短信网</h5>
-											<strong>2015.12.29</strong>
-											<p>
-												<a href="#">制服是有生命的。初初见它，抚过它的纹路，没有任何不 同。但它陪伴着每个人的欢笑与泪水，勤恳与执着，经过 时间的洗礼，它便成为了身体的一部分，.......
-												</a>
-											</p>
-										</li>
-									</ol>
-								</li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+					          [#else]
+					          <li><a href="${a.url}">[@text_cut s=a.title len='30' append='...' /]</a> <span class="xiaoshi">${a.date?string(dateFormat)}</span></li>
+					          [/#if]
+					            [/#if]
+					          [/#list]
+			   				[/@cms_content_list]
+								
 							</ul>
 						</div>
 					</div>
 					<div class="tab-pane fade" id="zt">
 						<div class="col-lg-6">
 							<ul>
-								<li style="list-style: none;">
+					[@cms_content_list typeId='2' count='8' orderBy='9' channelId='94' channelOption='0'  dateFormat='yyyy-MM-dd']
+		             [#list tag_list as a]
+			          [#if a_index==0]
+			          <li style="list-style: none;">
 									<ol>
 										<li>
-											<img src="/${res}/img/index_381.png" />
+											<img src="${a.typeImg!}" width="174px" height="110"/>
 										</li>
 										<li style="width:60%;" class="specialLi">
-											<h5>群发短信，免费试用，中国权威的短信网</h5>
-											<strong>2015.12.29</strong>
+											<h5>[@text_cut s=a.title len='19' append='...' /]</h5>
+											<strong>${a.date?string(dateFormat)}</strong>
 											<p>
-												<a href="#">制服是有生命的。初初见它，抚过它的纹路，没有任何不 同。但它陪伴着每个人的欢笑与泪水，勤恳与执着，经过 时间的洗礼，它便成为了身体的一部分，.......
+												<a href="${a.url}" target="_blank" class="title">[@text_cut s=a.description! len='34' append='...' /]
 												</a>
 											</p>
 										</li>
 									</ol>
 								</li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-							</ul>
-						</div>
+			          [#else]
+			          <li><a href="${a.url}">[@text_cut s=a.title len='30' append='...' /]</a> <span class="xiaoshi">${a.date?string(dateFormat)}</span></li>
+			          [/#if]
+			            
+			          [/#list]
+	   				[/@cms_content_list]
+	   			</ul></div>						
 						<div class="col-lg-6">
 							<ul>
-								<li style="list-style: none;">
-									<ol>
-										<li>
-											<img src="/${res}/img/index_381.png" />
+							[@cms_content_list typeId='2' count='16' orderBy='9' channelId='94' channelOption='0'  dateFormat='yyyy-MM-dd']
+				             [#list tag_list as a]
+				             [#if a_index>7]
+					          [#if a_index==8]
+					          <li style="list-style: none;">
+											<ol>
+												<li>
+													<img src="${a.typeImg!}" width="174px" height="110"/>
+												</li>
+												<li style="width:60%;" class="specialLi">
+													<h5>[@text_cut s=a.title len='19' append='...' /]</h5>
+													<strong>${a.date?string(dateFormat)}</strong>
+													<p>
+														<a href="${a.url}" target="_blank" class="title">[@text_cut s=a.description! len='34' append='...' /]
+														</a>
+													</p>
+												</li>
+											</ol>
 										</li>
-										<li style="width:60%;" class="specialLi">
-											<h5>群发短信，免费试用，中国权威的短信网</h5>
-											<strong>2015.12.29</strong>
-											<p>
-												<a href="#">制服是有生命的。初初见它，抚过它的纹路，没有任何不 同。但它陪伴着每个人的欢笑与泪水，勤恳与执着，经过 时间的洗礼，它便成为了身体的一部分，.......
-												</a>
-											</p>
-										</li>
-									</ol>
-								</li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+					          [#else]
+					          <li><a href="${a.url}">[@text_cut s=a.title len='30' append='...' /]</a> <span class="xiaoshi">${a.date?string(dateFormat)}</span></li>
+					          [/#if]
+					            [/#if]
+					          [/#list]
+			   				[/@cms_content_list]
+								
 							</ul>
 						</div>
 					</div>
 					<div class="tab-pane fade" id="hz">
 						<div class="col-lg-6">
 							<ul>
-								<li style="list-style: none;">
+					[@cms_content_list typeId='2' count='8' orderBy='9' channelId='95' channelOption='0'  dateFormat='yyyy-MM-dd']
+		             [#list tag_list as a]
+			          [#if a_index==0]
+			          <li style="list-style: none;">
 									<ol>
 										<li>
-											<img src="/${res}/img/index_411.png" />
+											<img src="${a.typeImg!}" width="174px" height="110"/>
 										</li>
 										<li style="width:60%;" class="specialLi">
-											<h5>群发短信，免费试用，中国权威的短信网</h5>
-											<strong>2015.12.29</strong>
+											<h5>[@text_cut s=a.title len='19' append='...' /]</h5>
+											<strong>${a.date?string(dateFormat)}</strong>
 											<p>
-												<a href="#">制服是有生命的。初初见它，抚过它的纹路，没有任何不 同。但它陪伴着每个人的欢笑与泪水，勤恳与执着，经过 时间的洗礼，它便成为了身体的一部分，.......
+												<a href="${a.url}" target="_blank" class="title">[@text_cut s=a.description! len='34' append='...' /]
 												</a>
 											</p>
 										</li>
 									</ol>
 								</li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-							</ul>
-						</div>
+			          [#else]
+			          <li><a href="${a.url}">[@text_cut s=a.title len='30' append='...' /]</a> <span class="xiaoshi">${a.date?string(dateFormat)}</span></li>
+			          [/#if]
+			            
+			          [/#list]
+	   				[/@cms_content_list]
+	   			</ul></div>						
 						<div class="col-lg-6">
 							<ul>
-								<li style="list-style: none;">
-									<ol>
-										<li>
-											<img src="/${res}/img/index_381.png" />
+							[@cms_content_list typeId='2' count='16' orderBy='9' channelId='95' channelOption='0'  dateFormat='yyyy-MM-dd']
+				             [#list tag_list as a]
+				             [#if a_index>7]
+					          [#if a_index==8]
+					          <li style="list-style: none;">
+											<ol>
+												<li>
+													<img src="${a.typeImg!}" width="174px" height="110"/>
+												</li>
+												<li style="width:60%;" class="specialLi">
+													<h5>[@text_cut s=a.title len='19' append='...' /]</h5>
+													<strong>${a.date?string(dateFormat)}</strong>
+													<p>
+														<a href="${a.url}" target="_blank" class="title">[@text_cut s=a.description! len='34' append='...' /]
+														</a>
+													</p>
+												</li>
+											</ol>
 										</li>
-										<li style="width:60%;" class="specialLi">
-											<h5>群发短信，免费试用，中国权威的短信网</h5>
-											<strong>2015.12.29</strong>
-											<p>
-												<a href="#">制服是有生命的。初初见它，抚过它的纹路，没有任何不 同。但它陪伴着每个人的欢笑与泪水，勤恳与执着，经过 时间的洗礼，它便成为了身体的一部分，.......
-												</a>
-											</p>
-										</li>
-									</ol>
-								</li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
-								<li>
-									<a href="#">为迎接大阅兵，营销类短信暂停发送</a> <span class="xiaoshi">2015.05.06</span></li>
+					          [#else]
+					          <li><a href="${a.url}">[@text_cut s=a.title len='30' append='...' /]</a> <span class="xiaoshi">${a.date?string(dateFormat)}</span></li>
+					          [/#if]
+					            [/#if]
+					          [/#list]
+			   				[/@cms_content_list]
+								
 							</ul>
 						</div>
 					</div>
