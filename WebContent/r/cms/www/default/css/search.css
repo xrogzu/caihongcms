@@ -1,0 +1,58 @@
+.header .glyphicon {
+	top: 14px;
+	float: right;
+	margin-right: 5px;
+	color: #0099cc;
+	font-size: 18px;
+	cursor: pointer;
+}
+
+.header-top {
+	background: whitesmoke
+}
+
+.header-left {
+	float: left;
+}
+.searchMenu{float:right; width:24px; height:20px; background:url(../images/tubiao.png) -102px -40px no-repeat; outline:none; cursor:pointer;}
+.header-left span {
+	color: #999999;
+	font: 12px/28px "Î¢ÈíÑÅºÚ";
+}
+
+.header-right {
+	float: right;
+	margin-bottom: 0px;
+}
+
+.header-right li {
+	display: inline-block;
+}
+
+.header-right a {
+	display: inline-block;
+	margin-left: 1em;
+	color: #999999;
+	font: 12px/28px "Î¢ÈíÑÅºÚ"
+}
+
+.search {
+	position: relative;
+}
+
+.search span {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+	color: #999999;
+	cursor: pointer;
+}
+
+.search input {
+	height: 20px;
+	border: 1px solid #e5e5e5;
+}
+
+.specialImg {
+	margin-bottom: 50px;
+}

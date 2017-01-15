@@ -32,9 +32,9 @@ Cms.siteFlow("${base}", location.href, document.referrer,"${site.config.flowSwit
 [#include "../include/header.html"/]
 <div class="main container clearfix">
   <section class="content_w850">
-    <h1>${content.title}<a class="position" href="${base}/video/index.jhtml">${channel.name}</a></h1>
+    <h1>${content.title}<a class="position" href="${base}/education/index.jhtml">${channel.name}</a></h1>
     <div class="content-inf">发布时间：${content.releaseDate}&nbsp;&nbsp;作者：${content.author!'本站编辑'}&nbsp;&nbsp;来源：${content.origin!'本站原创'}&nbsp;&nbsp;浏览次数：<span id="views"></span>
-    <div class="content-action"><a class="content-comment">我有话说</a> | <span class="content-share">分享
+    <div class="content-action"><span class="content-share">分享
     [#include "inc_share.html"/]
     </span> | <a class="content-collect" id="collectCsiDiv">收藏</a></div>
     </div>
@@ -71,14 +71,14 @@ Cms.siteFlow("${base}", location.href, document.referrer,"${site.config.flowSwit
 		        [/#if]
       [/#if]
     </div>
-    [#if channel.commentControl!=2]
+   <!--  [#if channel.commentControl!=2]
       [#include "inc_comment_input.html"/]
       [#include "inc_comment_list.html"/]
-    [/#if]
+    [/#if] -->
   </section>
   <section class="w310">
     <section class="tag issue clearfix" style="margin-top:0;">
-      <div class="tag-nav"><h1><a>相关视频</a></h1></div>
+      <div class="tag-nav"><h1><a>相关课程</a></h1></div>
       [@cms_content_list count='7' typeId='2' channelId='77' orderBy='9' titLen='20' channelOption='1'] 
       [#list tag_list as a]
       <div class="item vcon clearfix" [#if a_index<1]style="border-top:none;"[/#if]>
