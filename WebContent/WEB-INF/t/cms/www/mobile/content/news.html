@@ -34,28 +34,11 @@ Cms.siteFlow("${base}", location.href, document.referrer,"${site.config.flowSwit
     <div class="content-title">${content.title}</div>
     <div class="content-inf">${content.releaseDate}&nbsp;&nbsp;&nbsp;&nbsp;${content.author!'本站编辑'}&nbsp;&nbsp;&nbsp;&nbsp;${content.origin!'本站原创'}&nbsp;&nbsp;&nbsp;&nbsp;<span id="views"></span>次</div>
     <div class="content-txt">
-      [#if preview??]
-      [@text_cut s=txt! len=100  append="..."/]<br/>
-            您需要更高的权限浏览全部内容!<br/>以下会员组可浏览全部内容:
-            [#list groups as g]
-            ${g.name!}[#if g_has_next],[/#if]
-            [/#list]              
-            [#else]
+     
             ${txt!}
-            [/#if]
+           
     </div>
-    <div class="reward"><a href="${base}/content/reward.jspx?contentId=${content.id}"></a></div>
-   
-    <div class="content-btn clearfix">
-       [#if channel.allowUpdown]<div class="zan fl"><a onclick="Cms.up('${base}',${content.id},${content.ups});">赞(<span id="ups"></span>)</a></div >[/#if]<div  class="collect fr" id="collectCsiDiv"><a>收藏</a></div >
-    </div>
-    [#if channel.allowShare]
-    [#include "inc_share.html"/]
-    [/#if]
-    [#if channel.commentControl!=2]
-    [#include "inc_comment_input.html"/]
-    [#include "inc_comment_list.html"/]
-    [/#if]
+    
     
     
   </div>

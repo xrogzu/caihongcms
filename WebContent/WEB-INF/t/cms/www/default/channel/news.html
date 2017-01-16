@@ -28,7 +28,7 @@ $(function() {
 <div class="main container clearfix">
   <section class="w860">
     <div class="topNews">
-   [@cms_content_list typeId='4' count='1' titLen='26' channelId='75' orderBy='4' channelOption='0' dateFormat='yyyy-MM-dd']
+   [@cms_content_list typeId='4' count='1' titLen='26' channelId='96' orderBy='4' channelOption='0' dateFormat='yyyy-MM-dd']
     [#list tag_list as a]
       <a href="${a.url}" target="_blank">[@text_cut s=a.title len=titLen append='...'/]</a>
     [/#list]
@@ -39,7 +39,7 @@ $(function() {
         <span class="banner_pre" title="上一张"></span>
 	    <span class="banner_next" title="下一张"></span>
         <div class="bd">    
-      [@cms_content_list typeId='2' recommend='1' orderBy='4' channelId='75,76' titLen='25' channelOption='0' dateFormat='yyyy-MM-dd']      
+      [@cms_content_list typeId='2' recommend='1' orderBy='4' channelId='94,95,96,76' titLen='25' channelOption='0' dateFormat='yyyy-MM-dd']      
           <ul>
          [#list tag_list as a]
             <li><a href="${a.url}" target="_blank"><img src="${a.typeImg!}"><h1>[@text_cut s=a.title len=titLen append='...'/]</h1></a></li>
@@ -48,7 +48,7 @@ $(function() {
          [/@cms_content_list]
         </div>
         <div class="hd"> 
-          [@cms_content_list typeId='2' recommend='1' orderBy='4' channelId='75,76' titLen='25' channelOption='0' dateFormat='yyyy-MM-dd']      
+          [@cms_content_list typeId='2' recommend='1' orderBy='4' channelId='94,95,96,76' titLen='25' channelOption='0' dateFormat='yyyy-MM-dd']      
           <ul>
          [#list tag_list as a]
             <li></li>
@@ -84,7 +84,7 @@ $(function() {
         </script>
       </div>
       <div class="newsList">
-   [@cms_content_list  count='3' orderBy='4' channelId='75' channelOption='0' dateFormat='yyyy-MM-dd']
+   [@cms_content_list  count='3' orderBy='4' channelId='94,95,96' channelOption='0' dateFormat='yyyy-MM-dd']
      [#list tag_list as a]
         <div class="item">
           <h1><a href="${a.url}" target="_blank">[@text_cut s=a.title len=17 append='...'/]</a></h1>
@@ -97,7 +97,7 @@ $(function() {
     </section>
     <section class="hot">
       <div class="hot-nav"><h1><span>热点聚焦</span></h1></div>
-     [@cms_content_page count='10' orderBy='4' channelId='75' channelOption='0' dateFormat='yyyy-MM-dd HH-mm']
+     [@cms_content_page count='10' orderBy='4' channelId='94,95,96' channelOption='0' dateFormat='yyyy-MM-dd HH-mm']
       [#list tag_pagination.list as a]
        [#if a_index>2]
       <div class="item clearfix" [#if a_index<1]style="border-top:none;"[/#if]>
@@ -129,8 +129,8 @@ $(function() {
       </div>
     </section>
     <section class="tag issue clearfix">
-      <div class="tag-nav"><h1><span>热门话题</span></h1></div>
-   [@cms_content_list typeId='2' count='5' orderBy='9' channelId='75' channelOption='0']
+      <div class="tag-nav"><h1><span>热门新闻</span></h1></div>
+   [@cms_content_list typeId='2' count='5' orderBy='9' channelId='96' channelOption='0']
      [#list tag_list as a]
       <div class="item clearfix" [#if a_index<1]style="border-top:none;"[/#if]>
         <a href="${a.url}" target="_blank" class="img"><img src="${a.typeImg!}"></a>
@@ -145,25 +145,12 @@ $(function() {
       <div class="topicList">
         [@cms_topic_list count='3' recommend='1' orderBy='4' descLen='36' append='...']
           [#list tag_list as t] 
-          <a href="${base}/topic/${t.id}.jspx" target="_blank"><img src="${t.titleImg!site.defImg}"></a>
+          <a href="${base}/topic/${t.id}.jspx" target="_blank"><img src="${t.titleImg!site.defImg}" width="222px" height="156px"></a>
           [/#list]
           [/@cms_topic_list] 
       </div>
     </section>
-    <section class="tag wcom clearfix">
-      <div class="tag-nav"><h1><span>精彩评论</span></h1></div>
-     [@cms_comment_list siteId=site.id checked='true' recommend='true' count='5' ]
-     [#list tag_list as c]
-      <div class="item clearfix" [#if c_index<1]style="border-top:none;"[/#if]>
-        <div class="ori-news"><a href="${c.content.url}">${c.content.title!}</a></div>
-        <div class="flo clearfix">
-          <div class="zan">${c.ups!}</div>
-          <div class="com-txt"><a href="${c.content.url}">${c.textHtml!}</a></div>
-        </div>
-      </div>
-     [/#list]
-     [/@cms_comment_list]
-    </section>
+    
   </section>
 </div>
 [#include "../include/footer.html"/]

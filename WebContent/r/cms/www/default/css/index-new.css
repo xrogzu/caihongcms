@@ -396,4 +396,57 @@ html,body {
 .right-fixed .app:hover .app-logo{display:block;}
 .right-fixed .weixin:hover .weixin-logo{display:block;}
 .right-fixed .wap:hover .wap-logo{display:block;}
+
+/*tag*/
+.w310{width:310px; float:right;}
+.tag .tag-nav{width:100%; border-bottom:2px solid #e7e7e7; padding-bottom:10px; position:relative;}
+.tag .tag-nav h1{color:#1a1a1a; font-weight:normal; position:relative; display:inline-block;}
+.tag .tag-nav h1:after{content:""; height:2px; width:100%; position:absolute; left:0; bottom:-12px; background-color:#ef3838;}
+.tag .tag-nav .change{right:0; bottom:7px; position:absolute; color:#999999; font-size:12px; line-height:14px;}
+.tag .tag-nav .change:hover i{-webkit-transform: rotateZ(180deg); -moz-transform: rotateZ(180deg); -o-transform: rotateZ(180deg);
+-ms-transform: rotateZ(180deg); transform: rotateZ(180deg);}
+.tag .tag-nav .change i{width:14px; height:14px; display:block; background:url(../images/change.png) no-repeat;-webkit-transition: -webkit-transform .5s ease-out; -moz-transition: -moz-transform .5s ease-out; -o-transition: -o-transform .5s ease-out; -ms-transition: -ms-transform .5s ease-out; float:left; margin-right:5px;}
+.tag .tagList{margin-top:15px;}
+.tag .tagList a{color:#1a1a1a; font-size:16px; padding:12px 19px; display:inline-block; float:left; margin:0 1px 1px 0; background:#e7e7e7; transition-duration:400ms; -moz-transition-duration:400ms; -webkit-transition-duration:400ms; -o-transition-duration:400ms;}
+.tag .tagList a:hover{background:#f7f7f7; transition-duration:400ms; -moz-transition-duration:400ms; -webkit-transition-duration:400ms; -o-transition-duration:400ms;}
+
+
+/*issue*/
+.issue{margin-top:24px;}
+.issue .item{padding:18px 0 12px; border-top:1px dashed #e0e0e0;}
+.issue .item:hover{background-color:rgba(240,240,240,0.4);}
+.issue .item .img{float:left; width:100px; height:69px; margin-right:18px;}
+.issue .item .img img{width:100%; height:100%;}
+.issue .item h2{height:48px;}
+.issue .item h2 a{line-height:24px; font-weight:normal;}
+.issue .item .issue-comment{color:#c7c7c7; font-size:12px; margin-top:8px;}
+
+.vcon .img{position:relative;}
+.vcon .img:before{content:""; width:22px; height:22px; display:inline-block; background:url(../images/video-btn.png) no-repeat; left:39px;  top:23px; position:absolute;}
+
+.clearfix:after{visibility:hidden;display:block;font-size:0;content:".";clear:both;height:0}
+.hot .item .img img, .hot .item .pic img{
+	width:100%; height:100%;
+	overflow-x: hidden;
+    overflow-y: hidden;
+	transition-delay: 0s;
+    transition-duration: 1s;
+    transition-property: all;
+    transition-timing-function: ease;
+	/* Firefox 4 */
+	-moz-transition-delay: 0s;
+    -moz-transition-duration: 1s;
+    -moz-transition-property: all;
+    -moz-transition-timing-function: ease;
+	/* Safari 和 Chrome */
+	-webkit-transition-delay: 0s;
+    -webkit-transition-duration: 1s;
+    -webkit-transition-property: all;
+    -webkit-transition-timing-function: ease;
+	/* Opera */
+	-o-transition-delay: 0s;
+    -o-transition-duration: 1s;
+    -o-transition-property: all;
+    -o-transition-timing-function: ease;
+	}
 			

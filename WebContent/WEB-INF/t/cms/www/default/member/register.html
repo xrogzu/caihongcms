@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>新用户注册 - ${site.name} - Powered by caihong</title>
+<title>新用户注册 - ${site.name} </title>
 <script src="${resSys}/jquery.js" type="text/javascript"></script>
 <script src="${resSys}/front.js" type="text/javascript"></script>
 
@@ -36,7 +36,7 @@
       <li><span>设置密码</span><input id="password" type="password" name="loginPassword" vld="{required:true,rangelength:[${site.passwordMinLen},20]}" class="register-input" /></li>
       <li><span>确认密码</span><input type="password" equalto="#password" vld="{required:true,rangelength:[${site.passwordMinLen},20]}" class="register-input" /></li>
       <li><span>验证码</span><input type="text" maxlength="20" name="captcha" class="register-input register-code" /><i class="code-img"><img id="guestbookCaptcha" onclick="this.src='${base}/captcha.svl?d='+new Date()" alt="" src="${base}/captcha.svl"></i></li>
-      <li class="register-txt"><input type="checkbox" class="register-checkbox" />我已阅读并接受<a>《JEECMS注册协议》</a></li>
+      <li class="register-txt"><input type="checkbox" class="register-checkbox" />我已阅读并接受<a>《彩虹医学网注册协议》</a></li>
       <li class="register-btn"><input type="submit" name="register" value="立即注册" /></li>
     </ul>
   </div>

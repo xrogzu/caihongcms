@@ -97,14 +97,16 @@ public class CmsWebserviceMngImpl implements CmsWebserviceMng {
 			if(StringUtils.isNotBlank(email)){
 				paramsValues.put("email", email);
 			}
-			if(StringUtils.isNotBlank(userExt.getRealname())){
-				paramsValues.put("realname", userExt.getRealname());
-			}
-			if(userExt.getGender()!=null){
-				paramsValues.put("sex", userExt.getGender().toString());
-			}
-			if(StringUtils.isNotBlank(userExt.getMobile())){
-				paramsValues.put("tel",userExt.getMobile());
+			if(userExt!=null){
+				if(StringUtils.isNotBlank(userExt.getRealname())){
+					paramsValues.put("realname", userExt.getRealname());
+				}
+				if(userExt.getGender()!=null){
+					paramsValues.put("sex", userExt.getGender().toString());
+				}
+				if(StringUtils.isNotBlank(userExt.getMobile())){
+					paramsValues.put("tel",userExt.getMobile());
+				}
 			}
 			callWebService(operate, paramsValues);
 		}
