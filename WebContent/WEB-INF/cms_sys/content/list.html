@@ -638,50 +638,18 @@ function optUnPigeonhole() {
     <@cms_perm url="/content/v_copy.do">
         <input type="button" id="copy" value="<@s.m "content.opt.copy"/>" class="content_copy"/ style="float:left;">
     </@cms_perm>
-	<@cms_perm url="/content/v_check.do">
-	<input type="button" value="<@s.m "content.opt.check"/>" onclick="optCheck();" class="check"/ style="float:left;">
-	</@cms_perm>
-	<@cms_perm url="/content/v_reject.do">
-	<input id="rejectButton" type="button" value="<@s.m "content.opt.reject"/>" onclick="optReject();" class="reject"  style="float:left;">
-	</@cms_perm>
 	<@cms_perm url="/content/v_submit.do">
 	<input id="submitButton" type="button" value="<@s.m "content.opt.submit"/>" onclick="optSubmit();"   style="float:left;">
 	</@cms_perm>
 	<@cms_perm url="/content/o_static.do">
 	<input type="button" value="<@s.m "content.opt.static"/>" onclick="optStatic();" class="generate-static"/ style="float:left;">
 	</@cms_perm>
-	<#if site.master??>
-	<#if site.master>
-	<@cms_perm url="/content/v_push.do">
-	<input class="pushButton"  id="channel" type="button" value="<@s.m "cms.push"/>"/ style="float:left;">	
-	<div id="channelDialog" title="<@s.m "cms.push"/>(${site.name})" style="display:none;">
-		<ul id="browser" class="filetree"></ul>
-	</div>
-	</@cms_perm>
-	<#else>
-	<@cms_perm url="/content/v_share.do">
-	<input class="sharing" id="channel" type="button" value="<@s.m "cms.share"/>"/ style="float:left;">	
-	<div id="channelDialog" title="<@s.m "cms.share"/>(${site.name})" style="display:none;">
-		<ul id="browser" class="filetree"></ul>
-	</div>
-	</@cms_perm>
-	</#if>
-	</#if>
 	<@cms_perm url="/content/v_priority.do">
 	<input class="save-order" type="submit" value="<@s.m "content.opt.saveTopLevel"/>" onclick="optPriority();"/ style="float:left;">
 	 </@cms_perm>
 	<@cms_perm url="/content/v_send_to_topic.do">
         <input  type="button" id="sendtotopic" value="<@s.m "content.opt.sendtotopic"/>" class="content_sendtopic"/>
     </@cms_perm>
-	<@cms_perm url="/content/v_pigeonhole.do">
-		<input type="button" value="<@s.m 'content.opt.pigeonhole'/>" onclick="optPigeonhole();" class="content_pigeonhole" />
-	</@cms_perm>
-	<@cms_perm url="/content/v_unpigeonhole.do">
-		<input type="button" value="<@s.m 'content.opt.unpigeonhole'/>" onclick="optUnPigeonhole();" class="content_unpigeonhole" />
-	</@cms_perm>
-    <@cms_perm url="/content/v_send_to_weixin.do">
-		<input type="button" value="<@s.m 'content.opt.sendweixin'/>" onclick="optWeixin();" class="content_sendtoweixin" />
-	</@cms_perm>
 </div>
 </form>
 </div>
