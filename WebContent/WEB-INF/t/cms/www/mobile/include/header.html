@@ -1,4 +1,12 @@
 <header class="header">
+ <script type="text/javascript">
+		$(function(){
+			[#if site.config.ssoEnable]
+			Cms.loginSSO('${base}');
+			[/#if]
+			Cms.loginCsi("${base}","loginCsiDiv",{"returnUrl":"${location}"});
+		});
+	   </script>
   [#if channel??]${channel.title!channel.name}[#else]留言板[/#if]
   <div class="header-icon-left"><a class="header-nav"></a><a href="/${base}" class="header-home"></a></div>
   <div class="header-icon-right">[#if user??]<a class="header-user" href="${base}/member/index.jspx"></a>[#else]<a class="header-user" href="${base}/login.jspx"></a>[/#if]<a class="header-search"></a></div>
