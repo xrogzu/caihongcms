@@ -41,7 +41,7 @@ window.location.href=window.document.referrer;
   </header>
   <form id="jvForm" action="${base}/register.jspx" method="post">
   <div class="login-box register">     
-    <div class="login-input"><input type="text" id="username"  vld="{required:true,rangelength:[${site.usernameMinLen},20],username:true,remote:'username_unique.jspx',messages:{remote:'用户名已存在'}}" name="username" placeholder="3~14字符，中文字符/英文字母/数字" class="username"></div>
+    <div class="login-input"><input type="text" id="username"  vld="{required:true,rangelength:[${site.usernameMinLen},20],username:true,remote:'username_unique.jspx',messages:{remote:'用户名已存在'}}" name="username" placeholder="2~14字符，中文字符/英文字母/数字" class="username"></div>
     <div class="login-input"><input type="text" id="email" maxlength="30" vld="{remote:'email_unique.jspx',messages:{remote:'email已被使用！'}}" name="email" placeholder="用于找回密码" class="password"></div>
     <div class="login-input"><input type="password" id="password" name="loginPassword" vld="{required:true,rangelength:[${site.passwordMinLen},20]}" class="password" placeholder="密码"></div>
     <div class="login-input"><input type="password" equalto="#password" vld="{required:true,rangelength:[${site.passwordMinLen},20]}" class="password" placeholder="确认密码"></div>
