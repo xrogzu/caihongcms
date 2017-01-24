@@ -76,7 +76,7 @@ $(function() {
       <div class="username-con"><i></i><input id="username" name="username" class="required login-input" type="text" placeholder="用户名"></div>
       <div class="password-con"><i></i><input id="password" name="password" class="required password-input" type="password" placeholder="密码"></div>
       [#if (errorTimes??&&errorTimes<=0)||(errorRemaining?? && errorRemaining<=0)]
-      <div class="captcha-con clearfix"><i></i><input type="text" id="captcha" name="captcha" class=""required captcha-input" placeholder="验证码"/><img src="${base}/captcha.svl" onclick="this.src='${base}/captcha.svl?d='+new Date()*1" /></div>
+      <div class="captcha-con clearfix"><i></i><input type="text" id="captcha" name="captcha" class="required captcha-input" placeholder="验证码"/><img src="${base}/captcha.svl" onclick="this.src='${base}/captcha.svl?d='+new Date()*1" /></div>
       [/#if]
     <div class="login-rem clearfix">
       <div class="next-day"><input type="checkbox" class="login-checkbox"  value="true" name="rememberMe">下次自动登录</div>
