@@ -119,7 +119,7 @@ public class FrontContextInterceptor extends HandlerInterceptorAdapter {
 	 */
 	public void checkEquipment(HttpServletRequest request,HttpServletResponse response){
 		String ua=(String) session.getAttribute(request,"ua");
-		if(null==ua){
+//		if(null==ua){
 			try{
 				String userAgent = request.getHeader( "USER-AGENT" ).toLowerCase();
 				if(null == userAgent){  
@@ -132,7 +132,7 @@ public class FrontContextInterceptor extends HandlerInterceptorAdapter {
 				}
 				session.setAttribute(request, response, "ua",ua);
 			}catch(Exception e){}
-		}
+//		}
 		if(StringUtils.isNotBlank((ua) )){
 			request.setAttribute("ua", ua);
 		}
