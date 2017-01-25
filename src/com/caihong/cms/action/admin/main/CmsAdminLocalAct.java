@@ -118,7 +118,7 @@ public class CmsAdminLocalAct extends CmsAdminAbstract {
 
 	@RequiresPermissions("admin_local:o_save")
 	@RequestMapping("/admin_local/o_save.do")
-	public String save(CmsUser bean, CmsUserExt ext, String username,
+	public String save(CmsUser bean, CmsUserExt ext, String username,String telphone,
 			String email, String password, Boolean selfAdmin, Integer rank, Integer groupId,Integer departmentId,
 			Integer[] roleIds, Integer[] channelIds,
 			Byte[] steps, Boolean[] allChannels,Boolean[] allControlChannels,
@@ -130,7 +130,7 @@ public class CmsAdminLocalAct extends CmsAdminAbstract {
 		}
 		Integer[] siteIds = new Integer[] { site.getId() };
 		String ip = RequestUtils.getIpAddr(request);
-		bean = manager.saveAdmin(username, email, password, ip, false,
+		bean = manager.saveAdmin(username, email,telphone, password, ip, false,
 				selfAdmin, rank, groupId, departmentId,roleIds, channelIds,
 				siteIds, steps, allChannels,allControlChannels, ext);
 		cmsWebserviceMng.callWebService("true",username, password, email, ext,CmsWebservice.SERVICE_TYPE_ADD_USER);

@@ -73,7 +73,7 @@ public class UserApiAct {
 	 */
 	@RequestMapping(value = "/api/user/add.jspx")
 	public void userAdd(
-			String username, String email, String loginPassword,
+			String username,String telphone, String email, String loginPassword,
 			String realname,Boolean gender,String birthdayStr,
 			String phone,String mobile,String qq,String userImg,
 			String appId,String nonce_str,String sign,
@@ -120,7 +120,7 @@ public class UserApiAct {
 					userExt.setQq(qq);
 					userExt.setRealname(realname);
 					userExt.setUserImg(userImg);
-					user=cmsUserMng.registerMember(username, email, loginPassword, ip, null,null,disabled,userExt,attrs);
+					user=cmsUserMng.registerMember(username, email,telphone, loginPassword, ip, null,null,disabled,userExt,attrs);
 					cmsWebserviceMng.callWebService("false",username, loginPassword, email, userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
 					apiRecordMng.callApiRecord(RequestUtils.getIpAddr(request),
 							appId, "/api/user/add.jspx",sign);
@@ -731,7 +731,7 @@ public class UserApiAct {
 			if(config.getMemberConfig().isCheckOn()){
 				disabled=true;
 			}
-			CmsUser user=cmsUserMng.registerMember(username, null, thirdKey, ip, null,null,disabled,userExt,null);
+			CmsUser user=cmsUserMng.registerMember(username, null,null, thirdKey, ip, null,null,disabled,userExt,null);
 			cmsWebserviceMng.callWebService("false",username, thirdKey, null, userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
 			//绑定新建的用户
 			thirdAccount=new CmsThirdAccount();

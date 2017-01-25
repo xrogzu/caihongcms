@@ -104,7 +104,7 @@ public class CmsMemberAct {
 
 	@RequiresPermissions("member:o_save")
 	@RequestMapping("/member/o_save.do")
-	public String save(CmsUser bean, CmsUserExt ext, String username,
+	public String save(CmsUser bean, CmsUserExt ext, String username,String telphone,
 			String email, String password, Integer groupId,Integer grain,
 			HttpServletRequest request, ModelMap model) {
 		WebErrors errors = validateSave(bean, request);
@@ -113,7 +113,7 @@ public class CmsMemberAct {
 		}
 		String ip = RequestUtils.getIpAddr(request);
 		Map<String,String>attrs=RequestUtils.getRequestMap(request, "attr_");
-		bean = manager.registerMember(username, email, password, ip, groupId,grain,false,ext,attrs);
+		bean = manager.registerMember(username, email, password,telphone, ip, groupId,grain,false,ext,attrs);
 		cmsWebserviceMng.callWebService("false",username, password, email, ext,CmsWebservice.SERVICE_TYPE_ADD_USER);
 		log.info("save CmsMember id={}", bean.getId());
 		cmsLogMng.operating(request, "cmsMember.log.save", "id=" + bean.getId()

@@ -34,6 +34,7 @@ public abstract class BaseCmsUser  implements Serializable {
 	public static String PROP_ID = "id";
 	public static String PROP_REGISTER_IP = "registerIp";
 	public static String PROP_USERNAME = "username";
+	public static String PROP_TELPHONE = "telphone";
 
 
 	// constructors
@@ -56,6 +57,7 @@ public abstract class BaseCmsUser  implements Serializable {
 		java.lang.Integer id,
 		com.caihong.core.entity.CmsGroup group,
 		java.lang.String username,
+		java.lang.String telphone,
 		java.util.Date registerTime,
 		java.lang.String registerIp,
 		java.lang.Integer loginCount,
@@ -70,6 +72,7 @@ public abstract class BaseCmsUser  implements Serializable {
 		this.setId(id);
 		this.setGroup(group);
 		this.setUsername(username);
+		this.setTelphone(telphone);
 		this.setRegisterTime(registerTime);
 		this.setRegisterIp(registerIp);
 		this.setLoginCount(loginCount);
@@ -94,6 +97,7 @@ public abstract class BaseCmsUser  implements Serializable {
 
 	// fields
 	private java.lang.String username;
+	private java.lang.String telphone;
 	private java.lang.String email;
 	private java.util.Date registerTime;
 	private java.lang.String registerIp;
@@ -178,6 +182,14 @@ public abstract class BaseCmsUser  implements Serializable {
 		this.username = username;
 	}
 
+
+	public java.lang.String getTelphone() {
+		return telphone;
+	}
+
+	public void setTelphone(java.lang.String telphone) {
+		this.telphone = telphone;
+	}
 
 	/**
 	 * Return the value associated with the column: email

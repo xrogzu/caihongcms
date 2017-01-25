@@ -89,9 +89,9 @@ public class CmsUserMngImpl implements CmsUserMng {
 		return entity;
 	}
 
-	public CmsUser registerMember(String username, String email,
+	public CmsUser registerMember(String username, String email,String telphone,
 			String password, String ip, Integer groupId,Integer grain,boolean disabled,CmsUserExt userExt,Map<String,String>attr){
-		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,
+		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,telphone,
 				password, ip);
 		CmsUser user = new CmsUser();
 		user.forMember(unifiedUser);
@@ -116,10 +116,10 @@ public class CmsUserMngImpl implements CmsUserMng {
 	}
 
 	
-	public CmsUser registerMember(String username, String email,
+	public CmsUser registerMember(String username, String email,String telphone,
 			String password, String ip, Integer groupId, boolean disabled,CmsUserExt userExt,Map<String,String>attr,
 			Boolean activation, EmailSender sender, MessageTemplate msgTpl)throws UnsupportedEncodingException, MessagingException{
-		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,
+		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,telphone,
 				password, ip, activation, sender, msgTpl);
 		CmsUser user = new CmsUser();
 		user.forMember(unifiedUser);
@@ -187,12 +187,12 @@ public class CmsUserMngImpl implements CmsUserMng {
 		unifiedUserMng.update(id, password, email);
 	}
 
-	public CmsUser saveAdmin(String username, String email, String password,
+	public CmsUser saveAdmin(String username, String email, String telphone,String password,
 			String ip, boolean viewOnly, boolean selfAdmin, int rank,
 			Integer groupId,Integer departmentId, Integer[] roleIds,Integer[] channelIds,
 			Integer[] siteIds, Byte[] steps, Boolean[] allChannels, Boolean[] allControlChannels,
 			CmsUserExt userExt) {
-		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,
+		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,telphone,
 				password, ip);
 		CmsUser user = new CmsUser();
 		user.forAdmin(unifiedUser, viewOnly, selfAdmin, rank);
@@ -458,6 +458,6 @@ public class CmsUserMngImpl implements CmsUserMng {
 	@Autowired
 	public void setDao(CmsUserDao dao) {
 		this.dao = dao;
-	}
+	}	
 
 }

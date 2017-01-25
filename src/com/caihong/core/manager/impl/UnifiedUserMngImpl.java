@@ -207,12 +207,13 @@ public class UnifiedUserMngImpl implements UnifiedUserMng {
 		return entity;
 	}
 
-	public UnifiedUser save(String username, String email, String password,
+	public UnifiedUser save(String username, String email,String telphone, String password,
 			String ip)  {
 		Date now = new Timestamp(System.currentTimeMillis());
 		UnifiedUser user = new UnifiedUser();
 		user.setUsername(username);
 		user.setEmail(email);
+		user.setTelphone(telphone);
 		user.setPassword(pwdEncoder.encodePassword(password));
 		user.setRegisterIp(ip);
 		user.setRegisterTime(now);
@@ -225,12 +226,13 @@ public class UnifiedUserMngImpl implements UnifiedUserMng {
 		return user;
 	}
 
-	public UnifiedUser save(String username, String email, String password,
+	public UnifiedUser save(String username, String email,String telphone, String password,
 			String ip, Boolean activation, EmailSender sender,
 			MessageTemplate msgTpl) throws UnsupportedEncodingException, MessagingException {
 		Date now = new Timestamp(System.currentTimeMillis());
 		UnifiedUser user = new UnifiedUser();
 		user.setUsername(username);
+		user.setTelphone(telphone);
 		user.setEmail(email);
 		user.setPassword(pwdEncoder.encodePassword(password));
 		user.setRegisterIp(ip);
@@ -311,6 +313,16 @@ public class UnifiedUserMngImpl implements UnifiedUserMng {
 	@Autowired
 	public void setDao(UnifiedUserDao dao) {
 		this.dao = dao;
+	}
+
+	@Override
+	public boolean telphoneExist(String telphone) {
+		return dao.countByTelphone(telphone)> 0;
+	}
+
+	@Override
+	public UnifiedUser getByTelphone(String telphone) {
+		return dao.getByTelphone(telphone);
 	}
 
 }

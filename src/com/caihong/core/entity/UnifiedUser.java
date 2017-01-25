@@ -24,6 +24,7 @@ public class UnifiedUser extends BaseUnifiedUser {
 	public UnifiedUser (
 		java.lang.Integer id,
 		java.lang.String username,
+		java.lang.String telphone,
 		java.lang.String password,
 		java.util.Date registerTime,
 		java.lang.String registerIp,
@@ -34,6 +35,7 @@ public class UnifiedUser extends BaseUnifiedUser {
 		super (
 			id,
 			username,
+			telphone,
 			password,
 			registerTime,
 			registerIp,

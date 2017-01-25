@@ -480,6 +480,7 @@ public class CmsUser extends BaseCmsUser implements PriorityInterface {
 		setDisabled(false);
 		setId(u.getId());
 		setUsername(u.getUsername());
+		setTelphone(u.getTelphone());
 		setEmail(u.getEmail());
 		setRegisterIp(u.getRegisterIp());
 		setRegisterTime(u.getRegisterTime());
@@ -570,6 +571,7 @@ public class CmsUser extends BaseCmsUser implements PriorityInterface {
 		JSONObject json=new JSONObject();
 		json.put("id", getId());
 		json.put("username", getUsername());
+		json.put("telphone", getTelphone());
 		if(StringUtils.isNotBlank(getEmail())){
 			json.put("email", getEmail());
 		}else{
@@ -682,14 +684,14 @@ public class CmsUser extends BaseCmsUser implements PriorityInterface {
 	 */
 	public CmsUser(java.lang.Integer id,
 			com.caihong.core.entity.CmsGroup group,
-			java.lang.String username, java.util.Date registerTime,
+			java.lang.String username, java.lang.String telphone, java.util.Date registerTime,
 			java.lang.String registerIp, java.lang.Integer loginCount,
 			java.lang.Integer rank, java.lang.Long uploadTotal,
 			java.lang.Integer uploadSize, java.lang.Boolean admin,
 			java.lang.Boolean viewonlyAdmin, java.lang.Boolean selfAdmin,
 			java.lang.Boolean disabled) {
 
-		super(id, group, username, registerTime, registerIp, loginCount, rank,
+		super(id, group, username, telphone,registerTime, registerIp, loginCount, rank,
 				uploadTotal, uploadSize, admin, viewonlyAdmin, selfAdmin,
 				disabled);
 	}

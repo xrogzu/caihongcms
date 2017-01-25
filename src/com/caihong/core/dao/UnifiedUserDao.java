@@ -10,8 +10,12 @@ public interface UnifiedUserDao {
 	public UnifiedUser getByUsername(String username);
 
 	public List<UnifiedUser> getByEmail(String email);
+	
+	public UnifiedUser getByTelphone(String telphone);
 
 	public int countByEmail(String email);
+	
+	public int countByTelphone(String telphone);
 
 	public Pagination getPage(int pageNo, int pageSize);
 

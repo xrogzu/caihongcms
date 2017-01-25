@@ -43,8 +43,12 @@ public interface UnifiedUserMng {
 	public boolean usernameExist(String username);
 
 	public boolean emailExist(String email);
+	
+	public boolean telphoneExist(String telphone);
 
 	public UnifiedUser getByUsername(String username);
+	
+	public UnifiedUser getByTelphone(String telphone);
 
 	public List<UnifiedUser> getByEmail(String email);
 
@@ -52,11 +56,9 @@ public interface UnifiedUserMng {
 
 	public UnifiedUser findById(Integer id);
 
-	public UnifiedUser save(String username, String email, String password,
-			String ip);
+	public UnifiedUser save(String username, String email,String telphone, String password,	String ip);
 	
-	public UnifiedUser save(String username, String email, String password,
-			String ip, Boolean activation, EmailSender sender, MessageTemplate msgTpl)throws UnsupportedEncodingException, MessagingException;
+	public UnifiedUser save(String username, String email,String telphone, String password,	String ip, Boolean activation, EmailSender sender, MessageTemplate msgTpl)throws UnsupportedEncodingException, MessagingException;
 
 	/**
 	 * 修改邮箱和密码

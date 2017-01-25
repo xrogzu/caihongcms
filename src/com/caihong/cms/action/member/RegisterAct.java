@@ -80,7 +80,7 @@ public class RegisterAct {
 	}
 
 	@RequestMapping(value = "/register.jspx", method = RequestMethod.POST)
-	public String submit(String username, String email, String loginPassword,
+	public String submit(String username,String telphone, String email, String loginPassword,
 			CmsUserExt userExt, String captcha, String nextUrl,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap model) throws IOException {
@@ -108,7 +108,7 @@ public class RegisterAct {
 				model.addAttribute("status", 5);
 			} else {
 				try {
-					cmsUserMng.registerMember(username, email, loginPassword, ip,
+					cmsUserMng.registerMember(username, email, telphone,loginPassword, ip,
 							null,disabled,userExt,attrs, false, sender, msgTpl);
 					cmsWebserviceMng.callWebService("false",username, loginPassword, email, userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
 					model.addAttribute("status", 0);
@@ -134,7 +134,7 @@ public class RegisterAct {
 						TPLDIR_MEMBER, REGISTER_RESULT);
 			}
 		} else {
-			cmsUserMng.registerMember(username, email, loginPassword, ip, null,null,disabled,userExt,attrs);
+			cmsUserMng.registerMember(username, email, telphone,loginPassword, ip, null,null,disabled,userExt,attrs);
 			cmsWebserviceMng.callWebService("false",username, loginPassword, email, userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
 			log.info("member register success. username={}", username);
 			FrontUtils.frontData(request, model, site);
@@ -196,6 +196,23 @@ public class RegisterAct {
 		}
 		// email存在，返回false。
 		if (unifiedUserMng.emailExist(email)) {
+			ResponseUtils.renderJson(response, "false");
+			return;
+		}
+		ResponseUtils.renderJson(response, "true");
+	}
+	
+	@RequestMapping(value = "/telphone_unique.jspx")
+	public void telphoneUnique(HttpServletRequest request,
+			HttpServletResponse response) {
+		String telphone = RequestUtils.getQueryParam(request, "telphone");
+		// telphone为空，返回false。
+		if (StringUtils.isBlank(telphone)) {
+			ResponseUtils.renderJson(response, "false");
+			return;
+		}
+		// telphone存在，返回false。
+		if (unifiedUserMng.telphoneExist(telphone)) {
 			ResponseUtils.renderJson(response, "false");
 			return;
 		}

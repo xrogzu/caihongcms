@@ -31,7 +31,7 @@ public class UserService  extends SpringBeanAutowiringSupport{
 	private static final String RESPONSE_CODE_USER_DELETE_ERROR="106";
 	private static final String LOCAL_IP="127.0.0.1";
 	
-	public String addUser(String auth_username,String auth_password,String admin,String username
+	public String addUser(String auth_username,String auth_password,String admin,String username,String telphone
 			,String password,String email,String realname,String sex,String tel,String groupId,
 			String rank,String departmentId,String role,String site,String allChannel,String allControlChannel) {
 		String responseCode=RESPONSE_CODE_AUTH_ERROR;
@@ -62,7 +62,7 @@ public class UserService  extends SpringBeanAutowiringSupport{
 						group=cmsGroupMng.getRegDef();
 					}
 					if(admin.equals("false")){
-						cmsUserMng.registerMember(username, email, password, LOCAL_IP, group.getId(), null, false, userExt, null);
+						cmsUserMng.registerMember(username, telphone,email, password, LOCAL_IP, group.getId(), null, false, userExt, null);
 					}else if(admin.equals("true")){
 						Integer rankInt=1;
 						if(StringUtils.isNotBlank(rank)){
@@ -95,7 +95,7 @@ public class UserService  extends SpringBeanAutowiringSupport{
 								allControlChannels[i]=Boolean.parseBoolean(allControlChannelArray[i]);
 							}
 						}
-						cmsUserMng.saveAdmin(username, email, password, LOCAL_IP, false, false, rankInt, group.getId(), Integer.parseInt(departmentId), roleIds, null, siteIds, steps, allChannels,allControlChannels, userExt);
+						cmsUserMng.saveAdmin(username,telphone, email, password, LOCAL_IP, false, false, rankInt, group.getId(), Integer.parseInt(departmentId), roleIds, null, siteIds, steps, allChannels,allControlChannels, userExt);
 					}
 					responseCode=RESPONSE_CODE_SUCCESS;
 					webserviceCallRecordMng.save(auth_username, SERVICE_CODE_USER_ADD);

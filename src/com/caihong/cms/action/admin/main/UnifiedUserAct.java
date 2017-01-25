@@ -54,13 +54,13 @@ public class UnifiedUserAct {
 
 	@RequiresPermissions("unified_user:o_save")
 	@RequestMapping("/unified_user/o_save.do")
-	public String save(String username, String email, String password,
+	public String save(String username,String telphone, String email, String password,
 			HttpServletRequest request, ModelMap model) {
 		WebErrors errors = validateSave(username, email, password, request);
 		if (errors.hasErrors()) {
 			return errors.showErrorPage(model);
 		}
-		UnifiedUser user = manager.save(username, email, password, request
+		UnifiedUser user = manager.save(username, email, password, telphone,request
 				.getRemoteAddr());
 		log.info("save UnifiedUser id={}, username={}", user.getId(), user
 				.getUsername());

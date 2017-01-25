@@ -114,7 +114,7 @@ public class CmsAdminGlobalAct extends CmsAdminAbstract {
 
 	@RequiresPermissions("admin_global:o_save")
 	@RequestMapping("/admin_global/o_save.do")
-	public String save(CmsUser bean, CmsUserExt ext, String username,
+	public String save(CmsUser bean, CmsUserExt ext, String username,String telphone,
 			String email, String password, Boolean selfAdmin, Integer rank, Integer groupId,Integer departmentId,
 			Integer[] roleIds,Integer[] channelIds, Integer[] siteIds,
 			Byte[] steps, Boolean[] allChannels,Boolean[] allControlChannels,
@@ -125,7 +125,7 @@ public class CmsAdminGlobalAct extends CmsAdminAbstract {
 			return errors.showErrorPage(model);
 		}
 		String ip = RequestUtils.getIpAddr(request);
-		bean = manager.saveAdmin(username, email, password, ip, false,
+		bean = manager.saveAdmin(username, email,telphone, password, ip, false,
 				selfAdmin, rank, groupId,departmentId, roleIds, channelIds, siteIds, steps,
 				allChannels, allControlChannels,ext);
 		cmsWebserviceMng.callWebService("true",username, password, email, ext,CmsWebservice.SERVICE_TYPE_ADD_USER);

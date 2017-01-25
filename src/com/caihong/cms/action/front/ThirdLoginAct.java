@@ -219,7 +219,7 @@ public class ThirdLoginAct {
 						StringUtils.isNotBlank(weboOpenId)||
 						StringUtils.isNotBlank(weixinOpenId)){
 					//初始设置密码同用户名
-					cmsUserMng.registerMember(username, null, username, RequestUtils.getIpAddr(request), null, null, false,ext , null);
+					cmsUserMng.registerMember(username, null,null, username, RequestUtils.getIpAddr(request), null, null, false,ext , null);
 				}
 				if(StringUtils.isNotBlank(openId)){
 					source=CmsThirdAccount.QQ_PLAT;

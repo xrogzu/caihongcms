@@ -57,4 +57,15 @@ public class UnifiedUserDaoImpl extends HibernateBaseDao<UnifiedUser, Integer>
 	protected Class<UnifiedUser> getEntityClass() {
 		return UnifiedUser.class;
 	}
+
+	public int countByTelphone(String telphone) {
+		String hql = "select count(*) from UnifiedUser bean where bean.telphone=:telphone";
+		Query query = getSession().createQuery(hql);
+		query.setParameter("telphone", telphone);
+		return ((Number) query.iterate().next()).intValue();
+	}
+
+	public UnifiedUser getByTelphone(String telphone) {
+		return findUniqueByProperty("telphone", telphone);
+	}
 }
