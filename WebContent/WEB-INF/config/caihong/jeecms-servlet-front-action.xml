@@ -50,6 +50,7 @@
 	<bean id="accountDrawAct" class="com.caihong.cms.action.member.AccountDrawAct"/>
 	<bean id="weiXinAuthAct" class="com.caihong.cms.action.member.WeiXinAuthAct"/>
 	<bean id="userContentBuyAct" class="com.caihong.cms.action.member.UserContentBuyAct"/>
+	<bean id="sendRecordAct" class="com.caihong.cms.action.front.SmsSendRecordAct"/>
 	
 	<!-- API -->
 	<bean id="uploadApiAct" class="com.caihong.cms.api.UploadApiAct"/>

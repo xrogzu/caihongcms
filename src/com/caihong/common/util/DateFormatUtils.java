@@ -44,4 +44,21 @@ public class DateFormatUtils extends org.apache.commons.lang.time.DateFormatUtil
 		}  
 		return result;
 	}
+	public static Date parseDate(String time,String fmt){
+		DateFormat format = new SimpleDateFormat(fmt); 
+		Date result=null;
+		try {
+			result = format.parse(time);
+		} catch (ParseException e) {
+			//e.printStackTrace();
+		}  
+		return result;
+	}
+	
+	public static String formatDate(Date time,String fmt){
+		DateFormat format = new SimpleDateFormat(fmt); 
+		String result=null;
+		result=format.format(time);  
+		return result;
+	}
 }

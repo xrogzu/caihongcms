@@ -1,6 +1,10 @@
 package com.caihong.common.util;
 
 import com.taobao.api.TaobaoClient;
+
+import java.sql.Timestamp;
+import java.util.Date;
+
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
@@ -26,11 +30,11 @@ public class SmsUtils {
  * @param content
  * @throws ApiException
  */
-	public static boolean sendRegValiCode(String telphone,String code) throws ApiException{
+	public static boolean sendRegValiCode(String telphone,String code){
 		return sendMsg(telphone,code,reg_template);		
 	}	
 	
-	private static boolean sendMsg(String telphone,String code,String msg_template) throws ApiException{
+	private static boolean sendMsg(String telphone,String code,String msg_template) {
 		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
 		AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
 		req.setExtend("");
@@ -39,8 +43,16 @@ public class SmsUtils {
 		req.setSmsParamString("{\"code\":'"+code+"',\"product\":'"+product+"'}");
 		req.setRecNum(telphone);
 		req.setSmsTemplateCode(msg_template);
-		AlibabaAliqinFcSmsNumSendResponse rsp = client.execute(req);
-		return rsp.getResult().getSuccess();
+		AlibabaAliqinFcSmsNumSendResponse rsp;
+		try {
+			rsp = client.execute(req);
+			return rsp.getResult().getSuccess();
+		} catch (ApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
 	}
 	
 	/**
@@ -49,17 +61,19 @@ public class SmsUtils {
 	 * @param content
 	 * @throws ApiException
 	 */
-		public static boolean sendValiCode(String telphone,String code) throws ApiException{
+		public static boolean sendValiCode(String telphone,String code) {
 			return sendMsg(telphone,code,vali_template);				
 		}
 	public static void main(String[] args) {
-		try {
-			SmsUtils.sendValiCode("15882454451","1233");
-		} catch (ApiException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		//			SmsUtils.sendValiCode("15882454451","1233");
+		Date now = new Date(new Date().getTime()-30*60*1000);
+		String date="2017-01-31 17:40:00";
+		Date da=DateFormatUtils.parseDate(date, "yyyy-MM-dd HH:mm:ss");
+		System.out.println(DateFormatUtils.formatDate(now,"yyyy-MM-dd HH:mm:ss"));
+		System.out.println(DateFormatUtils.formatDate(da,"yyyy-MM-dd HH:mm:ss"));
+		System.out.println(da.before(now));
+//		System.out.println(now.after(da));
+		
 	}
 
 }
