@@ -114,7 +114,7 @@ public class CmsMemberAct {
 		String ip = RequestUtils.getIpAddr(request);
 		Map<String,String>attrs=RequestUtils.getRequestMap(request, "attr_");
 		bean = manager.registerMember(username, email, password,telphone, ip, groupId,grain,false,ext,attrs);
-		cmsWebserviceMng.callWebService("false",username, password, email, ext,CmsWebservice.SERVICE_TYPE_ADD_USER);
+		cmsWebserviceMng.callWebService("false",username, password, email, telphone,groupId+"",ext,CmsWebservice.SERVICE_TYPE_ADD_USER);
 		log.info("save CmsMember id={}", bean.getId());
 		cmsLogMng.operating(request, "cmsMember.log.save", "id=" + bean.getId()
 				+ ";username=" + bean.getUsername());
@@ -123,7 +123,7 @@ public class CmsMemberAct {
 
 	@RequiresPermissions("member:o_update")
 	@RequestMapping("/member/o_update.do")
-	public String update(Integer id, String email, String password,
+	public String update(Integer id, String email,String telphone, String password,
 			Boolean disabled, CmsUserExt ext, Integer groupId,Integer grain,
 			String queryUsername, String queryEmail, Integer queryGroupId,
 			Boolean queryDisabled, Integer pageNo, HttpServletRequest request,
@@ -133,8 +133,8 @@ public class CmsMemberAct {
 			return errors.showErrorPage(model);
 		}
 		Map<String,String>attrs=RequestUtils.getRequestMap(request, "attr_");
-		CmsUser bean = manager.updateMember(id, email, password, disabled, ext,groupId,grain,attrs);
-		cmsWebserviceMng.callWebService("false",bean.getUsername(), password, email, ext,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
+		CmsUser bean = manager.updateMember(id, email, telphone,password, disabled, ext,groupId,grain,attrs);
+		cmsWebserviceMng.callWebService("false",bean.getUsername(), password, email,telphone, groupId+"",ext,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
 		log.info("update CmsMember id={}.", bean.getId());
 		cmsLogMng.operating(request, "cmsMember.log.update", "id="
 				+ bean.getId() + ";username=" + bean.getUsername());

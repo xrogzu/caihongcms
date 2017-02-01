@@ -71,7 +71,7 @@ public interface UnifiedUserMng {
 	 *            电子邮箱。如果为空串则设置为null。
 	 * @return
 	 */
-	public UnifiedUser update(Integer id, String password, String email);
+	public UnifiedUser update(Integer id, String password, String email,String telphone);
 
 	/**
 	 * 密码是否正确

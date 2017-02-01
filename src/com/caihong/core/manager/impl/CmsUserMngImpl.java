@@ -177,14 +177,19 @@ public class CmsUserMngImpl implements CmsUserMng {
 		return unifiedUserMng.isPasswordValid(id, password);
 	}
 
-	public void updatePwdEmail(Integer id, String password, String email) {
+	public void updatePwdEmail(Integer id, String password, String email,String telphone) {
 		CmsUser user = findById(id);
 		if (!StringUtils.isBlank(email)) {
 			user.setEmail(email);
 		} else {
 			user.setEmail(null);
 		}
-		unifiedUserMng.update(id, password, email);
+		if (!StringUtils.isBlank(telphone)) {
+			user.setTelphone(telphone);
+		} else {
+			user.setTelphone(null);
+		}
+		unifiedUserMng.update(id, password, email,telphone);
 	}
 
 	public CmsUser saveAdmin(String username, String email, String telphone,String password,
@@ -300,11 +305,11 @@ public class CmsUserMngImpl implements CmsUserMng {
 			}
 		}
 		*/
-		unifiedUserMng.update(bean.getId(), password, bean.getEmail());
+		unifiedUserMng.update(bean.getId(), password, bean.getEmail(),bean.getTelphone());
 		return user;
 	}
 
-	public CmsUser updateMember(Integer id, String email, String password,
+	public CmsUser updateMember(Integer id, String email,String telphone, String password,
 			Boolean isDisabled, CmsUserExt ext, Integer groupId,Integer grain,Map<String,String>attr) {
 		CmsUser entity = findById(id);
 		entity.setEmail(email);
@@ -313,6 +318,9 @@ public class CmsUserMngImpl implements CmsUserMng {
 			entity.setEmail(email);
 		}
 		*/
+		if (!StringUtils.isBlank(telphone)) {
+			entity.setTelphone(telphone);
+		}
 		if (isDisabled != null) {
 			entity.setDisabled(isDisabled);
 		}
@@ -329,15 +337,18 @@ public class CmsUserMngImpl implements CmsUserMng {
 			attrOrig.putAll(attr);
 		}
 		cmsUserExtMng.update(ext, entity);
-		unifiedUserMng.update(id, password, email);
+		unifiedUserMng.update(id, password, email,telphone);
 		return entity;
 	}
 	
-	public CmsUser updateMember(Integer id, String email, String password,Integer groupId,String realname,String mobile,Boolean sex) {
+	public CmsUser updateMember(Integer id, String email,String telphone, String password,Integer groupId,String realname,String mobile,Boolean sex) {
 		CmsUser entity = findById(id);
 		CmsUserExt ext =entity.getUserExt();
 		if (!StringUtils.isBlank(email)) {
 			entity.setEmail(email);
+		}
+		if (!StringUtils.isBlank(telphone)) {
+			entity.setTelphone(telphone);
 		}
 		if (groupId != null) {
 			entity.setGroup(cmsGroupMng.findById(groupId));
@@ -352,7 +363,7 @@ public class CmsUserMngImpl implements CmsUserMng {
 			ext.setGender(sex);
 		}
 		cmsUserExtMng.update(ext, entity);
-		unifiedUserMng.update(id, password, email);
+		unifiedUserMng.update(id, password, email,telphone);
 		return entity;
 	}
 	

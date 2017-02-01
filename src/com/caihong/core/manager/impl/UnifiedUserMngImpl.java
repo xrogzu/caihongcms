@@ -253,12 +253,17 @@ public class UnifiedUserMngImpl implements UnifiedUserMng {
 	/**
 	 * @see UnifiedUserMng#update(Integer, String, String)
 	 */
-	public UnifiedUser update(Integer id, String password, String email) {
+	public UnifiedUser update(Integer id, String password, String email,String telphone) {
 		UnifiedUser user = findById(id);
 		if (!StringUtils.isBlank(email)) {
 			user.setEmail(email);
 		} else {
 			user.setEmail(null);
+		}
+		if (!StringUtils.isBlank(telphone)) {
+			user.setTelphone(telphone);
+		} else {
+			user.setTelphone(null);
 		}
 		if (!StringUtils.isBlank(password)) {
 			user.setPassword(pwdEncoder.encodePassword(password));

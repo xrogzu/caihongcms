@@ -110,7 +110,7 @@ public class RegisterAct {
 				try {
 					cmsUserMng.registerMember(username, email, telphone,loginPassword, ip,
 							null,disabled,userExt,attrs, false, sender, msgTpl);
-					cmsWebserviceMng.callWebService("false",username, loginPassword, email, userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
+					cmsWebserviceMng.callWebService("false",username, loginPassword, email,telphone,null, userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
 					model.addAttribute("status", 0);
 				} catch (UnsupportedEncodingException e) {
 					// 发送邮件异常
@@ -135,7 +135,7 @@ public class RegisterAct {
 			}
 		} else {
 			cmsUserMng.registerMember(username, email, telphone,loginPassword, ip, null,null,disabled,userExt,attrs);
-			cmsWebserviceMng.callWebService("false",username, loginPassword, email, userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
+			cmsWebserviceMng.callWebService("false",username, loginPassword, email, telphone,null,userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
 			log.info("member register success. username={}", username);
 			FrontUtils.frontData(request, model, site);
 			FrontUtils.frontPageData(request, model);

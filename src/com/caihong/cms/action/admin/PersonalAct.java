@@ -29,7 +29,7 @@ public class PersonalAct {
 
 	@RequiresPermissions("personal:o_profile")
 	@RequestMapping("/personal/o_profile.do")
-	public String profileUpdate(String origPwd, String newPwd, String email,
+	public String profileUpdate(String origPwd, String newPwd, String email,String telphone,
 			String realname, HttpServletRequest request, ModelMap model) {
 		CmsUser user = CmsUtils.getUser(request);
 		WebErrors errors = validatePasswordSubmit(user.getId(), origPwd,
@@ -43,7 +43,7 @@ public class PersonalAct {
 		}
 		ext.setRealname(realname);
 		cmsUserExtMng.update(ext, user);
-		cmsUserMng.updatePwdEmail(user.getId(), newPwd, email);
+		cmsUserMng.updatePwdEmail(user.getId(), newPwd, email,telphone);
 		model.addAttribute("message", "global.success");
 		return profileEdit(request, model);
 	}

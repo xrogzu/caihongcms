@@ -47,7 +47,7 @@ public interface CmsUserMng {
 	
 	public void updateUser(CmsUser user);
 
-	public void updatePwdEmail(Integer id, String password, String email);
+	public void updatePwdEmail(Integer id, String password, String email,String telphone);
 
 	public boolean isPasswordValid(Integer id, String password);
 
@@ -65,10 +65,10 @@ public interface CmsUserMng {
 			Integer groupId,Integer departmentId, Integer[] roleIds, Integer[] channelIds,
 			Integer siteId, Byte step, Boolean allChannel,Boolean allControlChannel);
 
-	public CmsUser updateMember(Integer id, String email, String password,
+	public CmsUser updateMember(Integer id, String email,String telphone, String password,
 			Boolean isDisabled, CmsUserExt ext, Integer groupId,Integer grain,Map<String,String>attr);
 	
-	public CmsUser updateMember(Integer id, String email, String password,Integer groupId,String realname,String mobile,Boolean sex);
+	public CmsUser updateMember(Integer id, String email, String telphone,String password,Integer groupId,String realname,String mobile,Boolean sex);
 	
 	public CmsUser updateUserConllection(CmsUser user,Integer cid,Integer operate);
 

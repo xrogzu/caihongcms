@@ -95,7 +95,7 @@ public class UserService  extends SpringBeanAutowiringSupport{
 								allControlChannels[i]=Boolean.parseBoolean(allControlChannelArray[i]);
 							}
 						}
-						cmsUserMng.saveAdmin(username,telphone, email, password, LOCAL_IP, false, false, rankInt, group.getId(), Integer.parseInt(departmentId), roleIds, null, siteIds, steps, allChannels,allControlChannels, userExt);
+						cmsUserMng.saveAdmin(username, email, telphone,password, LOCAL_IP, false, false, rankInt, group.getId(), Integer.parseInt(departmentId), roleIds, null, siteIds, steps, allChannels,allControlChannels, userExt);
 					}
 					responseCode=RESPONSE_CODE_SUCCESS;
 					webserviceCallRecordMng.save(auth_username, SERVICE_CODE_USER_ADD);
@@ -109,7 +109,7 @@ public class UserService  extends SpringBeanAutowiringSupport{
 	
 	public String updateUser(String auth_username,String auth_password,
 			String username,String password,String email,String realname,String sex,String tel,
-			String groupId) {
+			String groupId,String telphone) {
 		String responseCode=RESPONSE_CODE_AUTH_ERROR;
 		if(validate(auth_username, auth_password)){
 			if(StringUtils.isBlank(username)){
@@ -135,7 +135,7 @@ public class UserService  extends SpringBeanAutowiringSupport{
 								groupInt=gid;
 							}
 						}
-						cmsUserMng.updateMember(user.getId(), email, password, groupInt, realname, tel, gender);
+						cmsUserMng.updateMember(user.getId(), email,telphone, password, groupInt, realname, tel, gender);
 						responseCode=RESPONSE_CODE_SUCCESS;
 						webserviceCallRecordMng.save(auth_username, SERVICE_CODE_USER_UPDATE);
 					} catch (Exception e) {

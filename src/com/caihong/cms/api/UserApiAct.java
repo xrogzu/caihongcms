@@ -121,7 +121,7 @@ public class UserApiAct {
 					userExt.setRealname(realname);
 					userExt.setUserImg(userImg);
 					user=cmsUserMng.registerMember(username, email,telphone, loginPassword, ip, null,null,disabled,userExt,attrs);
-					cmsWebserviceMng.callWebService("false",username, loginPassword, email, userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
+					cmsWebserviceMng.callWebService("false",username, loginPassword, email,telphone, null,userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
 					apiRecordMng.callApiRecord(RequestUtils.getIpAddr(request),
 							appId, "/api/user/add.jspx",sign);
 					body="{\"id\":"+"\""+user.getId()+"\"}";
@@ -229,7 +229,7 @@ public class UserApiAct {
 	 */
 	@RequestMapping(value = "/api/user/pwd.jspx")
 	public void pwdEdit(
-			String username, String origPwd,String newPwd,String email,
+			String username, String origPwd,String newPwd,String email,String telphone,
 			String appId,String nonce_str,String sign,
 			HttpServletRequest request,HttpServletResponse response) throws JSONException {
 		String body="\"\"";
@@ -260,7 +260,7 @@ public class UserApiAct {
 					if (!cmsUserMng.isPasswordValid(user.getId(), origPwd)) {
 						message=Constants.API_MESSAGE_ORIGIN_PWD_ERROR;
 					}else{
-						cmsUserMng.updatePwdEmail(user.getId(), newPwd, email);
+						cmsUserMng.updatePwdEmail(user.getId(), newPwd, email,telphone);
 						apiRecordMng.callApiRecord(RequestUtils.getIpAddr(request),
 								appId, "/api/user/pwd.jspx",sign);
 						message=Constants.API_MESSAGE_SUCCESS;
@@ -732,7 +732,7 @@ public class UserApiAct {
 				disabled=true;
 			}
 			CmsUser user=cmsUserMng.registerMember(username, null,null, thirdKey, ip, null,null,disabled,userExt,null);
-			cmsWebserviceMng.callWebService("false",username, thirdKey, null, userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
+			cmsWebserviceMng.callWebService("false",username, thirdKey, null,null,null, userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
 			//绑定新建的用户
 			thirdAccount=new CmsThirdAccount();
 			thirdAccount.setUsername(username);

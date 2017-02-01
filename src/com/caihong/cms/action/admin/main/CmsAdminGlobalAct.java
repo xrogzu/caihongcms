@@ -128,7 +128,7 @@ public class CmsAdminGlobalAct extends CmsAdminAbstract {
 		bean = manager.saveAdmin(username, email,telphone, password, ip, false,
 				selfAdmin, rank, groupId,departmentId, roleIds, channelIds, siteIds, steps,
 				allChannels, allControlChannels,ext);
-		cmsWebserviceMng.callWebService("true",username, password, email, ext,CmsWebservice.SERVICE_TYPE_ADD_USER);
+		cmsWebserviceMng.callWebService("true",username, password, email, telphone,groupId+"",ext,CmsWebservice.SERVICE_TYPE_ADD_USER);
 		log.info("save CmsAdmin id={}", bean.getId());
 		cmsLogMng.operating(request, "cmsUser.log.save", "id=" + bean.getId()
 				+ ";username=" + bean.getUsername());
@@ -151,7 +151,7 @@ public class CmsAdminGlobalAct extends CmsAdminAbstract {
 		}
 		bean = manager.updateAdmin(bean, ext, password, groupId,departmentId, roleIds,
 				channelIds, siteIds, steps, allChannels,allControlChannels);
-		cmsWebserviceMng.callWebService("true",bean.getUsername(), password, null, ext,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
+		cmsWebserviceMng.callWebService("true",bean.getUsername(), password, null,null,groupId+"", ext,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
 		log.info("update CmsAdmin id={}.", bean.getId());
 		cmsLogMng.operating(request, "cmsUser.log.update", "id=" + bean.getId()
 				+ ";username=" + bean.getUsername());

@@ -131,11 +131,14 @@ public class MemberAct {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/member/profile.jspx", method = RequestMethod.POST)
-	public String profileSubmit(CmsUserExt ext, String nextUrl,
+	public String profileSubmit(CmsUserExt ext, String nextUrl,String telphone,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap model) throws IOException {
 		CmsSite site = CmsUtils.getSite(request);
 		CmsUser user = CmsUtils.getUser(request);
+		if(StringUtils.isNotBlank(telphone)){
+			user.setTelphone(telphone);
+		}
 		FrontUtils.frontData(request, model, site);
 		MemberConfig mcfg = site.getConfig().getMemberConfig();
 		// 没有开启会员功能
@@ -148,7 +151,7 @@ public class MemberAct {
 		ext.setId(user.getId());
 		ext=cmsUserExtMng.update(ext, user);
 		cmsWebserviceMng.callWebService("false",user.getUsername(), null, 
-				null, ext,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
+				user.getEmail(),user.getTelphone(),null, ext,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
 		log.info("update CmsUserExt success. id={}", user.getId());
 		return FrontUtils.showSuccess(request, model, nextUrl);
 	}
@@ -197,7 +200,7 @@ public class MemberAct {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/member/pwd.jspx", method = RequestMethod.POST)
-	public String passwordSubmit(String origPwd, String newPwd, String email,
+	public String passwordSubmit(String origPwd, String newPwd, String email,String telphone,
 			String nextUrl, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) throws IOException {
 		CmsSite site = CmsUtils.getSite(request);
@@ -222,9 +225,9 @@ public class MemberAct {
 		if (errors.hasErrors()) {
 			return FrontUtils.showError(request, response, model, errors);
 		}
-		cmsUserMng.updatePwdEmail(user.getId(), newPwd, email);
+		cmsUserMng.updatePwdEmail(user.getId(), newPwd, email,telphone);
 		cmsWebserviceMng.callWebService("false",user.getUsername(), newPwd, 
-				email, null,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
+				email,telphone, null,null,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
 		return FrontUtils.showSuccess(request, model, nextUrl);
 	}
 	

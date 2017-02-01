@@ -69,13 +69,13 @@ public class UnifiedUserAct {
 
 	@RequiresPermissions("unified_user:o_update")
 	@RequestMapping("/unified_user/o_update.do")
-	public String update(Integer id, String email, String password,
+	public String update(Integer id, String email,String telphone, String password,
 			Integer pageNo, HttpServletRequest request, ModelMap model) {
 		WebErrors errors = validateUpdate(id, email, password, request);
 		if (errors.hasErrors()) {
 			return errors.showErrorPage(model);
 		}
-		UnifiedUser user = manager.update(id, password, email);
+		UnifiedUser user = manager.update(id, password, email,telphone);
 		log.info("update UnifiedUser id={}.", user.getId());
 		return list(pageNo, request, model);
 	}
