@@ -69,16 +69,16 @@ function optCheckCancel() {
 	<@p.column code="cmsGuestbook.title" align="center">${cmsGuestbook.title!?html}</@p.column><#t/>
 	<@p.column code="cmsGuestbook.member" align="center"><#if cmsGuestbook.member??>${cmsGuestbook.member.username}<#else><@s.m "cmsGuestbook.anonymity"/></#if></@p.column><#t/>
 	<@p.column code="cmsGuestbook.createTime" align="center">${cmsGuestbook.createTime}</@p.column><#t/>
-	<@p.column code="cmsGuestbook.recommend" align="center"><#if cmsGuestbook.recommend><@s.m "global.true"/><#else><@s.m "global.false"/></#if></@p.column><#t/>
-	<@p.column code="cmsGuestbook.checked" align="center"><#if cmsGuestbook.checked><@s.m "global.true"/><#else><span style="color:red;font-weight:bold;"><@s.m "global.false"/></span></#if></@p.column><#t/>
+	<!-- <@p.column code="cmsGuestbook.recommend" align="center"><#if cmsGuestbook.recommend><@s.m "global.true"/><#else><@s.m "global.false"/></#if></@p.column><#t/> -->
+	<!-- <@p.column code="cmsGuestbook.checked" align="center"><#if cmsGuestbook.checked><@s.m "global.true"/><#else><span style="color:red;font-weight:bold;"><@s.m "global.false"/></span></#if></@p.column><#t/> -->
 	<@p.column code="global.operate" align="center">
 		<a href="v_edit.do?id=${cmsGuestbook.id}&pageNo=${pageNo!}" class="pn-opt"><@s.m "global.edit"/></a> | <#rt/>
 		<a href="o_delete.do?ids=${cmsGuestbook.id}&pageNo=${pageNo!}" onclick="if(!$.confirmToUrl(this.href)) {return false;}" class="pn-opt"><@s.m "global.delete"/></a><#t/>
 	</@p.column><#t/>
 </@p.table>
 <div>
-<input type="button" value="<@s.m "cmsGuestbook.checked"/>" onclick="optCheck();" class="check"/ style="float:left; margin-right:3px;">
-<input type="button" class="reject" value="<@s.m "cmsGuestbook.checked.cancel"/>" onclick="optCheckCancel();"/ style="float:left; margin-right:3px;">
+<!-- <input type="button" value="<@s.m "cmsGuestbook.checked"/>" onclick="optCheck();" class="check"/ style="float:left; margin-right:3px;">
+<input type="button" class="reject" value="<@s.m "cmsGuestbook.checked.cancel"/>" onclick="optCheckCancel();"/ style="float:left; margin-right:3px;"> -->
 <input class="del-button" type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/ style="float:left;">
 </div>
 </form>
