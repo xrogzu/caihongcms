@@ -2,6 +2,7 @@ package com.caihong.core.entity.base;
 
 import java.io.Serializable;
 
+import com.caihong.core.entity.CmsDictionary;
 import com.caihong.core.entity.CmsLog;
 
 
@@ -35,6 +36,8 @@ public abstract class BaseCmsUser  implements Serializable {
 	public static String PROP_REGISTER_IP = "registerIp";
 	public static String PROP_USERNAME = "username";
 	public static String PROP_TELPHONE = "telphone";
+	
+	
 
 
 	// constructors
@@ -115,10 +118,18 @@ public abstract class BaseCmsUser  implements Serializable {
 	private java.lang.Integer fileTotal;
 	private java.lang.Integer grain;
 	private java.lang.String sessionId;
-
+	private java.lang.Integer fansCnt;
+	private java.lang.Integer followCnt;	
+	private java.lang.String idNo;
+	
 	// many to one
 	private com.caihong.core.entity.CmsGroup group;
 	private com.caihong.core.entity.CmsDepartment department;
+	
+	private CmsDictionary jobTitle;
+	private CmsDictionary jobLevel;
+	private CmsDictionary major;
+	private CmsDictionary nation;
 
 	// collections
 	private java.util.Map<java.lang.String, java.lang.String> attr;
@@ -463,6 +474,38 @@ public abstract class BaseCmsUser  implements Serializable {
 		this.department = department;
 	}
 	
+	public CmsDictionary getJobTitle() {
+		return jobTitle;
+	}
+
+	public void setJobTitle(CmsDictionary jobTitle) {
+		this.jobTitle = jobTitle;
+	}
+
+	public CmsDictionary getJobLevel() {
+		return jobLevel;
+	}
+
+	public void setJobLevel(CmsDictionary jobLevel) {
+		this.jobLevel = jobLevel;
+	}
+
+	public CmsDictionary getMajor() {
+		return major;
+	}
+
+	public void setMajor(CmsDictionary major) {
+		this.major = major;
+	}
+
+	public CmsDictionary getNation() {
+		return nation;
+	}
+
+	public void setNation(CmsDictionary nation) {
+		this.nation = nation;
+	}
+
 	public java.util.Map<java.lang.String, java.lang.String> getAttr() {
 		return attr;
 	}
@@ -661,6 +704,39 @@ public abstract class BaseCmsUser  implements Serializable {
 
 	public void setThirdAccounts(java.util.Set<com.caihong.cms.entity.main.CmsThirdAccount> thirdAccounts) {
 		this.thirdAccounts = thirdAccounts;
+	}
+
+	public int getHashCode() {
+		return hashCode;
+	}
+
+	public void setHashCode(int hashCode) {
+		this.hashCode = hashCode;
+	}
+
+	public java.lang.Integer getFansCnt() {
+		return fansCnt;
+	}
+
+	public void setFansCnt(java.lang.Integer fansCnt) {
+		this.fansCnt = fansCnt;
+	}
+
+	public java.lang.Integer getFollowCnt() {
+		return followCnt;
+	}
+
+	public void setFollowCnt(java.lang.Integer followCnt) {
+		this.followCnt = followCnt;
+	}
+
+
+	public java.lang.String getIdNo() {
+		return idNo;
+	}
+
+	public void setIdNo(java.lang.String idNo) {
+		this.idNo = idNo;
 	}
 
 	public boolean equals (Object obj) {

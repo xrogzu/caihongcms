@@ -26,11 +26,15 @@ import com.caihong.common.web.CookieUtils;
 import com.caihong.common.web.RequestUtils;
 import com.caihong.common.web.ResponseUtils;
 import com.caihong.core.entity.CmsConfigItem;
+import com.caihong.core.entity.CmsDepartment;
+import com.caihong.core.entity.CmsDictionary;
 import com.caihong.core.entity.CmsGroup;
 import com.caihong.core.entity.CmsSite;
 import com.caihong.core.entity.CmsUser;
 import com.caihong.core.entity.CmsUserExt;
 import com.caihong.core.manager.CmsConfigItemMng;
+import com.caihong.core.manager.CmsDepartmentMng;
+import com.caihong.core.manager.CmsDictionaryMng;
 import com.caihong.core.manager.CmsGroupMng;
 import com.caihong.core.manager.CmsLogMng;
 import com.caihong.core.manager.CmsUserMng;
@@ -41,15 +45,19 @@ import com.caihong.core.web.util.CmsUtils;
 public class CmsMemberAct {
 	private static final Logger log = LoggerFactory
 			.getLogger(CmsMemberAct.class);
+	private static final String TYPE_MAJOR="专业";
+	private static final String TYPE_NATION="国籍";
+	private static final String TYPE_JOBLEVEL="级别";
+	private static final String TYPE_JOBTITLE="职称";
 
 	@RequiresPermissions("member:v_list")
 	@RequestMapping("/member/v_list.do")
 	public String list(String queryUsername, String queryEmail,
-			Integer queryGroupId, Boolean queryDisabled, Integer pageNo,
+			Integer queryGroupId, Boolean queryDisabled, Integer pageNo,Integer nationId,Integer majorId,Integer jobTitleId,Integer jobLevelId,String idNo,
 			HttpServletRequest request, ModelMap model) {
 		Pagination pagination = manager.getPage(queryUsername, queryEmail,
 				null, queryGroupId, queryDisabled, false, null, null,
-				null,null,null,null,cpn(pageNo),
+				null,null,null,null,nationId,majorId,jobTitleId,jobLevelId,idNo,cpn(pageNo),
 				CookieUtils.getPageSize(request));
 		model.addAttribute("pagination", pagination);
 
@@ -66,9 +74,21 @@ public class CmsMemberAct {
 	public String add(ModelMap model,HttpServletRequest request) {
 		CmsSite site=CmsUtils.getSite(request);
 		List<CmsGroup> groupList = cmsGroupMng.getList();
+		List<CmsDepartment> toplist=cmsDepartmentMng.getList(null, false);
+		List<CmsDepartment> departmentList=CmsDepartment.getListForSelect(toplist);
+		List<CmsDictionary> jobLevelList=cmsDictionaryMng.getList(TYPE_JOBLEVEL);
+		List<CmsDictionary> majorList=cmsDictionaryMng.getList(TYPE_MAJOR);
+		List<CmsDictionary> nationList=cmsDictionaryMng.getList(TYPE_NATION);
+		List<CmsDictionary> jobTitleList=cmsDictionaryMng.getList(TYPE_JOBTITLE);
 		List<CmsConfigItem>registerItems=cmsConfigItemMng.getList(site.getConfig().getId(), CmsConfigItem.CATEGORY_REGISTER);
 		model.addAttribute("registerItems", registerItems);
 		model.addAttribute("groupList", groupList);
+		model.addAttribute("jobLevelList", jobLevelList);
+		model.addAttribute("majorList", majorList);
+		model.addAttribute("nationList", nationList);
+		model.addAttribute("jobTitleList", jobTitleList);		
+		
+		model.addAttribute("departmentList", departmentList);
 		return "member/add";
 	}
 
@@ -84,7 +104,29 @@ public class CmsMemberAct {
 		if (errors.hasErrors()) {
 			return errors.showErrorPage(model);
 		}
+		List<CmsDepartment> toplist=cmsDepartmentMng.getList(null, false);
+		List<CmsDepartment> departmentList=CmsDepartment.getListForSelect(toplist);
+		List<CmsDictionary> jobLevelList=cmsDictionaryMng.getList(TYPE_JOBLEVEL);
+		List<CmsDictionary> majorList=cmsDictionaryMng.getList(TYPE_MAJOR);
+		List<CmsDictionary> nationList=cmsDictionaryMng.getList(TYPE_NATION);
+		List<CmsDictionary> jobTitleList=cmsDictionaryMng.getList(TYPE_JOBTITLE);
 		CmsUser user=manager.findById(id);
+		if(user.getDepartment()==null){
+			user.setDepartment(new CmsDepartment());
+		}
+		if(user.getJobLevel()==null){
+			user.setJobLevel(new CmsDictionary());
+		}
+		if(user.getJobTitle()==null){
+			user.setJobTitle(new CmsDictionary());
+		}
+		if(user.getMajor()==null){
+			user.setMajor(new CmsDictionary());
+		}
+		if(user.getNation()==null){
+			user.setNation(new CmsDictionary());
+		}
+		
 		List<CmsGroup> groupList = cmsGroupMng.getList();
 		List<CmsConfigItem>registerItems=cmsConfigItemMng.getList(site.getConfig().getId(), CmsConfigItem.CATEGORY_REGISTER);
 		List<String>userAttrValues=new ArrayList<String>();
@@ -95,7 +137,12 @@ public class CmsMemberAct {
 		model.addAttribute("queryEmail", queryEmail);
 		model.addAttribute("queryGroupId", queryGroupId);
 		model.addAttribute("queryDisabled", queryDisabled);
+		model.addAttribute("departmentList", departmentList);
 		model.addAttribute("groupList", groupList);
+		model.addAttribute("jobLevelList", jobLevelList);
+		model.addAttribute("majorList", majorList);
+		model.addAttribute("nationList", nationList);
+		model.addAttribute("jobTitleList", jobTitleList);	
 		model.addAttribute("cmsMember", user);
 		model.addAttribute("registerItems", registerItems);
 		model.addAttribute("userAttrValues", userAttrValues);
@@ -105,7 +152,7 @@ public class CmsMemberAct {
 	@RequiresPermissions("member:o_save")
 	@RequestMapping("/member/o_save.do")
 	public String save(CmsUser bean, CmsUserExt ext, String username,String telphone,
-			String email, String password, Integer groupId,Integer grain,
+			String email, String password, Integer groupId,Integer departmentId,Integer grain,Integer nationId,Integer majorId,Integer jobTitleId,Integer jobLevelId,String idNo,Integer fansCnt,Integer followCnt,
 			HttpServletRequest request, ModelMap model) {
 		WebErrors errors = validateSave(bean, request);
 		if (errors.hasErrors()) {
@@ -113,7 +160,7 @@ public class CmsMemberAct {
 		}
 		String ip = RequestUtils.getIpAddr(request);
 		Map<String,String>attrs=RequestUtils.getRequestMap(request, "attr_");
-		bean = manager.registerMember(username, email, password,telphone, ip, groupId,grain,false,ext,attrs);
+		bean = manager.registerMember(username, email, password,telphone, ip, groupId,departmentId,grain,false, nationId, majorId, jobTitleId,jobLevelId, idNo, fansCnt, followCnt,ext,attrs);
 		cmsWebserviceMng.callWebService("false",username, password, email, telphone,groupId+"",ext,CmsWebservice.SERVICE_TYPE_ADD_USER);
 		log.info("save CmsMember id={}", bean.getId());
 		cmsLogMng.operating(request, "cmsMember.log.save", "id=" + bean.getId()
@@ -124,7 +171,7 @@ public class CmsMemberAct {
 	@RequiresPermissions("member:o_update")
 	@RequestMapping("/member/o_update.do")
 	public String update(Integer id, String email,String telphone, String password,
-			Boolean disabled, CmsUserExt ext, Integer groupId,Integer grain,
+			Boolean disabled, CmsUserExt ext, Integer groupId,Integer departmentId,Integer grain,Integer nationId,Integer majorId,Integer jobTitleId,Integer jobLevelId,String idNo,Integer fansCnt,Integer followCnt,
 			String queryUsername, String queryEmail, Integer queryGroupId,
 			Boolean queryDisabled, Integer pageNo, HttpServletRequest request,
 			ModelMap model) {
@@ -133,13 +180,13 @@ public class CmsMemberAct {
 			return errors.showErrorPage(model);
 		}
 		Map<String,String>attrs=RequestUtils.getRequestMap(request, "attr_");
-		CmsUser bean = manager.updateMember(id, email, telphone,password, disabled, ext,groupId,grain,attrs);
+		CmsUser bean = manager.updateMember(id, email, telphone,password, disabled, nationId, majorId, jobTitleId,jobLevelId, idNo,ext,groupId,departmentId,grain, fansCnt, followCnt,attrs);
 		cmsWebserviceMng.callWebService("false",bean.getUsername(), password, email,telphone, groupId+"",ext,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
 		log.info("update CmsMember id={}.", bean.getId());
 		cmsLogMng.operating(request, "cmsMember.log.update", "id="
 				+ bean.getId() + ";username=" + bean.getUsername());
 		return list(queryUsername, queryEmail, queryGroupId, queryDisabled,
-				pageNo, request, model);
+				pageNo, nationId,majorId,jobTitleId,jobLevelId,idNo,request, model);
 	}
 
 	@RequiresPermissions("member:o_delete")
@@ -165,7 +212,7 @@ public class CmsMemberAct {
 					+ bean.getId() + ";username=" + bean.getUsername());
 		}
 		return list(queryUsername, queryEmail, queryGroupId, queryDisabled,
-				pageNo, request, model);
+				pageNo,null,null,null,null,null, request, model);
 	}
 	
 	@RequiresPermissions("member:o_check")
@@ -189,7 +236,7 @@ public class CmsMemberAct {
 					+ user.getId() + ";username=" + user.getUsername());
 		}
 		return list(queryUsername, queryEmail, queryGroupId, queryDisabled,
-				pageNo, request, model);
+				pageNo, null,null,null,null,null,request, model);
 	}
 
 	@RequiresPermissions("member:v_check_username")
@@ -249,7 +296,10 @@ public class CmsMemberAct {
 		}
 		return false;
 	}
-
+	@Autowired
+	private CmsDepartmentMng cmsDepartmentMng;
+	@Autowired
+	private CmsDictionaryMng cmsDictionaryMng;
 	@Autowired
 	private CmsGroupMng cmsGroupMng;
 	@Autowired

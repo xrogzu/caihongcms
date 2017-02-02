@@ -67,7 +67,7 @@ public class CmsWorkLoadStatisticAct {
 		List<Channel> channelList = Channel.getListForSelect(topList, null,
 				true);
 		List<CmsUser> admins = userMng.getAdminList(siteId, null, false, null);
-		List<CmsUser> users = userMng.getList(null, null, null, null, false,null, null);
+		List<CmsUser> users = userMng.getList(null, null, null, null, false,null, null,null,null,null,null,null);
 		List<CmsWorkLoadStatistic> li = workloadStatisticSvc.statistic(channelId, reviewerId,
 				authorId, beginDate, endDate, statisticGroup, kind);
 		Date dayBegin=DateUtils.getStartDate(now);

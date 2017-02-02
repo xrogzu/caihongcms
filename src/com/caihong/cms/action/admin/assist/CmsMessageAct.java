@@ -122,7 +122,7 @@ public class CmsMessageAct {
 			if (groupId.equals(0)) {
 				// 所有未禁用会员
 				users = userMng.getList(null, null, null, null, false, false,
-						null);
+						null,null,null,null,null,null);
 				if (users != null && users.size() > 0) {
 					for (int i = 0; i < users.size(); i++) {
 						tempUser = users.get(i);
@@ -144,7 +144,7 @@ public class CmsMessageAct {
 			} else {
 				// 非禁用的会员
 				users = userMng.getList(null, null, null, groupId, false,
-						false, null);
+						false, null,null,null,null,null,null);
 				if (users != null && users.size() > 0) {
 					for (int i = 0; i < users.size(); i++) {
 						tempUser = users.get(i);

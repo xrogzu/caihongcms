@@ -47,7 +47,7 @@ function optPriority() {
 	<@p.column code="cms.department.name" align="center">${depart.name}</@p.column><#t/>
 	<@p.column code="cms.department.priority" align="center"><input type="text" name="priority" value="${depart.priority}" style="width:70px" required="true" class="required digits" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></@p.column><#t/>
 	<@p.column code="global.operate" align="center">
-		<a href="v_edit.do?id=${depart.id}" class="pn-opt"><@s.m "department.perm.control"/></a> | <#rt/>
+		
 		<a href="v_edit.do?id=${depart.id}" class="pn-opt"><@s.m "global.edit"/></a> | <#rt/>
 		<a href="o_delete.do?ids=${depart.id}&parentId=${parentId!}" onclick="if(!$.confirmToUrl(this.href)) {return false;}" class="pn-opt"><@s.m "global.delete"/></a>| <#rt/>
 		<a href="v_list_members.do?departId=${depart.id}&root=${parentId!}" class="pn-opt"><@s.m "department.member.function"/></a><#t/>

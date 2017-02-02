@@ -81,7 +81,7 @@ public class RegisterAct {
 
 	@RequestMapping(value = "/register.jspx", method = RequestMethod.POST)
 	public String submit(String username,String telphone, String email, String loginPassword,
-			CmsUserExt userExt, String captcha, String nextUrl,
+			CmsUserExt userExt, String captcha, String nextUrl,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap model) throws IOException {
 		CmsSite site = CmsUtils.getSite(request);
@@ -109,7 +109,7 @@ public class RegisterAct {
 			} else {
 				try {
 					cmsUserMng.registerMember(username, email, telphone,loginPassword, ip,
-							null,disabled,userExt,attrs, false, sender, msgTpl);
+							null,null,disabled,nation,major,jobTitle,jobLevel,idNo,0,0,userExt,attrs, false, sender, msgTpl);
 					cmsWebserviceMng.callWebService("false",username, loginPassword, email,telphone,null, userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
 					model.addAttribute("status", 0);
 				} catch (UnsupportedEncodingException e) {
@@ -134,7 +134,7 @@ public class RegisterAct {
 						TPLDIR_MEMBER, REGISTER_RESULT);
 			}
 		} else {
-			cmsUserMng.registerMember(username, email, telphone,loginPassword, ip, null,null,disabled,userExt,attrs);
+			cmsUserMng.registerMember(username, email, telphone,loginPassword, ip, null,null,null,disabled,nation,major,jobTitle,jobLevel,idNo,0,0,userExt,attrs);
 			cmsWebserviceMng.callWebService("false",username, loginPassword, email, telphone,null,userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
 			log.info("member register success. username={}", username);
 			FrontUtils.frontData(request, model, site);

@@ -24,8 +24,18 @@
 		<property name="fileTotal" column="file_total" type="integer" not-null="true" length="10"/>
 		<property name="grain" column="grain" type="integer" not-null="true" length="10"/>
 		<property name="sessionId" column="session_id" type="string" not-null="false" length="100"/>
+		<property name="fansCnt"  column="fans_cnt" type="integer" not-null="true" length="11"/>
+		<property name="followCnt"  column="follow_cnt" type="integer" not-null="true" length="11"/>		
+		<property name="idNo"  column="id_no" type="string" not-null="false" length="20"/>
+		
+		<many-to-one name="major" column="major" class="CmsDictionary" not-null="false"></many-to-one>
+		<many-to-one name="jobTitle" column="job_title" class="CmsDictionary" not-null="false"></many-to-one>
+		<many-to-one name="jobLevel" column="job_level" class="CmsDictionary" not-null="false"></many-to-one>
+		<many-to-one name="nation" column="nation" class="CmsDictionary" not-null="false"></many-to-one>
+		
 		<many-to-one name="group" column="group_id" class="CmsGroup" not-null="true"></many-to-one>
 		<many-to-one name="department" column="depart_id" class="CmsDepartment" not-null="false"></many-to-one>
+		
 		<map name="attr" table="jc_user_attr" cascade="all-delete-orphan">
 			<cache usage="read-write"/>
 			<key column="user_id" not-null="true"/>

@@ -13,11 +13,11 @@ public interface CmsUserDao{
 	public Pagination getPage(String username, String email, Integer siteId,
 			Integer groupId, Boolean disabled, Boolean admin, Integer rank,
 			String realName,Integer departId,Integer roleId,
-			Boolean allChannel,Boolean allControlChannel,
+			Boolean allChannel,Boolean allControlChannel,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,
 			int pageNo, int pageSize);
 	
 	public List<CmsUser> getList(String username, String email, Integer siteId,
-			Integer groupId, Boolean disabled, Boolean admin, Integer rank);
+			Integer groupId, Boolean disabled, Boolean admin, Integer rank,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo);
 
 	public List<CmsUser> getAdminList(Integer siteId, Boolean allChannel,
 			Boolean disabled, Integer rank);

@@ -45,13 +45,13 @@ public class CmsAdminGlobalAct extends CmsAdminAbstract {
 	public String list(String queryUsername, String queryEmail,
 			Integer queryGroupId, Boolean queryDisabled, 
 			String queryRealName,Integer queryDepartId,Integer queryRoleId,
-			Integer pageNo,
+			Integer pageNo,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,
 			HttpServletRequest request, ModelMap model) {
 		CmsUser currUser = CmsUtils.getUser(request);
 		Pagination pagination = manager.getPage(queryUsername, queryEmail,
 				null, queryGroupId, queryDisabled, true, currUser.getRank(),
 				queryRealName,queryDepartId,queryRoleId,
-				null,null,
+				null,null, nation, major, jobTitle,jobLevel, idNo,
 				cpn(pageNo), CookieUtils.getPageSize(request));
 		List<CmsRole> roleList = cmsRoleMng.getList(currUser.getTopRoleLevel());
 		List<CmsDepartment> departList=cmsDepartmentMng.getList(null,true);
@@ -142,7 +142,7 @@ public class CmsAdminGlobalAct extends CmsAdminAbstract {
 			Integer[] siteIds, Byte[] steps, Boolean[] allChannels,Boolean[] allControlChannels,
 			String queryUsername, String queryEmail, Integer queryGroupId,
 			Boolean queryDisabled, String queryRealName,Integer queryDepartId
-			,Integer queryRoleId,
+			,Integer queryRoleId,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,
 			Integer pageNo, HttpServletRequest request,
 			ModelMap model) {
 		WebErrors errors = validateUpdate(bean.getId(),bean.getRank(), request);
@@ -157,7 +157,7 @@ public class CmsAdminGlobalAct extends CmsAdminAbstract {
 				+ ";username=" + bean.getUsername());
 		return list(queryUsername, queryEmail, queryGroupId, queryDisabled,queryRealName,
 				queryDepartId,queryRoleId,
-				pageNo, request, model);
+				pageNo,  nation, major, jobTitle, jobLevel,idNo,request, model);
 	}
 
 	@RequiresPermissions("admin_global:o_delete")
@@ -197,7 +197,7 @@ public class CmsAdminGlobalAct extends CmsAdminAbstract {
 		}
 		return list(queryUsername, queryEmail, queryGroupId, queryDisabled,
 				queryRealName,queryDepartId,queryRoleId,
-				pageNo, request, model);
+				pageNo, null,null,null,null,null,request, model);
 	}
 
 	@RequiresPermissions("admin_global:v_channels_add")

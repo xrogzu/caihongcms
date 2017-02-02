@@ -29,6 +29,7 @@ import com.caihong.core.entity.CmsUserExt;
 import com.caihong.core.entity.CmsWorkflowEvent;
 import com.caihong.core.entity.UnifiedUser;
 import com.caihong.core.manager.CmsDepartmentMng;
+import com.caihong.core.manager.CmsDictionaryMng;
 import com.caihong.core.manager.CmsGroupMng;
 import com.caihong.core.manager.CmsRoleMng;
 import com.caihong.core.manager.CmsSiteMng;
@@ -45,19 +46,19 @@ public class CmsUserMngImpl implements CmsUserMng {
 	public Pagination getPage(String username, String email, Integer siteId,
 			Integer groupId, Boolean disabled, Boolean admin, Integer rank,
 			String realName,Integer departId,Integer roleId,
-			Boolean allChannel,Boolean allControlChannel,
+			Boolean allChannel,Boolean allControlChannel,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,
 			int pageNo, int pageSize) {
 		Pagination page = dao.getPage(username, email, siteId, groupId,
 				disabled, admin, rank,realName,departId,roleId, 
-				allChannel,allControlChannel,pageNo, pageSize);
+				allChannel,allControlChannel,nation,major,jobTitle,jobLevel,idNo,pageNo, pageSize);
 		return page;
 	}
 	
 	@Transactional(readOnly = true)
 	public List<CmsUser> getList(String username, String email, Integer siteId,
-			Integer groupId, Boolean disabled, Boolean admin, Integer rank) {
+			Integer groupId, Boolean disabled, Boolean admin, Integer rank,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo) {
 		List<CmsUser> list = dao.getList(username, email, siteId, groupId,
-				disabled, admin, rank);
+				disabled, admin, rank,nation,major,jobTitle,jobLevel,idNo);
 		return list;
 	}
 
@@ -90,7 +91,7 @@ public class CmsUserMngImpl implements CmsUserMng {
 	}
 
 	public CmsUser registerMember(String username, String email,String telphone,
-			String password, String ip, Integer groupId,Integer grain,boolean disabled,CmsUserExt userExt,Map<String,String>attr){
+			String password, String ip, Integer groupId,Integer departmentId,Integer grain,boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,CmsUserExt userExt,Map<String,String>attr){
 		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,telphone,
 				password, ip);
 		CmsUser user = new CmsUser();
@@ -98,6 +99,22 @@ public class CmsUserMngImpl implements CmsUserMng {
 		user.setGrain(grain);
 		user.setAttr(attr);
 		user.setDisabled(disabled);
+		if(nation!=null){
+			user.setNation(cmsDictionaryMng.findById(nation));
+		}
+		if(jobLevel!=null){
+			user.setJobLevel(cmsDictionaryMng.findById(jobLevel));
+		}
+		if(major!=null){
+			user.setMajor(cmsDictionaryMng.findById(major));
+		}
+		if(jobTitle!=null){
+			user.setJobTitle(cmsDictionaryMng.findById(jobTitle));
+		}
+		
+		user.setIdNo(idNo);
+		user.setFansCnt(fansCnt);
+		user.setFollowCnt(followCnt);
 		CmsGroup group = null;
 		if (groupId != null) {
 			group = cmsGroupMng.findById(groupId);
@@ -108,6 +125,9 @@ public class CmsUserMngImpl implements CmsUserMng {
 			throw new RuntimeException(
 					"register default member group not found!");
 		}
+		if(departmentId!=null){
+			user.setDepartment(cmsDepartmentMng.findById(departmentId));
+		}
 		user.setGroup(group);
 		user.init();
 		dao.save(user);
@@ -117,7 +137,7 @@ public class CmsUserMngImpl implements CmsUserMng {
 
 	
 	public CmsUser registerMember(String username, String email,String telphone,
-			String password, String ip, Integer groupId, boolean disabled,CmsUserExt userExt,Map<String,String>attr,
+			String password, String ip, Integer groupId,Integer departmentId, boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,CmsUserExt userExt,Map<String,String>attr,
 			Boolean activation, EmailSender sender, MessageTemplate msgTpl)throws UnsupportedEncodingException, MessagingException{
 		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,telphone,
 				password, ip, activation, sender, msgTpl);
@@ -125,11 +145,29 @@ public class CmsUserMngImpl implements CmsUserMng {
 		user.forMember(unifiedUser);
 		user.setAttr(attr);
 		user.setDisabled(disabled);
+		if(nation!=null){
+			user.setNation(cmsDictionaryMng.findById(nation));
+		}
+		if(jobLevel!=null){
+			user.setJobLevel(cmsDictionaryMng.findById(jobLevel));
+		}
+		if(major!=null){
+			user.setMajor(cmsDictionaryMng.findById(major));
+		}
+		if(jobTitle!=null){
+			user.setJobTitle(cmsDictionaryMng.findById(jobTitle));
+		}
+		user.setIdNo(idNo);
+		user.setFansCnt(fansCnt);
+		user.setFollowCnt(followCnt);
 		CmsGroup group = null;
 		if (groupId != null) {
 			group = cmsGroupMng.findById(groupId);
 		} else {
 			group = cmsGroupMng.getRegDef();
+		}
+		if(departmentId!=null){
+			user.setDepartment(cmsDepartmentMng.findById(departmentId));
 		}
 		if (group == null) {
 			throw new RuntimeException(
@@ -153,6 +191,28 @@ public class CmsUserMngImpl implements CmsUserMng {
 				user.setLastLoginTime(loginTime);
 			}
 			user.setSessionId(sessionId);
+		}
+	}
+	
+	public void updateFansCnt(Integer userId, int cnt){
+		CmsUser user = findById(userId);
+		if (user != null) {
+			if((user.getFansCnt() + cnt)<0){
+				user.setFansCnt(0);
+			}else{
+				user.setFansCnt(user.getFansCnt() + cnt);	
+			}
+		}
+	}
+	
+	public void updateFollowCnt(Integer userId, int cnt){
+		CmsUser user = findById(userId);
+		if (user != null) {
+			if((user.getFollowCnt() + cnt)<0){
+				user.setFollowCnt(0);
+			}else{
+				user.setFollowCnt(user.getFollowCnt() + cnt);	
+			}
 		}
 	}
 
@@ -310,7 +370,7 @@ public class CmsUserMngImpl implements CmsUserMng {
 	}
 
 	public CmsUser updateMember(Integer id, String email,String telphone, String password,
-			Boolean isDisabled, CmsUserExt ext, Integer groupId,Integer grain,Map<String,String>attr) {
+			Boolean isDisabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,CmsUserExt ext, Integer groupId,Integer departmentId,Integer grain,Integer fansCnt,Integer followCnt,Map<String,String>attr) {
 		CmsUser entity = findById(id);
 		entity.setEmail(email);
 		/*
@@ -327,8 +387,33 @@ public class CmsUserMngImpl implements CmsUserMng {
 		if (groupId != null) {
 			entity.setGroup(cmsGroupMng.findById(groupId));
 		}
+		if(departmentId!=null){
+			entity.setDepartment(cmsDepartmentMng.findById(departmentId));
+		}
+			
 		if(grain!=null){
 			entity.setGrain(grain);
+		}
+		if(fansCnt!=null){
+			entity.setFansCnt(fansCnt);
+		}
+		if(followCnt!=null){
+			entity.setFollowCnt(followCnt);
+		}
+		if(nation!=null){
+			entity.setNation(cmsDictionaryMng.findById(nation));
+		}
+		if(jobLevel!=null){
+			entity.setJobLevel(cmsDictionaryMng.findById(jobLevel));
+		}
+		if(major!=null){
+			entity.setMajor(cmsDictionaryMng.findById(major));
+		}
+		if(jobTitle!=null){
+			entity.setJobTitle(cmsDictionaryMng.findById(jobTitle));
+		}
+		if (!StringUtils.isBlank(idNo)) {
+			entity.setIdNo(idNo);
 		}
 		// 更新属性表
 		if (attr != null) {
@@ -341,7 +426,7 @@ public class CmsUserMngImpl implements CmsUserMng {
 		return entity;
 	}
 	
-	public CmsUser updateMember(Integer id, String email,String telphone, String password,Integer groupId,String realname,String mobile,Boolean sex) {
+	public CmsUser updateMember(Integer id, String email,String telphone, String password,Integer groupId,Integer departmentId,String realname,String mobile,Boolean sex,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt) {
 		CmsUser entity = findById(id);
 		CmsUserExt ext =entity.getUserExt();
 		if (!StringUtils.isBlank(email)) {
@@ -350,8 +435,32 @@ public class CmsUserMngImpl implements CmsUserMng {
 		if (!StringUtils.isBlank(telphone)) {
 			entity.setTelphone(telphone);
 		}
+		if(nation!=null){
+			entity.setNation(cmsDictionaryMng.findById(nation));
+		}
+		if(jobLevel!=null){
+			entity.setJobLevel(cmsDictionaryMng.findById(jobLevel));
+		}
+		if(major!=null){
+			entity.setMajor(cmsDictionaryMng.findById(major));
+		}
+		if(jobTitle!=null){
+			entity.setJobTitle(cmsDictionaryMng.findById(jobTitle));
+		}
+		if (!StringUtils.isBlank(idNo)) {
+			entity.setIdNo(idNo);
+		}
+		if(fansCnt!=null){
+			entity.setFansCnt(fansCnt);
+		}
+		if(followCnt!=null){
+			entity.setFollowCnt(followCnt);
+		}
 		if (groupId != null) {
 			entity.setGroup(cmsGroupMng.findById(groupId));
+		}
+		if(departmentId!=null){
+			entity.setDepartment(cmsDepartmentMng.findById(departmentId));
 		}
 		if (!StringUtils.isBlank(realname)) {
 			ext.setRealname(realname);
@@ -424,7 +533,9 @@ public class CmsUserMngImpl implements CmsUserMng {
 	@Autowired
 	private ContentMng contentMng;
 	@Autowired
-	private CmsWorkflowEventMng workflowEventMng;
+	private CmsWorkflowEventMng workflowEventMng;	
+	@Autowired
+	private CmsDictionaryMng cmsDictionaryMng;
 
 	@Autowired
 	public void setCmsUserSiteMng(CmsUserSiteMng cmsUserSiteMng) {
@@ -469,6 +580,8 @@ public class CmsUserMngImpl implements CmsUserMng {
 	@Autowired
 	public void setDao(CmsUserDao dao) {
 		this.dao = dao;
-	}	
+	}
+
+	
 
 }

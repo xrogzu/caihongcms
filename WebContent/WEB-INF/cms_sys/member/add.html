@@ -11,6 +11,7 @@ $(function() {
 </script>
 </head>
 <body>
+<#include "/common/image_upload.html"/>
 <div class="page-positon ove">
   <div class="position-div"><@s.m "global.position"/>: <@s.m "cmsMember.function"/> > <@s.m "global.add"/></div>
 </div>
@@ -25,13 +26,35 @@ $(function() {
 <@p.form id="jvForm" action="o_save.do" labelWidth="12" class="formDefStyle">
 <@p.text width="50" colspan="1" label="cmsUser.username" name="username" required="true" maxlength="100" vld="{required:true,username:true,remote:'v_check_username.do',messages:{remote:'${usernameExist}'}}"/>
 <@p.text width="50" colspan="1" label="cmsUser.email" name="email" size="30" class="email"/><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsUser.realname" name="realname" required="true" maxlength="100"/>
+<@p.radio width="50" colspan="1" label="cmsUser.gender" name="gender" list={"true":"cmsUser.male","false":"cmsUser.female","":"cmsUser.secrecy"}/><@p.tr/>
 <@p.password width="50" colspan="1" label="cmsUser.password" id="password" name="password" maxlength="100" required="true" class="required"/>
 <@p.password width="50" colspan="1" label="cmsUser.pwdAgain" required="true" equalTo="#password"/><@p.tr/>
 <@p.select colspan="1" width="50" label="cmsUser.group" name="groupId" list=groupList listKey="id" listValue="name" required="true"/>
-<@p.text width="50" colspan="1" label="content.doc.grain" name="grain" value="0" required="true" class="required digits" maxlength="10"/>
+<@p.select colspan="1" width="50" label="cmsUser.job.department" name="departmentId" list=departmentList  listKey="id" listValue="name" listDeep="deep" headerKey="" headerValue=" " required="true"/>	
 <@p.tr/>
-<@p.text width="50" colspan="1" label="cmsUser.realname" name="realname" maxlength="100"/>
-<@p.radio width="50" colspan="1" label="cmsUser.gender" name="gender" list={"true":"cmsUser.male","false":"cmsUser.female","":"cmsUser.secrecy"}/><@p.tr/>
+<@p.td label="cmsUser.headImg" colspan="1" width="50" noHeight="true">
+<@p.text id="uploadImgPath1" name="userImg"   /> <input type="button" value="<@s.m "imageupload.preview"/>" onclick="previewImg(1);" class="preview-button"/><br/>
+<span id="ufc1" style="position:relative">
+<input type='text' id='uploadFileText1' size="14"/>  
+<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+<input onchange="$('#uploadFileText1').val(this.value)" size="14" type="file" id="uploadFile1" class="file-button"/>
+</span>
+<input type="hidden" id="mark1" value="false"/> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(1);" class="upload-button"/><br/>
+<@s.m "global.width"/>: <input type="text" id="zoomWidth1" value="100" size="5"/> <@s.m "global.height"/>: <input type="text" id="zoomHeight1" value="100" size="5"/> <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(1);" class="cut-button"/> 
+</@p.td><@p.td colspan="1">
+<img id="preImg1" alt="<@s.m "imageupload.preview"/>" noResize="true" style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
+</@p.td><@p.tr/>
+<@p.select colspan="1" width="50" label="cmsUser.nation" name="nationId"  list=nationList listKey="id" listValue="name" required="false"/>
+<@p.select colspan="1" width="50" label="cmsUser.major" name="majorId" list=majorList listKey="id" listValue="name" required="false"/>
+<@p.tr/>
+<@p.select colspan="1" width="50" label="cmsUser.job.title" name="jobTitleId"  list=jobTitleList listKey="id" listValue="name" required="false"/>
+<@p.select colspan="1" width="50" label="cmsUser.job.level" name="jobLevelId"  list=jobLevelList listKey="id" listValue="name" required="false"/>
+<@p.tr/>
+<@p.text width="50" colspan="1" label="cmsUser.caihong.coin" name="grain" value="0" required="true" class="required digits" maxlength="10"/>
+<@p.text width="50" colspan="1" label="cmsUser.fans" name="fans" value="0" required="true" class="required digits" maxlength="10"/>
+<@p.tr/>
+
 <@p.text width="50" colspan="1" label="cmsUser.birthday" name="birthday" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
 <@p.text width="50" colspan="1" label="cmsUser.comefrom" name="comefrom" maxlength="150"/><@p.tr/>
 <@p.text width="50" colspan="1" label="cmsUser.qq" name="qq" maxlength="100"/>

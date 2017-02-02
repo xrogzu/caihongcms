@@ -18,11 +18,11 @@ public interface CmsUserMng {
 	public Pagination getPage(String username, String email, Integer siteId,
 			Integer groupId, Boolean disabled, Boolean admin, Integer rank,
 			String realName,Integer departId,Integer roleId,
-			Boolean allChannel,Boolean allControlChannel,
+			Boolean allChannel,Boolean allControlChannel,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,
 			int pageNo, int pageSize);
 	
 	public List<CmsUser> getList(String username, String email, Integer siteId,
-			Integer groupId, Boolean disabled, Boolean admin, Integer rank);
+			Integer groupId, Boolean disabled, Boolean admin, Integer rank,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo);
 
 	public List<CmsUser> getAdminList(Integer siteId, Boolean allChannel,
 			Boolean disabled, Integer rank);
@@ -36,12 +36,16 @@ public interface CmsUserMng {
 	public CmsUser findByUsername(String username);
 
 	public CmsUser registerMember(String username, String email,String telphone,
-			String password, String ip, Integer groupId,Integer grain, boolean disabled,CmsUserExt userExt,Map<String,String>attr);
+			String password, String ip, Integer groupId,Integer departmentId,Integer grain, boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,CmsUserExt userExt,Map<String,String>attr);
 	
 	public CmsUser registerMember(String username, String email,String telphone,
-			String password, String ip, Integer groupId, boolean disabled,CmsUserExt userExt,Map<String,String>attr, Boolean activation , EmailSender sender, MessageTemplate msgTpl)throws UnsupportedEncodingException, MessagingException ;
+			String password, String ip, Integer groupId, Integer departmentId,boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,CmsUserExt userExt,Map<String,String>attr, Boolean activation , EmailSender sender, MessageTemplate msgTpl)throws UnsupportedEncodingException, MessagingException ;
 
 	public void updateLoginInfo(Integer userId, String ip,Date loginTime,String sessionId);
+	
+	public void updateFansCnt(Integer userId, int cnt);
+	
+	public void updateFollowCnt(Integer userId, int cnt);
 
 	public void updateUploadSize(Integer userId, Integer size);
 	
@@ -66,9 +70,9 @@ public interface CmsUserMng {
 			Integer siteId, Byte step, Boolean allChannel,Boolean allControlChannel);
 
 	public CmsUser updateMember(Integer id, String email,String telphone, String password,
-			Boolean isDisabled, CmsUserExt ext, Integer groupId,Integer grain,Map<String,String>attr);
+			Boolean isDisabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel, String idNo,CmsUserExt ext, Integer groupId,Integer departmentId,Integer grain,Integer fansCnt,Integer followCnt,Map<String,String>attr);
 	
-	public CmsUser updateMember(Integer id, String email, String telphone,String password,Integer groupId,String realname,String mobile,Boolean sex);
+	public CmsUser updateMember(Integer id, String email, String telphone,String password,Integer groupId,Integer departmentId,String realname,String mobile,Boolean sex,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt);
 	
 	public CmsUser updateUserConllection(CmsUser user,Integer cid,Integer operate);
 

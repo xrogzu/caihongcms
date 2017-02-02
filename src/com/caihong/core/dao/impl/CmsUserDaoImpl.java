@@ -3,8 +3,6 @@ package com.caihong.core.dao.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.CacheMode;
-import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +18,7 @@ public class CmsUserDaoImpl extends HibernateBaseDao<CmsUser, Integer>
 	public Pagination getPage(String username, String email, Integer siteId,
 			Integer groupId, Boolean disabled, Boolean admin, Integer rank,
 			String realName,Integer departId,Integer roleId,
-			Boolean allChannel,Boolean allControlChannel,
+			Boolean allChannel,Boolean allControlChannel,Integer nationId,Integer majorId,Integer jobTitleId,Integer jobLevelId,String idNo,
 			int pageNo, int pageSize) {
 		Finder f = Finder.create("select bean from CmsUser bean join bean.userExtSet ext ");
 		if (siteId != null||allChannel!=null||allControlChannel!=null) {
@@ -33,6 +31,26 @@ public class CmsUserDaoImpl extends HibernateBaseDao<CmsUser, Integer>
 		if(siteId!=null){
 			f.append(" and  userSite.site.id=:siteId");
 			f.setParam("siteId", siteId);
+		}
+		if(nationId!=null){
+			f.append(" and  bean.nation.id=:nationId");
+			f.setParam("nationId", nationId);
+		}
+		if(jobTitleId!=null){
+			f.append(" and  bean.jobTitle.id = :jobTitleId");
+			f.setParam("jobTitleId", jobTitleId);
+		}
+		if(jobLevelId!=null){
+			f.append(" and  bean.jobLevel.id = :jobLevelId");
+			f.setParam("jobLevelId", jobLevelId);
+		}
+		if(majorId!=null){
+			f.append(" and  bean.major.id = :majorId");
+			f.setParam("majorId", majorId);
+		}
+		if(!StringUtils.isBlank(idNo)){
+			f.append(" and  bean.idNo = :idNo");
+			f.setParam("idNo", idNo);
 		}
 		if (!StringUtils.isBlank(username)) {
 			f.append(" and bean.username like :username");
@@ -90,7 +108,7 @@ public class CmsUserDaoImpl extends HibernateBaseDao<CmsUser, Integer>
 	
 	@SuppressWarnings("unchecked")
 	public List<CmsUser> getList(String username, String email, Integer siteId,
-			Integer groupId, Boolean disabled, Boolean admin, Integer rank) {
+			Integer groupId, Boolean disabled, Boolean admin, Integer rank,Integer nationId,Integer majorId,Integer jobTitleId,Integer jobLevelId,String idNo) {
 		Finder f = Finder.create("select bean from CmsUser bean");
 		if (siteId != null) {
 			f.append(" join bean.userSites userSite");
@@ -98,6 +116,26 @@ public class CmsUserDaoImpl extends HibernateBaseDao<CmsUser, Integer>
 			f.setParam("siteId", siteId);
 		} else {
 			f.append(" where 1=1");
+		}
+		if(nationId!=null){
+			f.append(" and  bean.nation.id=:nationId");
+			f.setParam("nationId", nationId);
+		}
+		if(jobTitleId!=null){
+			f.append(" and  bean.jobTitle.id = :jobTitleId");
+			f.setParam("jobTitleId", jobTitleId);
+		}
+		if(jobLevelId!=null){
+			f.append(" and  bean.jobLevel.id = :jobLevelId");
+			f.setParam("jobLevelId", jobLevelId);
+		}
+		if(majorId!=null){
+			f.append(" and  bean.major.id = :majorId");
+			f.setParam("major", majorId);
+		}
+		if(!StringUtils.isBlank(idNo)){
+			f.append(" and  bean.idNo = :idNo");
+			f.setParam("idNo", idNo);
 		}
 		if (!StringUtils.isBlank(username)) {
 			f.append(" and bean.username like :username");
@@ -216,4 +254,6 @@ public class CmsUserDaoImpl extends HibernateBaseDao<CmsUser, Integer>
 	protected Class<CmsUser> getEntityClass() {
 		return CmsUser.class;
 	}
+
+	
 }

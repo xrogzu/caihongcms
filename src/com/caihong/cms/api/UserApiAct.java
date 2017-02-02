@@ -120,7 +120,7 @@ public class UserApiAct {
 					userExt.setQq(qq);
 					userExt.setRealname(realname);
 					userExt.setUserImg(userImg);
-					user=cmsUserMng.registerMember(username, email,telphone, loginPassword, ip, null,null,disabled,userExt,attrs);
+					user=cmsUserMng.registerMember(username, email,telphone, loginPassword, ip, null,null,null,disabled,1,null,null,null,null,0,0,userExt,attrs);
 					cmsWebserviceMng.callWebService("false",username, loginPassword, email,telphone, null,userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
 					apiRecordMng.callApiRecord(RequestUtils.getIpAddr(request),
 							appId, "/api/user/add.jspx",sign);
@@ -731,7 +731,7 @@ public class UserApiAct {
 			if(config.getMemberConfig().isCheckOn()){
 				disabled=true;
 			}
-			CmsUser user=cmsUserMng.registerMember(username, null,null, thirdKey, ip, null,null,disabled,userExt,null);
+			CmsUser user=cmsUserMng.registerMember(username, null,null, thirdKey, ip, null,null,null,disabled,1,null,null,null,null,0,0,userExt,null);
 			cmsWebserviceMng.callWebService("false",username, thirdKey, null,null,null, userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
 			//绑定新建的用户
 			thirdAccount=new CmsThirdAccount();

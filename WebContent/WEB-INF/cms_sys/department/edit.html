@@ -151,7 +151,7 @@ function allControlChannels(chk) {
  -->
 <input type="hidden" name="weights" value="1"/>
 <@p.text colspan="2" width="50" label="cms.department.priority" name="priority" value=department.priority required="true" class="required digits" maxlength="10"/><@p.tr/>
-<@p.checkboxlist colspan="2" label="department.guestbookctgs" name="ctgIds" valueList=ctgIds list=ctgList listKey="id" listValue="name" style="float:left;"/><@p.tr/>
+<!-- <@p.checkboxlist colspan="2" label="department.guestbookctgs" name="ctgIds" valueList=ctgIds list=ctgList listKey="id" listValue="name" style="float:left;"/><@p.tr/>
 <@p.td colspan="2" label="department.channels" required="true">
 	<ul id="siteTree" class="filetree">
     	<li><@s.m "cmsUser.site"/>&nbsp;&nbsp;<@s.m "cmsUser.channels"/></li>
@@ -191,7 +191,7 @@ function allControlChannels(chk) {
 		<select id="controlChannels"  multiple="multiple" size="15" style="width:100%; height:auto;"></select>
 	</div>
 <div style="clear:both"></div>
-</@p.td><@p.tr/>
+</@p.td><@p.tr/> -->
 <@p.td colspan="2">
 <@p.hidden name="id" value=department.id/>
 <@p.submit code="global.submit" class="submit"/><@p.reset code="global.reset" class="cancel"/>

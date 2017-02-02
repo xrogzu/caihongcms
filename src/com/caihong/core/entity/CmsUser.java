@@ -533,6 +533,14 @@ public class CmsUser extends BaseCmsUser implements PriorityInterface {
 		if(getGrain()==null){
 			setGrain(0);
 		}
+		if(this.getFansCnt()==null){
+			this.setFansCnt(0);
+		}
+		if(this.getFollowCnt()==null){
+			this.setFollowCnt(0);
+		}
+		
+		
 	}
 
 	public static Integer[] fetchIds(Collection<CmsUser> users) {

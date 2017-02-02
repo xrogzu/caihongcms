@@ -54,7 +54,7 @@ public class CmsAdminLocalAct extends CmsAdminAbstract {
 		Pagination pagination = manager.getPage(queryUsername, queryEmail, site
 				.getId(), queryGroupId, queryDisabled, true,
 				currUser.getRank(), queryRealName,queryDepartId,queryRoleId,
-				queryAllChannel,queryAllControlChannel,
+				queryAllChannel,queryAllControlChannel,null,null,null,null,null,
 				cpn(pageNo), CookieUtils
 						.getPageSize(request));
 		List<CmsRole> roleList = cmsRoleMng.getList(currUser.getTopRoleLevel());
