@@ -10,11 +10,14 @@ import com.caihong.core.entity.CmsUser;
  * 用户DAO接口
  */
 public interface CmsUserDao{
+	public List<CmsUser> getListForTag(Integer nation,Integer major,Integer jobTitle,Integer jobLevel,Integer departId);
+	public Pagination getPageListForTag(Integer nation,Integer major,Integer jobTitle,Integer jobLevel,Integer departId, int pageNo, int pageSize);
 	public Pagination getPage(String username, String email, Integer siteId,
 			Integer groupId, Boolean disabled, Boolean admin, Integer rank,
 			String realName,Integer departId,Integer roleId,
 			Boolean allChannel,Boolean allControlChannel,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,
 			int pageNo, int pageSize);
+	
 	
 	public List<CmsUser> getList(String username, String email, Integer siteId,
 			Integer groupId, Boolean disabled, Boolean admin, Integer rank,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo);

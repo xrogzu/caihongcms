@@ -43,6 +43,11 @@ import com.caihong.core.manager.UnifiedUserMng;
 @Transactional
 public class CmsUserMngImpl implements CmsUserMng {
 	@Transactional(readOnly = true)
+	public List<CmsUser> getListForTag(Integer nationId, Integer majorId, Integer jobTitleId, Integer jobLevelId,
+			Integer departId) {		
+		return dao.getListForTag(nationId, majorId, jobTitleId, jobLevelId, departId);
+	}
+	@Transactional(readOnly = true)
 	public Pagination getPage(String username, String email, Integer siteId,
 			Integer groupId, Boolean disabled, Boolean admin, Integer rank,
 			String realName,Integer departId,Integer roleId,
@@ -581,6 +586,8 @@ public class CmsUserMngImpl implements CmsUserMng {
 	public void setDao(CmsUserDao dao) {
 		this.dao = dao;
 	}
+
+	
 
 	
 

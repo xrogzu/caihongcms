@@ -15,6 +15,57 @@ import com.caihong.core.entity.CmsUser;
 @Repository
 public class CmsUserDaoImpl extends HibernateBaseDao<CmsUser, Integer>
 		implements CmsUserDao {
+	@SuppressWarnings("unchecked")
+	public List<CmsUser> getListForTag(Integer nationId,Integer majorId,Integer jobTitleId,Integer jobLevelId,Integer departId){
+		Finder f = Finder.create("select bean from CmsUser bean join bean.userExtSet ext ");
+		if(nationId!=null){
+			f.append(" and  bean.nation.id=:nationId");
+			f.setParam("nationId", nationId);
+		}
+		if(jobTitleId!=null){
+			f.append(" and  bean.jobTitle.id = :jobTitleId");
+			f.setParam("jobTitleId", jobTitleId);
+		}
+		if(jobLevelId!=null){
+			f.append(" and  bean.jobLevel.id = :jobLevelId");
+			f.setParam("jobLevelId", jobLevelId);
+		}
+		if(majorId!=null){
+			f.append(" and  bean.major.id = :majorId");
+			f.setParam("majorId", majorId);
+		}
+		if(departId!=null){
+			f.append(" and bean.department.id=:departId");
+			f.setParam("departId", departId);
+		}
+		f.setCacheable(true);
+		return find(f);
+	}
+	public Pagination getPageListForTag(Integer nationId,Integer majorId,Integer jobTitleId,Integer jobLevelId,Integer departId, int pageNo, int pageSize){
+		Finder f = Finder.create("select bean from CmsUser bean join bean.userExtSet ext ");
+		if(nationId!=null){
+			f.append(" and  bean.nation.id=:nationId");
+			f.setParam("nationId", nationId);
+		}
+		if(jobTitleId!=null){
+			f.append(" and  bean.jobTitle.id = :jobTitleId");
+			f.setParam("jobTitleId", jobTitleId);
+		}
+		if(jobLevelId!=null){
+			f.append(" and  bean.jobLevel.id = :jobLevelId");
+			f.setParam("jobLevelId", jobLevelId);
+		}
+		if(majorId!=null){
+			f.append(" and  bean.major.id = :majorId");
+			f.setParam("majorId", majorId);
+		}
+		if(departId!=null){
+			f.append(" and bean.department.id=:departId");
+			f.setParam("departId", departId);
+		}
+		f.setCacheable(true);
+		return find(f, pageNo, pageSize);
+	}
 	public Pagination getPage(String username, String email, Integer siteId,
 			Integer groupId, Boolean disabled, Boolean admin, Integer rank,
 			String realName,Integer departId,Integer roleId,

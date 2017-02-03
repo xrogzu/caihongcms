@@ -15,6 +15,7 @@ import com.caihong.core.entity.CmsUser;
 import com.caihong.core.entity.CmsUserExt;
 
 public interface CmsUserMng {
+	public List<CmsUser> getListForTag(Integer nationId,Integer majorId,Integer jobTitleId,Integer jobLevelId,Integer departId);
 	public Pagination getPage(String username, String email, Integer siteId,
 			Integer groupId, Boolean disabled, Boolean admin, Integer rank,
 			String realName,Integer departId,Integer roleId,
