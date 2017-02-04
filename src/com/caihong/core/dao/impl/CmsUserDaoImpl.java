@@ -17,7 +17,7 @@ public class CmsUserDaoImpl extends HibernateBaseDao<CmsUser, Integer>
 		implements CmsUserDao {
 	@SuppressWarnings("unchecked")
 	public List<CmsUser> getListForTag(Integer nationId,Integer majorId,Integer jobTitleId,Integer jobLevelId,Integer departId){
-		Finder f = Finder.create("select bean from CmsUser bean join bean.userExtSet ext ");
+		Finder f = Finder.create("select bean from CmsUser bean join bean.userExtSet ext where  bean.group.id=2");
 		if(nationId!=null){
 			f.append(" and  bean.nation.id=:nationId");
 			f.setParam("nationId", nationId);
@@ -42,7 +42,7 @@ public class CmsUserDaoImpl extends HibernateBaseDao<CmsUser, Integer>
 		return find(f);
 	}
 	public Pagination getPageListForTag(Integer nationId,Integer majorId,Integer jobTitleId,Integer jobLevelId,Integer departId, int pageNo, int pageSize){
-		Finder f = Finder.create("select bean from CmsUser bean join bean.userExtSet ext ");
+		Finder f = Finder.create("select bean from CmsUser bean join bean.userExtSet ext where  bean.group.id=2");
 		if(nationId!=null){
 			f.append(" and  bean.nation.id=:nationId");
 			f.setParam("nationId", nationId);

@@ -47,6 +47,9 @@ public class CmsUserMngImpl implements CmsUserMng {
 			Integer departId) {		
 		return dao.getListForTag(nationId, majorId, jobTitleId, jobLevelId, departId);
 	}
+	public Pagination getPageListForTag(Integer nationId,Integer majorId,Integer jobTitleId,Integer jobLevelId,Integer departId, int pageNo, int pageSize){
+		return dao.getPageListForTag(nationId, majorId, jobTitleId, jobLevelId, departId, pageNo, pageSize);
+	}
 	@Transactional(readOnly = true)
 	public Pagination getPage(String username, String email, Integer siteId,
 			Integer groupId, Boolean disabled, Boolean admin, Integer rank,

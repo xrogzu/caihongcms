@@ -35,6 +35,9 @@
 	<bean id="cms_score_group" class="com.caihong.cms.action.directive.ScoreGroupDirective"/>
 	<bean id="cms_searchword_list" class="com.caihong.cms.action.directive.CmsSearchWordListDirective"/>
 	
+	<bean id="cms_user_list" class="com.caihong.cms.action.directive.CmsUserListDirective"/>
+	<bean id="cms_user_page" class="com.caihong.cms.action.directive.CmsUserPageDirective"/>
+	
 	<!--后台权限标签-->
 	<bean id="cms_perm" class="com.caihong.cms.web.PermistionDirective"/>
 	
