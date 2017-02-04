@@ -49,9 +49,9 @@ $(function() {
 <img id="preImg1" alt="<@s.m "imageupload.preview"/>" noResize="true" style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
 </@p.td><@p.tr/>
 <@p.select colspan="1" width="50" label="cmsUser.nation" name="nationId" value=cmsMember.nation.id list=nationList listKey="id" listValue="name" required="false"/>
-<@p.select colspan="1" width="50" label="cmsUser.major" name="majorId"  list=majorList listKey="id" listValue="name" required="false"/>
+<@p.select colspan="1" width="50" label="cmsUser.major" name="majorId"  value=cmsMember.major.id  list=majorList listKey="id" listValue="name" required="false"/>
 <@p.tr/>
-<@p.select colspan="1" width="50" label="cmsUser.job.title" name="jobTitleId"  list=jobTitleList listKey="id" listValue="name" required="false"/>
+<@p.select colspan="1" width="50" label="cmsUser.job.title" name="jobTitleId"  value=cmsMember.jobTitle.id list=jobTitleList listKey="id" listValue="name" required="false"/>
 <@p.select colspan="1" width="50" label="cmsUser.job.level" name="jobLevelId" value=cmsMember.jobLevel.id list=jobLevelList listKey="id" listValue="name" required="false"/>
 <@p.tr/>
 

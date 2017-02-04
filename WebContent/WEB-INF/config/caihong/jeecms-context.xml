@@ -37,7 +37,7 @@
 	
 	<bean id="cms_user_list" class="com.caihong.cms.action.directive.CmsUserListDirective"/>
 	<bean id="cms_user_page" class="com.caihong.cms.action.directive.CmsUserPageDirective"/>
-	
+	<bean id="cms_user_content" class="com.caihong.cms.action.directive.CmsUserContentDirective"/>
 	<!--后台权限标签-->
 	<bean id="cms_perm" class="com.caihong.cms.web.PermistionDirective"/>
 	

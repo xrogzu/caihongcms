@@ -20,9 +20,10 @@
 	<bean id="rssAct" class="com.caihong.cms.action.front.RssAct"/>
 	<bean id="csiCustomAct" class="com.caihong.cms.action.front.CsiCustomAct"/>
 	<bean id="advertisingAct" class="com.caihong.cms.action.front.AdvertisingAct"/>
+	<bean id="doctorAct" class="com.caihong.cms.action.front.DoctorAct"/>
 	
 	<bean id="casLoginAct" class="com.caihong.cms.action.member.CasLoginAct"/>
-	<bean id="loginAct" class="com.caihong.cms.action.member.LoginAct"/>
+	<bean id="loginAct" class="com.caihong.cms.action.member.LoginAct"/>	
 	<bean id="memberAct" class="com.caihong.cms.action.member.MemberAct"/>
 	<bean id="contributeAct" class="com.caihong.cms.action.member.ContributeAct"/>
 	<bean id="fckAct" class="com.caihong.cms.action.member.FckAct"/>

@@ -21,6 +21,7 @@
 			<value>
 				*.jspx = anon
 				*.jhtml = anon
+				/doctor/** = anon
 				/member/forgot_password.jspx = anon
 				/member/password_reset.jspx = anon
 				/member/jobapply.jspx = anon
