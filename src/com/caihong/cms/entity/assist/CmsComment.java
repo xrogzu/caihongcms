@@ -89,8 +89,7 @@ public class CmsComment extends BaseCmsComment {
 			json.put("parentId", "");
 		}
 		json.put("contentId", getContent().getId());
-		json.put("contentTitle", getContent().getTitle());
-		json.put("channelId", getContent().getChannel().getId());
+		
 		return json;
 	}
 
@@ -111,7 +110,7 @@ public class CmsComment extends BaseCmsComment {
 	 */
 	public CmsComment (
 		java.lang.Integer id,
-		com.caihong.cms.entity.main.Content content,
+		com.caihong.core.entity.CmsUser content,
 		com.caihong.core.entity.CmsSite site,
 		java.util.Date createTime,
 		java.lang.Short ups,

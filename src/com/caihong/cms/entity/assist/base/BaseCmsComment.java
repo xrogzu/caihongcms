@@ -47,7 +47,7 @@ public abstract class BaseCmsComment  implements Serializable {
 	 */
 	public BaseCmsComment (
 		java.lang.Integer id,
-		com.caihong.cms.entity.main.Content content,
+		com.caihong.core.entity.CmsUser content,
 		com.caihong.core.entity.CmsSite site,
 		java.util.Date createTime,
 		java.lang.Short ups,
@@ -92,7 +92,7 @@ public abstract class BaseCmsComment  implements Serializable {
 
 	// many to one
 	private com.caihong.core.entity.CmsUser replayUser;
-	private com.caihong.cms.entity.main.Content content;
+	private com.caihong.core.entity.CmsUser content;
 	private com.caihong.core.entity.CmsUser commentUser;
 	private com.caihong.core.entity.CmsSite site;
 
@@ -274,7 +274,7 @@ public abstract class BaseCmsComment  implements Serializable {
 	/**
 	 * Return the value associated with the column: content_id
 	 */
-	public com.caihong.cms.entity.main.Content getContent () {
+	public com.caihong.core.entity.CmsUser getContent () {
 		return content;
 	}
 
@@ -282,7 +282,7 @@ public abstract class BaseCmsComment  implements Serializable {
 	 * Set the value related to the column: content_id
 	 * @param content the content_id value
 	 */
-	public void setContent (com.caihong.cms.entity.main.Content content) {
+	public void setContent (com.caihong.core.entity.CmsUser content) {
 		this.content = content;
 	}
 

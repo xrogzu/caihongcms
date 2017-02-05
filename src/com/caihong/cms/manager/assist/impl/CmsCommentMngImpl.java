@@ -82,7 +82,7 @@ public class CmsCommentMngImpl implements CmsCommentMng {
 	public CmsComment comment(Integer score,String text, String ip, Integer contentId,
 			Integer siteId, Integer userId, boolean checked, boolean recommend,Integer parentId) {
 		CmsComment comment = new CmsComment();
-		comment.setContent(contentMng.findById(contentId));
+		comment.setContent(cmsUserMng.findById(contentId));
 		comment.setSite(cmsSiteMng.findById(siteId));
 		if (userId != null) {
 			comment.setCommentUser(cmsUserMng.findById(userId));
@@ -106,7 +106,7 @@ public class CmsCommentMngImpl implements CmsCommentMng {
 		dao.save(comment);
 		text = cmsSensitivityMng.replaceSensitivity(text);
 		cmsCommentExtMng.save(ip, text, comment);
-		contentCountMng.commentCount(contentId);
+		cmsUserMng.updateCommentCnt(contentId, 1);
 		return comment;
 	}
 
@@ -166,7 +166,7 @@ public class CmsCommentMngImpl implements CmsCommentMng {
 	private CmsUserMng cmsUserMng;
 	private CmsSiteMng cmsSiteMng;
 	private ContentMng contentMng;
-	private ContentCountMng contentCountMng;
+	
 	private CmsCommentExtMng cmsCommentExtMng;
 	private CmsCommentDao dao;
 
@@ -195,10 +195,7 @@ public class CmsCommentMngImpl implements CmsCommentMng {
 		this.cmsCommentExtMng = cmsCommentExtMng;
 	}
 
-	@Autowired
-	public void setContentCountMng(ContentCountMng contentCountMng) {
-		this.contentCountMng = contentCountMng;
-	}
+	
 
 	@Autowired
 	public void setDao(CmsCommentDao dao) {

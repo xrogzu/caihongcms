@@ -120,6 +120,7 @@ public abstract class BaseCmsUser  implements Serializable {
 	private java.lang.String sessionId;
 	private java.lang.Integer fansCnt;
 	private java.lang.Integer followCnt;	
+	private java.lang.Integer commentCnt;
 	private java.lang.String idNo;
 	
 	// many to one
@@ -730,6 +731,14 @@ public abstract class BaseCmsUser  implements Serializable {
 		this.followCnt = followCnt;
 	}
 
+
+	public java.lang.Integer getCommentCnt() {
+		return commentCnt;
+	}
+
+	public void setCommentCnt(java.lang.Integer commentCnt) {
+		this.commentCnt = commentCnt;
+	}
 
 	public java.lang.String getIdNo() {
 		return idNo;

@@ -1,8 +1,8 @@
 <section class="comments">
-      <h1>评论<span>已有<a class="count" href="${base}/comment.jspx?contentId=${content.id}">
-      ${content.commentsCheckedNum!} </a>条</span>
+      <h1>留言<span>已有<a class="count" href="${base}/comment.jspx?contentId=${doctor.id}">
+      ${doctor.commentCnt} </a>条</span>
       </h1>
-      [#if content.channel.commentControl==0 || ((content.channel.commentControl==1||content.channel.commentControl==3) && user??)]
+      [#if  user??]
       <form id="commentForm" action="${base}/comment.jspx" method="post">
       <textarea name="text" placeholder="发表你此时的观点和想法 ……" class="comments-text" id="comments-text"></textarea>
        [#if user??&&user.group.needCaptcha||!user??]
@@ -15,7 +15,7 @@
 	    </div>
 	
 	    <div class="down clearfix">
-       <input type="hidden" name="contentId" value="${content.id}"/>
+       <input type="hidden" name="contentId" value="${doctor.id}"/>
        <input type="hidden" name="sessionId" id="sessionId" />
       <input type="submit" value="提交评论" class="submit-on">
       </div>
@@ -58,14 +58,13 @@
         });
     });
     </script>
-    [#elseif content.channel.commentControl==1 && !user??]
+    [#else]
     [#--登录评论，且未登录--]
     <div class="down clearfix">
-    <img src="/${res}/images/userImg.png" class="userImg"><span>
-    <a href="${base}/login.jspx?returnUrl=/">登录</a>之后才能发表评论</span>
+  
+    <a href="${base}/login.jspx?">登录</a> 之后才能发表评论</span>
     </div>
-    [#else]
-    [#--不允许评论--]
+   
     [/#if]
 </section> 
 

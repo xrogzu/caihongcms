@@ -194,13 +194,13 @@ public class CommentMemberAct {
 	
 	private  boolean canDeleteComment(CmsComment comment,CmsUser user){
 		//匿名用户评论文章的所有者可以删除
-		if(comment.getCommentUser()==null&&!comment.getContent().getUser().equals(user)){
+		if(comment.getCommentUser()==null){
 			return false;
-		}else if(comment.getCommentUser()==null&&comment.getContent().getUser().equals(user)){
+		}else if(comment.getCommentUser()==null){
 			return true;
 		}else{
 			//非匿名用户评论 文章的所有者可以删除，评论者也可以删除
-			if(comment.getCommentUser().equals(user)||comment.getContent().getUser().equals(user)){
+			if(comment.getCommentUser().equals(user)){
 				return true;
 			}else{
 				return false;

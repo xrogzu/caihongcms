@@ -202,6 +202,17 @@ public class CmsUserMngImpl implements CmsUserMng {
 		}
 	}
 	
+	public void updateCommentCnt(Integer userId, int cnt){
+		CmsUser user = findById(userId);
+		if (user != null) {
+			if((user.getCommentCnt() + cnt)<0){
+				user.setFansCnt(0);
+			}else{
+				user.setCommentCnt(user.getFansCnt() + cnt);	
+			}
+		}
+	}
+	
 	public void updateFansCnt(Integer userId, int cnt){
 		CmsUser user = findById(userId);
 		if (user != null) {

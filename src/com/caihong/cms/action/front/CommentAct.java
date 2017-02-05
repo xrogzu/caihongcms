@@ -32,6 +32,7 @@ import com.caihong.common.web.ResponseUtils;
 import com.caihong.common.web.session.SessionProvider;
 import com.caihong.core.entity.CmsSite;
 import com.caihong.core.entity.CmsUser;
+import com.caihong.core.manager.CmsUserMng;
 import com.caihong.core.web.util.CmsUtils;
 import com.caihong.core.web.util.FrontUtils;
 import com.octo.captcha.service.CaptchaServiceException;
@@ -117,14 +118,9 @@ public class CommentAct {
 		} else {
 			rec = null;
 		}
-		Boolean chk;
-		if (checked != null) {
-			chk = checked != 0;
-		} else {
-			chk = null;
-		}
+		
 		List<CmsComment> list = cmsCommentMng.getListForTag(siteId, contentId,
-				parentId,greatTo, chk, rec, desc, 0,count);
+				parentId,greatTo, null, rec, desc, 0,count);
 		// 将request中所有参数
 		model.putAll(RequestUtils.getQueryParams(request));
 		model.addAttribute("list", list);
@@ -156,7 +152,7 @@ public class CommentAct {
 			ResponseUtils.renderJson(response, json.toString());
 			return;
 		}
-		if (user == null || user.getGroup().getNeedCaptcha()) {
+		if (user!= null && user.getGroup().getNeedCaptcha()) {
 			// 验证码错误
 			try {
 				if (!imageCaptchaService.validateResponseForID(session
@@ -174,38 +170,19 @@ public class CommentAct {
 				return;
 			}
 		}
-		Content content = contentMng.findById(contentId);
-		if (content == null) {
+		CmsUser doctor=cmsUserMng.findById(contentId);		
+		if (doctor == null) {
 			// 内容不存在
 			json.put("success", false);
 			json.put("status", 2);
-		} else if (content.getChannel().getCommentControl() == ChannelExt.COMMENT_OFF) {
-			// 评论关闭
-			json.put("success", false);
-			json.put("status", 3);
-		} else if ((content.getChannel().getCommentControl() == ChannelExt.COMMENT_LOGIN|content.getChannel().getCommentControl() == ChannelExt.COMMENT_LOGIN_MANY)
-				&& user == null) {
-			// 需要登录才能评论
-			json.put("success", false);
-			json.put("status", 4);
-		}else if(content.getChannel().getCommentControl() == ChannelExt.COMMENT_LOGIN&&user!=null){
-			if (hasCommented(user, content)) {
-				// 已经评论过，不能重复评论
-				json.put("success", false);
-				json.put("status", 5);
-			}
-		}else {
+		} else {
 			boolean checked = false;
 			Integer userId = null;
 			if (user != null) {
 				checked = !user.getGroup().getNeedCheck();
 				userId = user.getId();
 			}
-			ContentDoc doc=content.getContentDoc();
-			if(doc!=null){
-				doc.setAvgScore(getNewAvgScore(content, score));
-				contentDocMng.update(doc,content);
-			}
+			
 			cmsCommentMng.comment(score,text, RequestUtils.getIpAddr(request),
 					contentId, site.getId(), userId, checked, false,parentId);
 			json.put("success", true);
@@ -263,6 +240,8 @@ public class CommentAct {
 	private CmsCommentMng cmsCommentMng;
 	@Autowired
 	private ContentMng contentMng;
+	@Autowired
+	private CmsUserMng cmsUserMng;
 	@Autowired
 	private ContentDocMng contentDocMng;
 	@Autowired
