@@ -183,6 +183,7 @@
 	<bean id="apiRecordMng" class="com.caihong.cms.manager.main.impl.ApiRecordMngImpl"/>
 	<bean id="apiUserLoginMng" class="com.caihong.cms.manager.main.impl.ApiUserLoginMngImpl"/>	
 	<bean id="smsSendRecordMng" class="com.caihong.cms.manager.main.impl.SmsSendRecordMngImpl"/>
+	<bean id="userFollowMng" class="com.caihong.cms.manager.main.impl.UserFollowMngImpl"/>
 	
 	<!--DAO-->
 	<bean id="channelDao" class="com.caihong.cms.dao.main.impl.ChannelDaoImpl"/>
@@ -286,4 +287,5 @@
 	<bean id="apiRecordDao" class="com.caihong.cms.dao.main.impl.ApiRecordDaoImpl"/>
 	<bean id="apiUserLoginDao" class="com.caihong.cms.dao.main.impl.ApiUserLoginDaoImpl"/>
 	<bean id="smsSendRecordDao" class="com.caihong.cms.dao.main.impl.SmsSendRecordDaoImpl"/>
+	<bean id="userFollowDao" class="com.caihong.cms.dao.main.impl.UserFollowDaoImpl"/>
 </beans>

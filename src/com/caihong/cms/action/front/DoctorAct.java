@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.caihong.cms.entity.assist.CmsComment;
 import com.caihong.cms.manager.assist.CmsCommentMng;
+import com.caihong.cms.manager.main.UserFollowMng;
 import com.caihong.cms.ws.Topic;
 import com.caihong.cms.ws.TopicHttpSender;
 import com.caihong.core.entity.CmsSite;
@@ -38,6 +39,8 @@ public class DoctorAct {
 	private CmsUserMng cmsUserMng;
 	@Autowired
 	private CmsCommentMng cmsCommentMng;
+	@Autowired
+	private UserFollowMng userFollowMng;
 	@RequestMapping(value="/blog/{username}.jspx")
 	public String viewDoctor( @PathVariable(value="username")String username,HttpServletRequest request,HttpServletResponse response,ModelMap model){
 		WebErrors errors=WebErrors.create(request);
@@ -51,7 +54,12 @@ public class DoctorAct {
 			CmsUser doctor = cmsUserMng.findByUsername(username);
 		    if(doctor!=null){	 	   
 			  		model.addAttribute("doctor", doctor);
-			  		model.addAttribute("user", user);
+			  		if(user!=null){
+			  			model.addAttribute("user", user);
+			  			if(userFollowMng.findByFollowUser(user.getId(), doctor.getId())!=null){
+			  				model.addAttribute("followed", 1);
+			  			}
+			  		}
 			  		List<Topic> list=TopicHttpSender.getUserTopic(username,null, null);
 			  		if(list.size()>0){
 			  			model.addAttribute("topList", list);

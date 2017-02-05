@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.caihong.cms.entity.main">
+	<class name="UserFollow" table="jc_user_follow">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="id"><generator class="identity"/></id>			
+		<property name="time" column="time" type="timestamp" not-null="false" length="19"/>
+		<many-to-one name="user" column="user_id" class="com.caihong.core.entity.CmsUser" not-null="true"></many-to-one>
+		<many-to-one name="followUser" column="follow_user_id" class="com.caihong.core.entity.CmsUser" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

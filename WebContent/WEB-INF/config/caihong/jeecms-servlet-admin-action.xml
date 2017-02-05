@@ -13,6 +13,7 @@
 	<bean id="cmsLoginAct" class="com.caihong.cms.action.admin.CmsLoginAct"/>
 	<bean id="welcomeAct" class="com.caihong.cms.action.admin.WelcomeAct"/>
 	<bean id="smsSendRecordAct" class="com.caihong.cms.action.admin.main.SmsSendRecordAct"/>
+	<bean id="userFollowAct" class="com.caihong.cms.action.admin.main.UserFollowAct"/>
 	<!--菜单涉及到插件-->
 	<bean id="frameAct" class="com.caihong.cms.action.admin.FrameAct">
 		<property name="menus" value="#{propertyUtils.getMap('plug.menu.')}"></property>
