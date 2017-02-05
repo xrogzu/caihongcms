@@ -92,7 +92,12 @@ public class DoctorAct {
 			CmsUser doctor = cmsUserMng.findById(id);
 		    if(doctor!=null){	 	   
 			  		model.addAttribute("doctor", doctor);
-			  		model.addAttribute("user", user);
+			  		if(user!=null){
+			  			model.addAttribute("user", user);
+			  			if(userFollowMng.findByFollowUser(user.getId(), doctor.getId())!=null){
+			  				model.addAttribute("followed", 1);
+			  			}
+			  		}
 			  		
 			  		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 			  				TPLDIR_SPECIAL, DOCTOR_MESSAGE);

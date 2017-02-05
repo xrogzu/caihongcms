@@ -26,8 +26,54 @@
 <script type="text/javascript" src="${resSys}/blog/list-default-index.js"></script>
 <script src="${resSys}/front.js" type="text/javascript"></script>
 <script type="text/javascript" src="/${res}/js/jquery.SuperSlide.js"></script>
+<script type="text/javascript">
+function follow(uid,fuid){
+	$.ajax({
+	    url:'${base}/follow.jspx',
+	    type:'POST', //GET
+	    async:false,    //或false,是否异步
+	    data:{
+	    	userid:uid,follow_userid:fuid
+	    },	   
+	    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text	   
+	    success:function(data){
+	        if(data){
+	        	alert("关注成功！");
+	        	 window.location.reload();
+	        }else{
+	        	alert("关注失败！");
+	        }
+	    },
+	    error:function(){
+	       alert("系统异常");
+	    }
+});
+}
+function unfollow(uid,fuid){		
+	if(confirm("确定要取消关注吗？")){
+		$.ajax({
+		    url:'${base}/unfollow.jspx',
+		    type:'POST', //GET
+		    async:false,    //或false,是否异步
+		    data:{
+		    	userid:uid,follow_userid:fuid
+		    },	   
+		    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text	   
+		    success:function(data){
+		        if(data){
+		        	alert("取消关注成功！");
+		        	 window.location.reload();
+		        }else{
+		        	alert("取消关注失败！");
+		        }
+		    },
+		    error:function(){
+		       alert("系统异常");
+		    }
+	});
+	}
+}
 
-<script type="text/javascript"> 
 jQuery(document).ready(function($){ 
 $('.content-comment').click(function(){
 	$('html,body').animate({scrollTop:$('#comments-text').offset().top}, 1000)
@@ -107,7 +153,9 @@ $(function(){
         <li>粉丝数：${doctor.fansCnt!}</li>
        
         <li class="clearfix">                       
-            [#if user??&&user.id!=doctor.id] <a href="javascript:void(0);" class="btn2 btn-add" data-tuserid="24750" title="关注">加关注</a>[/#if]
+             [#if followed??] <a href="javascript:unfollow('${user.id!}','${doctor.id!}');" class="btn2 btn-add"  title="取消关注">取消关注</a>
+             [#elseif user??&&user.id!=doctor.id] <a href="javascript:follow('${user.id!}','${doctor.id!}');" class="btn2 btn-add" title="关注">加关注</a>
+             [/#if]
             <a href="${base}/blog/${doctor.username}/shang.jspx" class="btn2 btn-msg sendMessage" >打赏</a>
         </li>
     </ul>
