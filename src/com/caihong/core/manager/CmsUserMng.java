@@ -51,6 +51,8 @@ public interface CmsUserMng {
 	public void updateCommentCnt(Integer userId, int cnt);
 	
 	public void updateFollowCnt(Integer userId, int cnt);
+	
+	public void updateGrainCnt(String username,int cnt);
 
 	public void updateUploadSize(Integer userId, Integer size);
 	

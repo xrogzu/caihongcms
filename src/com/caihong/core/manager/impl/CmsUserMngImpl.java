@@ -600,6 +600,19 @@ public class CmsUserMngImpl implements CmsUserMng {
 	public void setDao(CmsUserDao dao) {
 		this.dao = dao;
 	}
+	@Override
+	public void updateGrainCnt(String username, int cnt) {
+		// TODO Auto-generated method stub
+		CmsUser user=dao.findByUsername(username);
+		if(user!=null){
+			if((user.getGrain()+cnt)<0){
+				user.setGrain(0);
+			}else{
+				user.setGrain(user.getGrain()+cnt);
+			}
+		}
+		
+	}
 
 	
 
