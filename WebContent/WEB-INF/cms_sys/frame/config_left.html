@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<title>jeecms-left</title>
+<title>left</title>
 <#include "/cms_sys/head.html"/>
 <script type="text/javascript">
 $(function() {
@@ -94,9 +94,7 @@ $(function() {
                 <@cms_perm url="/config/v_firewall.do">
 		        <div class="leftmenuBG"><a href="../config/v_firewall.do" target="rightFrame"><@s.m "cmsConfig.function.firewall"/></a></div>
 		        </@cms_perm>
-		        <@cms_perm url="/config/v_content_charge.do">
-		        <div class="leftmenuBG"><a href="../config/v_content_charge.do" target="rightFrame"><@s.m "cmsConfigContentCharge.function"/></a></div>
-		        </@cms_perm>
+		      
 				<@cms_perm url="/site_config/v_company_edit.do">
 				<div class="leftmenuBG"><a href="../site_config/v_company_edit.do" target="rightFrame"><@s.m "cmsSiteConfig.function.company"/></a></div>
 				</@cms_perm>   
@@ -104,6 +102,7 @@ $(function() {
 		        <div class="leftmenuBG"><a href="../config/v_attr_edit.do" target="rightFrame"><@s.m "cmsConfig.function.attrs"/></a></div>
 		        </@cms_perm>
             </div>
+       
         <@cms_perm url="/webservice/v_list.do">
 		<h3 class="h3"><@s.m "cmsWebservice.function"/></a></h3>
 		</@cms_perm>
@@ -135,6 +134,9 @@ $(function() {
 		</@cms_perm>
         </div>  
         <ol>
+        <@cms_perm url="/GrainBuyConfig/v_list.do">
+		<li><a href="../GrainBuyConfig/v_list.do" target="rightFrame"><@s.m "grainBuyConf.function"/></a></li>
+		</@cms_perm>
 		<@cms_perm url="/model/v_list.do">
 		<li><a href="../model/v_list.do" target="rightFrame"><@s.m "cmsModel.function"/></a></li>
 		</@cms_perm>

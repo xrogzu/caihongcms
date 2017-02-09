@@ -14,12 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import com.caihong.cms.entity.main.Channel;
+import com.caihong.cms.entity.main.GrainDetail;
 import com.caihong.cms.manager.main.ChannelMng;
 import com.caihong.cms.manager.main.ContentMng;
+import com.caihong.cms.manager.main.GrainDetailMng;
+import com.caihong.cms.ws.TopicHttpSender;
 import com.caihong.common.email.EmailSender;
 import com.caihong.common.email.MessageTemplate;
 import com.caihong.common.hibernate4.Updater;
 import com.caihong.common.page.Pagination;
+import com.caihong.common.web.GetGrainType;
 import com.caihong.core.dao.CmsUserDao;
 import com.caihong.core.entity.CmsDepartment;
 import com.caihong.core.entity.CmsGroup;
@@ -99,7 +103,7 @@ public class CmsUserMngImpl implements CmsUserMng {
 	}
 
 	public CmsUser registerMember(String username, String email,String telphone,
-			String password, String ip, Integer groupId,Integer departmentId,Integer grain,boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,CmsUserExt userExt,Map<String,String>attr){
+			String password, String ip, Integer groupId,Integer departmentId,Integer grain,boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,CmsUserExt userExt,Map<String,String>attr,Integer prestige){
 		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,telphone,
 				password, ip);
 		CmsUser user = new CmsUser();
@@ -119,7 +123,9 @@ public class CmsUserMngImpl implements CmsUserMng {
 		if(jobTitle!=null){
 			user.setJobTitle(cmsDictionaryMng.findById(jobTitle));
 		}
-		
+		if(prestige!=null){
+			user.setGrain(prestige);
+		}
 		user.setIdNo(idNo);
 		user.setFansCnt(fansCnt);
 		user.setFollowCnt(followCnt);
@@ -138,14 +144,29 @@ public class CmsUserMngImpl implements CmsUserMng {
 		}
 		user.setGroup(group);
 		user.init();
-		dao.save(user);
+		user=dao.save(user);
+		saveGrainDetail(user,null,user.getGrain(),GetGrainType.REG);
 		cmsUserExtMng.save(userExt, user);
 		return user;
 	}
 
+	public void saveGrainDetail(CmsUser user,CmsUser fromUser,Integer grain,GetGrainType type){
+		GrainDetail detail=new GrainDetail();
+		detail.setUser(user);
+		if(fromUser!=null){
+			detail.setFromUser(fromUser);
+		}
+		detail.setGrainCnt(grain);
+		detail.setType(type.getValue());
+		detail.setTime(new Date());
+		grainDetailMng.save(detail);
+		if(type!=GetGrainType.REG){
+			TopicHttpSender.updateGrain(user.getUsername(), grain);//注册不同步，接口请求修改
+		}
+	}
 	
 	public CmsUser registerMember(String username, String email,String telphone,
-			String password, String ip, Integer groupId,Integer departmentId, boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,CmsUserExt userExt,Map<String,String>attr,
+			String password, String ip, Integer groupId,Integer departmentId, boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt, Integer prestige,CmsUserExt userExt,Map<String,String>attr,
 			Boolean activation, EmailSender sender, MessageTemplate msgTpl)throws UnsupportedEncodingException, MessagingException{
 		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,telphone,
 				password, ip, activation, sender, msgTpl);
@@ -168,6 +189,9 @@ public class CmsUserMngImpl implements CmsUserMng {
 		user.setIdNo(idNo);
 		user.setFansCnt(fansCnt);
 		user.setFollowCnt(followCnt);
+		if( prestige!=null){
+			user.setGrain(prestige);
+		}
 		CmsGroup group = null;
 		if (groupId != null) {
 			group = cmsGroupMng.findById(groupId);
@@ -183,7 +207,9 @@ public class CmsUserMngImpl implements CmsUserMng {
 		}
 		user.setGroup(group);
 		user.init();
-		dao.save(user);
+		user=dao.save(user);
+		this.saveGrainDetail(user, null, user.getGrain(), GetGrainType.REG);
+		
 		cmsUserExtMng.save(userExt, user);
 		return user;
 	}
@@ -233,8 +259,26 @@ public class CmsUserMngImpl implements CmsUserMng {
 				user.setFollowCnt(user.getFollowCnt() + cnt);	
 			}
 		}
+		
 	}
-
+	public CmsUser updateGrainCnt(String username, int cnt,GetGrainType type) {
+		CmsUser user=dao.findByUsername(username);
+		
+		return updateGrainCnt(user,null,cnt,type);
+	}
+	public CmsUser updateGrainCnt(CmsUser user,CmsUser fromuser,int cnt,GetGrainType type){
+		if(user!=null){
+			if((user.getGrain()+cnt)<0){
+				user.setGrain(0);
+			}else{
+				user.setGrain(user.getGrain()+cnt);
+			}
+			
+			saveGrainDetail(user, fromuser, cnt, type);//插入记录
+		}
+		
+		return user;
+	}
 	public void updateUploadSize(Integer userId, Integer size) {
 		CmsUser user = findById(userId);
 		user.setUploadTotal(user.getUploadTotal() + size);
@@ -555,6 +599,8 @@ public class CmsUserMngImpl implements CmsUserMng {
 	private CmsWorkflowEventMng workflowEventMng;	
 	@Autowired
 	private CmsDictionaryMng cmsDictionaryMng;
+	@Autowired
+	private GrainDetailMng grainDetailMng;
 
 	@Autowired
 	public void setCmsUserSiteMng(CmsUserSiteMng cmsUserSiteMng) {
@@ -600,22 +646,6 @@ public class CmsUserMngImpl implements CmsUserMng {
 	public void setDao(CmsUserDao dao) {
 		this.dao = dao;
 	}
-	@Override
-	public void updateGrainCnt(String username, int cnt) {
-		// TODO Auto-generated method stub
-		CmsUser user=dao.findByUsername(username);
-		if(user!=null){
-			if((user.getGrain()+cnt)<0){
-				user.setGrain(0);
-			}else{
-				user.setGrain(user.getGrain()+cnt);
-			}
-		}
-		
-	}
-
-	
-
 	
 
 }

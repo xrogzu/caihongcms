@@ -35,7 +35,22 @@ public class TopicHttpSender {
 		}
 		return list;
 	}
-
+	
+	/**
+	 * 彩虹币同步
+	 * @param username
+	 * @param grain
+	 * @return
+	 */
+	public static boolean updateGrain(String username,Integer grain){
+		
+		String url="http://bbs.caihongyixue.com/ws/updateGrain.jspx?username="+username+"&prestige="+grain;
+		String out=HttpClientUtil.getInstance().get(url);
+		if(!out.equals("0")){
+			return true;
+		}
+		return false;
+	}
 	
 	public static void main(String[] args) {
 		List<Topic> list=TopicHttpSender.getUserTopic("admin", 1, 10);

@@ -23,6 +23,7 @@ import com.caihong.cms.entity.assist.CmsWebservice;
 import com.caihong.common.page.Pagination;
 import com.caihong.common.web.CookieUtils;
 import com.caihong.common.web.RequestUtils;
+import com.caihong.core.entity.CmsConfig;
 import com.caihong.core.entity.CmsDepartment;
 import com.caihong.core.entity.CmsGroup;
 import com.caihong.core.entity.CmsRole;
@@ -133,7 +134,8 @@ public class CmsAdminLocalAct extends CmsAdminAbstract {
 		bean = manager.saveAdmin(username, email,telphone, password, ip, false,
 				selfAdmin, rank, groupId, departmentId,roleIds, channelIds,
 				siteIds, steps, allChannels,allControlChannels, ext);
-		cmsWebserviceMng.callWebService("true",username, password, email,telphone,groupId+"", ext,CmsWebservice.SERVICE_TYPE_ADD_USER);
+		CmsConfig config=site.getConfig();
+		cmsWebserviceMng.callWebService("true",username, password, email,telphone,groupId+"",config.getMemberConfig().getRegisterSendGrain(), ext,CmsWebservice.SERVICE_TYPE_ADD_USER);
 		log.info("save CmsAdmin id={}", bean.getId());
 		cmsLogMng.operating(request, "cmsUser.log.save", "id=" + bean.getId()
 				+ ";username=" + bean.getUsername());
@@ -155,7 +157,7 @@ public class CmsAdminLocalAct extends CmsAdminAbstract {
 			return errors.showErrorPage(model);
 		}
 		bean = manager.updateAdmin(bean, ext, password, groupId,departmentId, roleIds,channelIds, site.getId(), step, allChannel,allControlChannel);
-		cmsWebserviceMng.callWebService("true",bean.getUsername(), password, null, null,groupId+"",ext,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
+		cmsWebserviceMng.callWebService("true",bean.getUsername(), password, null, null,groupId+"",null,ext,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
 		log.info("update CmsAdmin id={}.", bean.getId());
 		cmsLogMng.operating(request, "cmsUser.log.update", "id=" + bean.getId()
 				+ ";username=" + bean.getUsername());

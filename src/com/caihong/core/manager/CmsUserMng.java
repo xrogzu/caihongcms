@@ -10,6 +10,7 @@ import javax.mail.MessagingException;
 import com.caihong.common.email.EmailSender;
 import com.caihong.common.email.MessageTemplate;
 import com.caihong.common.page.Pagination;
+import com.caihong.common.web.GetGrainType;
 import com.caihong.core.entity.CmsSite;
 import com.caihong.core.entity.CmsUser;
 import com.caihong.core.entity.CmsUserExt;
@@ -39,10 +40,10 @@ public interface CmsUserMng {
 	public CmsUser findByUsername(String username);
 
 	public CmsUser registerMember(String username, String email,String telphone,
-			String password, String ip, Integer groupId,Integer departmentId,Integer grain, boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,CmsUserExt userExt,Map<String,String>attr);
+			String password, String ip, Integer groupId,Integer departmentId,Integer grain, boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,CmsUserExt userExt,Map<String,String>attr,Integer prestige);
 	
 	public CmsUser registerMember(String username, String email,String telphone,
-			String password, String ip, Integer groupId, Integer departmentId,boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,CmsUserExt userExt,Map<String,String>attr, Boolean activation , EmailSender sender, MessageTemplate msgTpl)throws UnsupportedEncodingException, MessagingException ;
+			String password, String ip, Integer groupId, Integer departmentId,boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,Integer prestige,CmsUserExt userExt,Map<String,String>attr, Boolean activation , EmailSender sender, MessageTemplate msgTpl)throws UnsupportedEncodingException, MessagingException ;
 
 	public void updateLoginInfo(Integer userId, String ip,Date loginTime,String sessionId);
 	
@@ -52,7 +53,9 @@ public interface CmsUserMng {
 	
 	public void updateFollowCnt(Integer userId, int cnt);
 	
-	public void updateGrainCnt(String username,int cnt);
+	public CmsUser updateGrainCnt(String username,int cnt,GetGrainType type);
+	
+	public CmsUser updateGrainCnt(CmsUser user,CmsUser fromuser,int cnt,GetGrainType type);
 
 	public void updateUploadSize(Integer userId, Integer size);
 	

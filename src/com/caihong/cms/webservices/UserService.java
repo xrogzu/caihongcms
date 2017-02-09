@@ -33,7 +33,7 @@ public class UserService  extends SpringBeanAutowiringSupport{
 	
 	public String addUser(String auth_username,String auth_password,String admin,String username,String telphone
 			,String password,String email,String realname,String sex,String tel,String groupId,
-			String rank,String departmentId,String role,String site,String allChannel,String allControlChannel) {
+			String rank,String departmentId,String role,String site,String allChannel,String allControlChannel,String prestige) {
 		String responseCode=RESPONSE_CODE_AUTH_ERROR;
 		if(validate(auth_username, auth_password)){
 			if(StringUtils.isBlank(username)||StringUtils.isBlank(password)){
@@ -62,7 +62,7 @@ public class UserService  extends SpringBeanAutowiringSupport{
 						group=cmsGroupMng.getRegDef();
 					}
 					if(admin.equals("false")){
-						cmsUserMng.registerMember(username, telphone,email, password, LOCAL_IP, group.getId(),null, null, false,1,null,null,null,null,0,0, userExt, null);
+						cmsUserMng.registerMember(username, telphone,email, password, LOCAL_IP, group.getId(),null, null, false,1,null,null,null,null,0,0, userExt, null,prestige==null?null:new Integer(prestige));
 					}else if(admin.equals("true")){
 						Integer rankInt=1;
 						if(StringUtils.isNotBlank(rank)){

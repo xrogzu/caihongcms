@@ -151,7 +151,7 @@ public class MemberAct {
 		ext.setId(user.getId());
 		ext=cmsUserExtMng.update(ext, user);
 		cmsWebserviceMng.callWebService("false",user.getUsername(), null, 
-				user.getEmail(),user.getTelphone(),null, ext,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
+				user.getEmail(),user.getTelphone(),null,null, ext,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
 		log.info("update CmsUserExt success. id={}", user.getId());
 		return FrontUtils.showSuccess(request, model, nextUrl);
 	}
@@ -227,7 +227,7 @@ public class MemberAct {
 		}
 		cmsUserMng.updatePwdEmail(user.getId(), newPwd, email,telphone);
 		cmsWebserviceMng.callWebService("false",user.getUsername(), newPwd, 
-				email,telphone, null,null,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
+				email,telphone, null,null,null,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
 		return FrontUtils.showSuccess(request, model, nextUrl);
 	}
 	

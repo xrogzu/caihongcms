@@ -183,7 +183,9 @@
 	<bean id="apiRecordMng" class="com.caihong.cms.manager.main.impl.ApiRecordMngImpl"/>
 	<bean id="apiUserLoginMng" class="com.caihong.cms.manager.main.impl.ApiUserLoginMngImpl"/>	
 	<bean id="smsSendRecordMng" class="com.caihong.cms.manager.main.impl.SmsSendRecordMngImpl"/>
-	<bean id="userFollowMng" class="com.caihong.cms.manager.main.impl.UserFollowMngImpl"/>
+	<bean id="userFollowMng" class="com.caihong.cms.manager.main.impl.UserFollowMngImpl"/>	
+	<bean id="grainDetailMng" class="com.caihong.cms.manager.main.impl.GrainDetailMngImpl"/>
+	<bean id="grainBuyConfigMng" class="com.caihong.cms.manager.main.impl.GrainBuyConfigMngImpl"/>
 	
 	<!--DAO-->
 	<bean id="channelDao" class="com.caihong.cms.dao.main.impl.ChannelDaoImpl"/>
@@ -288,4 +290,6 @@
 	<bean id="apiUserLoginDao" class="com.caihong.cms.dao.main.impl.ApiUserLoginDaoImpl"/>
 	<bean id="smsSendRecordDao" class="com.caihong.cms.dao.main.impl.SmsSendRecordDaoImpl"/>
 	<bean id="userFollowDao" class="com.caihong.cms.dao.main.impl.UserFollowDaoImpl"/>
+	<bean id="grainDetailDao" class="com.caihong.cms.dao.main.impl.GrainDetailDaoImpl"/>
+	<bean id="grainBuyConfigDao" class="com.caihong.cms.dao.main.impl.GrainBuyConfigDaoImpl"/>
 </beans>

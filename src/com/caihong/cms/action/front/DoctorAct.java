@@ -21,6 +21,8 @@ import com.caihong.cms.manager.assist.CmsCommentMng;
 import com.caihong.cms.manager.main.UserFollowMng;
 import com.caihong.cms.ws.Topic;
 import com.caihong.cms.ws.TopicHttpSender;
+import com.caihong.common.web.GetGrainType;
+import com.caihong.common.web.ResponseUtils;
 import com.caihong.core.entity.CmsSite;
 import com.caihong.core.entity.CmsUser;
 import com.caihong.core.manager.CmsUserMng;
@@ -109,5 +111,18 @@ public class DoctorAct {
 		}
 	}
 	
-	
+	@RequestMapping("/ws/updateGrain.jspx")
+	public void updateGrain(HttpServletResponse response,String username,Integer prestige){
+		if(username==null||username.equals("")){
+			ResponseUtils.renderJson(response, "0");
+		}else{
+			
+				CmsUser user=cmsUserMng.updateGrainCnt(username, prestige,GetGrainType.BBS);
+				if(user!=null){
+					ResponseUtils.renderJson(response, "1");
+				}else{
+					ResponseUtils.renderJson(response, "0");
+			}
+		}
+	}
 }

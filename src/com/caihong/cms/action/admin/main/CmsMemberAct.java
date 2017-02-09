@@ -3,6 +3,7 @@ package com.caihong.cms.action.admin.main;
 import static com.caihong.common.page.SimplePage.cpn;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,11 +21,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.caihong.cms.entity.assist.CmsWebservice;
+import com.caihong.cms.entity.main.GrainDetail;
 import com.caihong.cms.manager.assist.CmsWebserviceMng;
+import com.caihong.cms.manager.main.GrainDetailMng;
 import com.caihong.common.page.Pagination;
 import com.caihong.common.web.CookieUtils;
+import com.caihong.common.web.GetGrainType;
 import com.caihong.common.web.RequestUtils;
 import com.caihong.common.web.ResponseUtils;
+import com.caihong.core.entity.CmsConfig;
 import com.caihong.core.entity.CmsConfigItem;
 import com.caihong.core.entity.CmsDepartment;
 import com.caihong.core.entity.CmsDictionary;
@@ -158,10 +163,13 @@ public class CmsMemberAct {
 		if (errors.hasErrors()) {
 			return errors.showErrorPage(model);
 		}
+		CmsSite site = CmsUtils.getSite(request);
+		CmsConfig config=site.getConfig();
 		String ip = RequestUtils.getIpAddr(request);
 		Map<String,String>attrs=RequestUtils.getRequestMap(request, "attr_");
-		bean = manager.registerMember(username, email, password,telphone, ip, groupId,departmentId,grain,false, nationId, majorId, jobTitleId,jobLevelId, idNo, fansCnt, followCnt,ext,attrs);
-		cmsWebserviceMng.callWebService("false",username, password, email, telphone,groupId+"",ext,CmsWebservice.SERVICE_TYPE_ADD_USER);
+		bean = manager.registerMember(username, email, password,telphone, ip, groupId,departmentId,grain,false, nationId, majorId, jobTitleId,jobLevelId, idNo, fansCnt, followCnt,ext,attrs,config.getMemberConfig().getRegisterSendGrain());
+		
+		cmsWebserviceMng.callWebService("false",username, password, email, telphone,groupId+"",config.getMemberConfig().getRegisterSendGrain(),ext,CmsWebservice.SERVICE_TYPE_ADD_USER);
 		log.info("save CmsMember id={}", bean.getId());
 		cmsLogMng.operating(request, "cmsMember.log.save", "id=" + bean.getId()
 				+ ";username=" + bean.getUsername());
@@ -181,7 +189,7 @@ public class CmsMemberAct {
 		}
 		Map<String,String>attrs=RequestUtils.getRequestMap(request, "attr_");
 		CmsUser bean = manager.updateMember(id, email, telphone,password, disabled, nationId, majorId, jobTitleId,jobLevelId, idNo,ext,groupId,departmentId,grain, fansCnt, followCnt,attrs);
-		cmsWebserviceMng.callWebService("false",bean.getUsername(), password, email,telphone, groupId+"",ext,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
+		cmsWebserviceMng.callWebService("false",bean.getUsername(), password, email,telphone, groupId+"",null,ext,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
 		log.info("update CmsMember id={}.", bean.getId());
 		cmsLogMng.operating(request, "cmsMember.log.update", "id="
 				+ bean.getId() + ";username=" + bean.getUsername());
@@ -296,6 +304,7 @@ public class CmsMemberAct {
 		}
 		return false;
 	}
+	
 	@Autowired
 	private CmsDepartmentMng cmsDepartmentMng;
 	@Autowired

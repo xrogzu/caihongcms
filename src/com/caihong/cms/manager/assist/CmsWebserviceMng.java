@@ -18,7 +18,7 @@ public interface CmsWebserviceMng {
 	
 	public void callWebService(String operate,Map<String,String>params);
 	
-	public void callWebService(String admin,String username,String password,String email,String telphone,String groupId,CmsUserExt userExt,String operate);
+	public void callWebService(String admin,String username,String password,String email,String telphone,String groupId,Integer grain,CmsUserExt userExt,String operate);
 	
 	public CmsWebservice findById(Integer id);
 

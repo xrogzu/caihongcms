@@ -32,6 +32,8 @@ public class MemberConfig {
 	 * 是否开启注册
 	 */
 	public static String REGISTER_ON = "register_on";
+	
+	public static String REGISTER_SEND_GRAIN ="register_send_grain";
 	/**
 	 * 是否开启会员功能
 	 */
@@ -79,7 +81,15 @@ public class MemberConfig {
 	public void setRegisterOn(boolean registerOn) {
 		getAttr().put(REGISTER_ON, String.valueOf(registerOn));
 	}
-
+	
+	public Integer getRegisterSendGrain(){
+		String sendGrain=getAttr().get(REGISTER_SEND_GRAIN);
+		return sendGrain==null?0:new Integer(sendGrain);
+	}
+	
+	public void setRegisterSendGrain(Integer sendGrain){
+		getAttr().put(REGISTER_SEND_GRAIN, String.valueOf(sendGrain));
+	}
 	/**
 	 * 是否开启会员功能
 	 * 

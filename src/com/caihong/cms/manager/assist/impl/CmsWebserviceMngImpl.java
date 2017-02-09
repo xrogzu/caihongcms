@@ -84,7 +84,7 @@ public class CmsWebserviceMngImpl implements CmsWebserviceMng {
 		return res;
 	}
 	
-	public void callWebService(String admin,String username,String password,String email,String telphone,String groupId,CmsUserExt userExt,String operate){
+	public void callWebService(String admin,String username,String password,String email,String telphone,String groupId,Integer grain,CmsUserExt userExt,String operate){
 		if(hasWebservice(operate)){
 			Map<String,String>paramsValues=new HashMap<String, String>();
 			paramsValues.put("username", username);
@@ -113,6 +113,9 @@ public class CmsWebserviceMngImpl implements CmsWebserviceMng {
 			}
 			if(StringUtils.isNotBlank(groupId)){
 				paramsValues.put("groupId",groupId);
+			}
+			if(null!=grain){
+				paramsValues.put("prestige",grain+"");
 			}
 			callWebService(operate, paramsValues);
 		}
