@@ -19,8 +19,6 @@
  --><script type="text/javascript" src="${base}/thirdparty/layer/layer.js"></script>
 <script type="text/javascript" src="${resSys}/blog/jquery.mb.browser.min.js"></script>
 <script type="text/javascript" src="${resSys}/blog/bootstrap.min.js"></script>
-<script type="text/javascript" src="${resSys}/blog/dialog.js"></script>
-<script type="text/javascript" src="${resSys}/blog/common.js"></script>
 <script type="text/javascript" src="${resSys}/blog/jquery.placeholder.min.js"></script>
 <script type="text/javascript" src="${resSys}/blog/jquery.highlighter-1.0.0.min.js"></script>
 <script type="text/javascript" src="${resSys}/blog/list-default-index.js"></script>
@@ -35,17 +33,19 @@ function follow(uid,fuid){
 	    data:{
 	    	userid:uid,follow_userid:fuid
 	    },	   
-	    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text	   
+	    dataType:'json',     
 	    success:function(data){
 	        if(data){
-	        	alert("关注成功！");
+	        	layer.msg("关注成功！",{
+	                time:5000,
+	                btn: ['关闭']});
 	        	 window.location.reload();
 	        }else{
-	        	alert("关注失败！");
+	        	layer.msg("关注失败！");
 	        }
 	    },
 	    error:function(){
-	       alert("系统异常");
+	    	layer.msg("系统异常");
 	    }
 });
 }
@@ -61,14 +61,16 @@ function unfollow(uid,fuid){
 		    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text	   
 		    success:function(data){
 		        if(data){
-		        	alert("取消关注成功！");
+		        	layer.msg("取消关注成功！",{
+		                time: 20000, //20s后自动关闭
+		                btn: ['关闭']});
 		        	 window.location.reload();
 		        }else{
-		        	alert("取消关注失败！");
+		        	layer.msg("取消关注失败！");
 		        }
 		    },
 		    error:function(){
-		       alert("系统异常");
+		    	layer.msg("系统异常");
 		    }
 	});
 	}
@@ -76,6 +78,65 @@ function unfollow(uid,fuid){
 $(function(){
 	Cms.loginSSO('');
 });
+
+/**
+ * 打赏
+ *2017-02-10
+ */
+function reward(){
+	layer.open({
+		 type:1,
+		 title: '彩虹币打赏',
+		 shade: 0.8,
+		 shadeClose:true,
+	[#if user??]
+		[#if user.id!=doctor.id]
+	 	 btn:['赠送'],
+		 content: '<div style="padding:30px; line-height: 22px;  font-weight: 300;">你有彩虹币：${user.grain}个<br><br>打赏:<input id="give_grain" name="give_grain"/><br><br>要更多彩虹币，去<a href="${base}/content/reward.jspx?contentId=111"><font color="blue">购买</font></a><br></div>',
+		 yes: function(index, layero){
+		    var grain=$('#give_grain').val();
+		    
+		    var re = /^[0-9]*[1-9][0-9]*$/ ;  
+		    if(re.test(grain)){
+		    	var hasgrain=${user.grain};
+		    	if(grain>hasgrain){
+		    		layer.msg('彩虹币数量不够，请购买');
+		    	}else{
+		    		$.ajax({
+		    		    url:'${base}/reward.jspx',
+		    		    type:'POST', //GET
+		    		    async:false,    //或false,是否异步
+		    		    data:{
+		    		    	userid:${doctor.id},fromuserid:${user.id},grainCnt:grain
+		    		    },	   
+		    		    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text	   
+		    		    success:function(data){
+		    		        if(data){
+		    		        	layer.msg("打赏成功！",{
+		    		                time: 20000, //20s后自动关闭
+		    		                btn: ['关闭']});
+		    		        	 window.location.reload();
+		    		        }else{
+		    		        	layer.msg("打赏失败！");
+		    		        }
+		    		    },
+		    		    error:function(){
+		    		    	layer.msg("系统异常");
+		    		    }
+		    	});
+		    	}
+		    }else{
+		    	layer.msg('彩虹币数量必须是正整数');
+		    }
+		  }
+		[#else ]
+		content: '<div style="padding:30px; line-height: 22px;  font-weight: 300;">自己不能给自己打赏<br></div>'
+		[/#if]
+	[#else ]		
+		 content: '<div style="padding:30px; line-height: 22px;  font-weight: 300;">登录之后才能打赏哦，去<a href="${base}/login.jspx"><font color="blue">登录</font></a><br></div>'	  
+	[/#if]
+	}); 
+}
 
 </script>
 </head>
@@ -136,7 +197,7 @@ $(function(){
              [#if followed??] <a href="javascript:unfollow('${user.id!}','${doctor.id!}');" class="btn2 btn-add"  title="取消关注">取消关注</a>
              [#elseif user??&&user.id!=doctor.id] <a href="javascript:follow('${user.id!}','${doctor.id!}');" class="btn2 btn-add" title="关注">加关注</a>
              [/#if]
-            <a href="#" class="btn2 btn-msg sendMessage" >打赏</a>
+            <a href="#" class="btn2 btn-msg sendMessage" onclick="reward();" >打赏</a>
         </li>
     </ul>
 </div>

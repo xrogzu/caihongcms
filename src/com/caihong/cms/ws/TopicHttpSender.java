@@ -53,7 +53,7 @@ public class TopicHttpSender {
 	}
 	
 	public static void main(String[] args) {
-		List<Topic> list=TopicHttpSender.getUserTopic("admin", 1, 10);
-		System.out.println(list.size());
+		boolean out=TopicHttpSender.updateGrain("彩虹妹妹", 1);
+		System.out.println(out);
 	}
 }
