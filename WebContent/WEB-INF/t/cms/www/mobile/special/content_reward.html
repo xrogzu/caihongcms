@@ -10,15 +10,10 @@
 <script src="${resSys}/front.js" type="text/javascript"></script>
 <script src="/${mobileRes!}/js/hhSwipe.js"></script>
 <script type="text/javascript">
-function randomReward(){
-	$.get("${base}/reward/random.jspx", {
-	}, function(data) {
-		$("#rewardAmount").val(data);
-		changeAmountSubmit(data);
-	});
-}
-function changeAmountSubmit(value){
+
+function changeAmountSubmit(value,grainConfigId){
 	$("#rewardAmount").val(value);
+	$("#grainConfigId").val(grainConfigId);
 	$("#jvForm").submit();
 }
 function isweixin(){
@@ -49,25 +44,19 @@ $(function() {
 <body style="background-color: #f5f5f5;">
 	<div class="viewport">
 		<header class="header rel"> <a class="reward-back" href="#" onClick="javascript :history.go(-1);"></a>
-	    [#if type??&&type==2]打赏[#else]购买支付[/#if] </header>
+	    	购买彩虹币 </header>
 		[#if webCatBrowser]
 		<form action="" id="wxForm" method="post" ></form>
 		<iframe id="wx1Frame" name="wxFrame"  frameborder="0" border="0" style="display:none;width:0px;height:0px;"></iframe>
 		[/#if]
-		<form method="post" action="${base}/content/selectPay.jspx"
+		<form method="post" action="${base}/buy/selectPay.jspx"
 			id="jvForm">
-			<input name="contentId" value="${contentId!}" type="hidden" /> 
+			<input name="grainConfigId" value="${grainConfigId!}" id="grainConfigId" type="hidden" /> 
 			<input name="orderNumber" value="${orderNumber!}" type="hidden" /> 
-			<input name="chargeReward" value="${type!}" type="hidden" />
+			
 			<div class="reward-amount">
-				<div>
-					金额: 
-					[#if type??&&type==2] 
-					<input name="rewardAmount" value="${randomOne!}" id="rewardAmount" type="hidden" />
-					${randomOne!} 
-					[#else] 
-					${content.chargeAmount!} 
-					[/#if]
+				<div>					
+					<input name="rewardAmount" value="${rewardAmount!}" id="rewardAmount" type="text" />					
 				</div>
 				[#if webCatBrowser] 
 				<input name="payMethod" value="3" type="hidden" />
@@ -75,30 +64,24 @@ $(function() {
 				<input name="payMethod" value="5" type="hidden" /> 
 				[/#if]
 			</div>
-			[#if type??&&type==2]
+			
 			<!-- 打赏 -->
 			<div class="reward-list clearfix">
-				[#if content.rewardPattern]
+				
 					<!-- 固定值 -->
-					[#list content.rewardFixValues as r]
-					<input value="${r!}" type="button" onclick="changeAmountSubmit('${r!}')" 
+					[#list confList as r]
+					<input value="${r.price!}元${r.count!}个彩虹币" type="button" onclick="changeAmountSubmit('${r.price!}','${r.id}')" 
 						[#if (r_index+1)%2=1]class="reward-btn br"[#else]class="reward-btn bl" [/#if]/> 
 					[/#list]
-				[#else]
-				<!-- 随机值 -->
-					[#list randomList as r] 
-					<input value="${r!}" type="button" onclick="changeAmountSubmit('${r!}')" 
-						[#if (r_index+1)%2=1]class="reward-btn br"[#else]class="reward-btn bl" [/#if]/> 
-					[/#list] 
-				[/#if]
-				<input type="button" value="随机" onclick="randomReward()" class="reward-sj" />
+				
+				
 			</div>
-			[#else]
+			
 			<div class="reward-list">
 				<!-- 购买支付 -->
 				<input type="submit" value="支付" class="reward-payBtn" />
 			</div>
-			[/#if]
+			
 		</form>
 </body>
 </html>

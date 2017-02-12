@@ -312,8 +312,10 @@ public class ContentOrderAct {
 		  	    			return AliPay.enterAlipayScanCode(request,response, model,
 		  	    					getAliPayUrl(), config, content, content,url,
 		  	    					orderNumber, totalAmount);
-		  	    		}else if(payMethod==5){
-		  	    			model.addAttribute("orderNumber",orderNumber);
+		  	    		}else if(payMethod==5){		  				
+		  					model.addAttribute("url", url);
+				  	    	model.addAttribute("grainConfigId",grainConfigId);
+				  	    	model.addAttribute("orderNumber",orderNumber);
 		  					model.addAttribute("content", content);
 		  					model.addAttribute("rewardAmount", rewardAmount);
 		  	    			FrontUtils.frontData(request, model, site);
@@ -321,6 +323,7 @@ public class ContentOrderAct {
 		  							TPLDIR_SPECIAL, CONTENT_ALIPAY_MOBILE);
 		  	    		}
 					}//支付宝
+		  	    	
 					return AliPay.enterAliPayImmediate(config,orderNumber,content, rewardAmount,content,url,null,
 							request, response, model);
 		  	    
@@ -331,8 +334,8 @@ public class ContentOrderAct {
 		}
 	}
 	
-	@RequestMapping(value = "/content/alipayInMobile.jspx")
-	public String enterAlipayInMobile(Integer doctorId,String orderNumber,Integer grainConfigId,
+	@RequestMapping(value = "/buy/alipayInMobile.jspx")
+	public String enterAlipayInMobile(String orderNumber,Integer grainConfigId,
 			Double rewardAmount,HttpServletRequest request,
 			HttpServletResponse response,ModelMap model) throws JSONException {
 		WebErrors errors=WebErrors.create(request);

@@ -21,7 +21,7 @@ function queryStatus() {
         success: function (data) {
             if (data.status==0) { //订单状态为0表示支付成功
                alert("支付成功");
-               window.location.href = "${content.url!}"; 
+               window.location.href = "${url!}"; 
             }else if(data.status==1){
             	//等待支付不处理
             }else{
@@ -37,9 +37,9 @@ function queryStatus() {
 <div class="w1187b">
     <div class="w1173">
     <#if type??&&type==2>
-    	<iframe src="${base}/content/alipayInMobile.jspx?contentId=${content.id!}&orderNumber=${orderNumber!}&rewardAmount=${rewardAmount!}"  width="0px" height="0px" frameborder="0" scrolling="no"></iframe>
+    	<iframe src="${base}/buy/alipayInMobile.jspx?grainConfigId=${grainConfigId!}&orderNumber=${orderNumber!}&rewardAmount=${rewardAmount!}"  width="0px" height="0px" frameborder="0" scrolling="no"></iframe>
 	 <#else>
-	    <iframe src="${base}/content/alipayInMobile.jspx?contentId=${content.id!}&orderNumber=${orderNumber!}"  width="0px" height="0px" frameborder="0" scrolling="no"></iframe>
+	    <iframe src="${base}/buy/alipayInMobile.jspx?grainConfigId=${grainConfigId!}&orderNumber=${orderNumber!}"  width="0px" height="0px" frameborder="0" scrolling="no"></iframe>
 	 </#if>
 	</div>
 </div>
