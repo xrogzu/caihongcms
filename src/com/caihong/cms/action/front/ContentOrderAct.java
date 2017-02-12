@@ -551,7 +551,7 @@ public class ContentOrderAct {
 			String weixinOrderNum,
 			String alipyOrderNum){
 		Element e = cache.get(orderNumber);
-	    CmsUser rewardUser= null;
+	    CmsUser user= null;
 		if(e!=null&&StringUtils.isNotBlank(orderNumber)){
 		    Order b=orderMng.findByOrderNumber(orderNumber);
 		    //不能重复提交
@@ -562,31 +562,30 @@ public class ContentOrderAct {
 					objArray=obj.toString().split(",");
 				}
 				Double rewardAmount=null;
-				Integer doctorId=null;
 				Integer buyUserId=null;
+				
 				Integer grainBuyConfigId=null;
+				Integer type=null;
+				
 				if(objArray!=null&&objArray[0]!=null){
-					doctorId=Integer.parseInt(objArray[0]) ;
+					buyUserId=Integer.parseInt(objArray[0]) ;
 				}
 				if(objArray!=null&&objArray[1]!=null&&StringUtils.isNotBlank(objArray[1])){
-					buyUserId=Integer.parseInt(objArray[1]);
+					rewardAmount=Double.parseDouble(objArray[1]);
 				}
 				if(objArray!=null&&objArray[2]!=null&&StringUtils.isNotBlank(objArray[2])
 						&&!objArray[2].toLowerCase().equals("null")){
-					rewardAmount=Double.parseDouble(objArray[2]);
+					grainBuyConfigId=Integer.parseInt(objArray[2]);
 				}
 				if(objArray!=null&&objArray[3]!=null){
-					grainBuyConfigId=Integer.parseInt(objArray[3]);;
+					type=Integer.parseInt(objArray[3]);;
 				}
 			    Order order=new Order();
-			    if(doctorId!=null){
-			    	rewardUser=userMng.findById(doctorId);
-			    	order.setRewardUser(rewardUser);
-			    	order.setType(OrderType.REWARD.getValue());;
-			   	    //打赏可以匿名
-			   	    if(buyUserId!=null){
-			   	    	order.setUser(userMng.findById(buyUserId));
-			   	    }
+			    if(buyUserId!=null){
+			    	user=userMng.findById(buyUserId);
+			    	order.setUser(user);
+			    	order.setType(type);;
+			   	   
 			   	    if(grainBuyConfigId!=null){
 			   	    	GrainBuyConfig config=grainBuyConfigMng.findById(grainBuyConfigId);
 			   	    	order.setGrainConfig(config);
@@ -602,7 +601,7 @@ public class ContentOrderAct {
 			 	}
 		    }
 		}
-	    return rewardUser;
+	    return user;
 	}
 	
 	private void initAliPayUrl(){
