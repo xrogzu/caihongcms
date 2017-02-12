@@ -29,7 +29,6 @@ import com.alipay.api.response.AlipayTradeCancelResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.caihong.cms.entity.assist.CmsConfigContentCharge;
-import com.caihong.cms.entity.main.Content;
 import com.caihong.common.web.RequestUtils;
 import com.caihong.core.entity.CmsSite;
 import com.caihong.core.web.WebErrors;
@@ -56,7 +55,7 @@ public class AliPay {
 	public static String enterAlipayScanCode(
 			HttpServletRequest request,HttpServletResponse response,
 			ModelMap model,String serverUrl,
-			CmsConfigContentCharge config,Content content,
+			CmsConfigContentCharge config,String content,String title,String url,
 			String outTradeNo,Double totalAmount){
 		CmsSite site=CmsUtils.getSite(request);
 		AlipayClient alipayClient = AlipayAPIClientFactory.getAlipayClient(
@@ -69,14 +68,14 @@ public class AliPay {
         //卖家支付宝用户 ID
 		"    \"seller_id\":\""+config.getAlipayPartnerId()+"\"," +
 		//订单标题
-		"    \"subject\":\""+content.getTitle()+"\"," +
+		"    \"subject\":\""+title+"\"," +
 		//订单总金额
 		"    \"total_amount\":"+totalAmount+"," +
 		//支付超时时间
 		"    \"timeout_express\":\"90m\"" +
 		"  }");
         //设置回转地址
-        aliRequest.setReturnUrl(content.getUrlWhole());
+        aliRequest.setReturnUrl(url);
         AlipayTradePrecreateResponse aliResponse = null;
 		try {
 			aliResponse = alipayClient.execute(aliRequest);
@@ -117,21 +116,21 @@ public class AliPay {
 	 */
 	public static void enterAlipayInMobile(
 			HttpServletRequest request,HttpServletResponse response,
-			String serverUrl,CmsConfigContentCharge config,Content content,
-			String outTradeNo,Double totalAmount){
+			String serverUrl,CmsConfigContentCharge config,String content,
+			String outTradeNo,Double totalAmount,String title,String url){
         AlipayClient alipayClient = AlipayAPIClientFactory.getAlipayClient(
         		serverUrl,config.getAlipayAppId()
         		,config.getAlipayPrivateKey(),config.getAlipayPublicKey(),"UTF-8");
         AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();//创建API对应的request
         //在公共参数中设置回跳地址
-        alipayRequest.setReturnUrl(content.getUrlWhole());
+        alipayRequest.setReturnUrl(url);
         alipayRequest.setBizContent("{" +
         //商户订单号
 		"    \"out_trade_no\":\""+outTradeNo+"\"," +
         //卖家支付宝用户 ID
 		"    \"seller_id\":\""+config.getAlipayPartnerId()+"\"," +
 		//订单标题
-		"    \"subject\":\""+content.getTitle()+"\"," +
+		"    \"subject\":\""+title+"\"," +
 		//订单总金额
 		"    \"total_amount\":"+totalAmount+"," +
 		//支付超时时间
@@ -161,7 +160,7 @@ public class AliPay {
 	 * @return
 	 */
 	public static String enterAliPayImmediate(CmsConfigContentCharge config,
-			String orderNumber,Content content,Double rewardAmount,
+			String orderNumber,String content,Double rewardAmount,String title,String url,String product_url,
 			HttpServletRequest request,HttpServletResponse response,
 			ModelMap model){
 		CmsSite site=CmsUtils.getSite(request);
@@ -170,7 +169,7 @@ public class AliPay {
 				PrintWriter out = null;
 				String aliURL = null;
 				try {
-					aliURL = alipayImmediate(config,site,orderNumber,content, rewardAmount, request, model);
+					aliURL = alipayImmediate(config,site,orderNumber,content, rewardAmount,title,url,product_url, request, model);
 					response.setContentType("text/html;charset=UTF-8");
 					out = response.getWriter();
 					out.print(aliURL);
@@ -190,30 +189,33 @@ public class AliPay {
 	 * @param
 	 */
 	private static String alipayImmediate(CmsConfigContentCharge config,
-			CmsSite site,String orderNumber,Content content, 
-			Double rewardAmount,HttpServletRequest request,ModelMap model){
+			CmsSite site,String orderNumber,String content, 
+			Double rewardAmount,String title,String url,String product_url,HttpServletRequest request,ModelMap model){
 		//支付类型
 		String payment_type = "1";//必填，不能修改
 		//服务器异步通知页面路径
 		String notify_url = "http://"+site.getDomain()+"/order/payCallByAliPay.jspx";
 		//页面跳转同步通知页面路径
-		String return_url = content.getUrlWhole();
+		String return_url = url;
 		//卖家支付宝帐户
 		String seller_email = config.getAlipayAccount();//必填
 		//商户订单号
 		String out_trade_no = orderNumber;//商户网站订单系统中唯一订单号，必填
 		//订单名称
-		String subject = "("+content.getTitle()+")";//必填
+		String subject = "("+title+")";//必填
 		//付款金额
-		Double payAmount=content.getChargeAmount();
+		Double payAmount=0d;
 		if(rewardAmount!=null){
 			payAmount=rewardAmount;
 		}
 		String total_fee = String.valueOf(payAmount);//必填
 		//订单描述
-		String body = "("+content.getTitle()+")";
+		String body = "("+content+")";
+		if(product_url==null){
+			product_url=url;
+		}
 		//商品展示地址
-		String show_url = "http://"+content.getUrl()+"/";
+		String show_url = product_url;
 		//防钓鱼时间戳
 		String anti_phishing_key = "";//若要使用请调用类文件submit中的query_timestamp函数
 		//客户端的IP地址

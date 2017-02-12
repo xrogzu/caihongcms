@@ -15,32 +15,19 @@
 <![endif]-->
 
 <script  type="text/javascript">
-function randomReward(){
-	$.get("${base}/reward/random.jspx", {
-	}, function(data) {
-		$("#rewardAmount").val(data);
-	});
-}
+
 $(function() {
-	<!--打赏-->
-	[#if type??&&type==2]
+	
 		[#if rewardAmount??]
-			$("#wcode").load("${base}/content/selectPay.jspx?contentId=${contentId!}&orderNumber=${orderNumber!}&payMethod=1&chargeReward=${type!}&rewardAmount=${rewardAmount!}");
-			$("#acode").load("${base}/content/selectPay.jspx?contentId=${contentId!}&orderNumber=${orderNumber!}&payMethod=4&chargeReward=${type!}&rewardAmount=${rewardAmount!}");
-		[#else]
-			<!--随机直接生成二维码或者选择了某项固定值-->
-			[#if !content.rewardPattern]
-			$("#wcode").load("${base}/content/selectPay.jspx?contentId=${contentId!}&orderNumber=${orderNumber!}&payMethod=1&chargeReward=${type!}&rewardAmount=${randomOne!}");
-			$("#acode").load("${base}/content/selectPay.jspx?contentId=${contentId!}&orderNumber=${orderNumber!}&payMethod=4&chargeReward=${type!}&rewardAmount=${randomOne!}");
-			[/#if]
+			$("#wcode").load("${base}/buy/selectPay.jspx?grainConfigId=${grainConfigId!}&orderNumber=${orderNumber!}&payMethod=1&chargeReward=${type!}&rewardAmount=${rewardAmount!}");
+// 			$("#acode").load("${base}/buy/selectPay.jspx?grainConfigId=${grainConfigId!}&orderNumber=${orderNumber!}&payMethod=4&chargeReward=${type!}&rewardAmount=${rewardAmount!}");
+				
 		[/#if]
-	[#else]
-	$("#wcode").load("${base}/content/selectPay.jspx?contentId=${contentId!}&orderNumber=${orderNumber!}&payMethod=1&chargeReward=${type!}");
-	$("#acode").load("${base}/content/selectPay.jspx?contentId=${contentId!}&orderNumber=${orderNumber!}&payMethod=4&chargeReward=${type!}");
-	[/#if]
+
 });
-function changeAmountSubmit(value){
+function changeAmountSubmit(value,grainConfigId){
 	$("#rewardAmount").val(value);
+	$("#grainConfigId").val(grainConfigId);
 	$("#jvForm").submit();
 }
 </script>
@@ -57,39 +44,31 @@ function changeAmountSubmit(value){
 [#include "../include/top.html"/]
 [#include "../include/header.html"/] 
 <div class="register-box" style="height:366px;"> 
-  <div class="register-nav"><span>打赏</span>
+  <div class="register-nav"><span>彩虹币购买</span>
     <div class="register-login">
-    [#if content.chargeModel==2]<a class="tc" href="${base}/content/orders.jspx?contentId=${content.id}&type=2">打赏记录 ></a>
-    [#elseif content.chargeModel==1]<a class="tc" href="${base}/content/orders.jspx?contentId=${content.id}&type=1">收费记录 ></a>
-    [/#if]
+   
     </div>
   </div> 
   <!-- 未选择固定打赏值 -->
   <div style="width:100%; margin-top:20px;">
-  [#if !rewardAmount??]
-	  [#if content.rewardPattern]
+  [#if !rewardAmount??]	  
 	  <!-- 固定 -->
-	  <form method="post" action="${base}/content/fixSelect.jspx" id="jvForm">
-		<input name="contentId" value="${contentId!}" type="hidden" /> 
+	  <form method="post" action="${base}/buy/fixSelect.jspx" id="jvForm">
+		<input name="grainConfigId" id="grainConfigId" value="${grainConfigId!}" type="hidden" /> 
 		<input name="orderNumber" value="${orderNumber!}" type="hidden" /> 
 		<input name="chargeReward" value="${type!}" type="hidden" />
 		<input name="rewardAmount" value="${randomOne!}" id="rewardAmount" type="hidden" />
 		<div>
-		[#list content.rewardFixValues as r]
-		<input value="${r!}" type="button" onclick="changeAmountSubmit('${r!}')" 
+		[#list confList as r]
+		<input value="${r.price!}元${r.count!}个彩虹币" type="button" onclick="changeAmountSubmit('${r.price!}','${r.id}')" 
 			[#if (r_index+1)%2=1]class="reward-btn br"[#else]class="reward-btn bl" [/#if]/> 
 		[/#list]
 		</div>
-		<input type="submit" value="打赏" class="reward-payBtn" />
+		<input type="submit" value="购买" class="reward-payBtn" />
 	  </form>
-	  [#else]
-	  <!-- 随机 -->
-	  <div class="reward-money">金额： <span>[#if type??&&type==2]${randomOne!}[#else]${content.chargeAmount!}[/#if]</span></div>
-	  <div class="reward-pay">支付方式</div>
-	  <div class="reward-paylist"><div><span id="wcode"></span>微信扫码支付</div><div><span id="acode"></span>支付宝扫码支付</div></div>
-	  [/#if]
+	 
   [#else]
-      <div class="reward-money">金额： <span>[#if type??&&type==2]${rewardAmount!}[#else]${content.chargeAmount!}[/#if]</span></div>
+      <div class="reward-money">金额： <span>${rewardAmount!}</span></div>
 	  <div class="reward-pay">支付方式</div>
 	  <div class="reward-paylist"><div><span id="wcode"></span>微信扫码支付</div><div><span id="acode"></span>支付宝扫码支付</div></div>
   [/#if]

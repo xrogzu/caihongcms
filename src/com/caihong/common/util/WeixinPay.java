@@ -15,7 +15,6 @@ import org.json.JSONException;
 import org.springframework.ui.ModelMap;
 
 import com.caihong.cms.entity.assist.CmsConfigContentCharge;
-import com.caihong.cms.entity.main.Content;
 import com.caihong.common.web.ClientCustomSSL;
 import com.caihong.common.web.Constants;
 import com.caihong.common.web.HttpClientUtil;
@@ -31,7 +30,7 @@ public class WeixinPay {
 	//微信统一下单
 	public  static Map<String, String>  weixinUniformOrder(String trade_type,String openId,
 			HttpServletRequest request,String serverUrl,CmsConfigContentCharge config,
-			Content content,String orderNum,Double rewardAmount){
+			String content,String orderNum,Double rewardAmount,String product_id){
 		CmsSite site=CmsUtils.getSite(request);
 		CmsUser user=CmsUtils.getUser(request);
 		Map<String, String> paramMap = new HashMap<String, String>();
@@ -44,12 +43,16 @@ public class WeixinPay {
 		// 随机字符串，不长于32位。 [必填]
 		paramMap.put("nonce_str", RandomStringUtils.random(10,Num62.N62_CHARS));
 		// 商品或支付单简要描述 [必填]
-		paramMap.put("body", content.getTitle());
+		
+		if(content==null){
+			content="购买";
+		}
+		paramMap.put("body", content);
 		// 商户系统内部的订单号,32个字符内、可包含字母, [必填]
 		paramMap.put("out_trade_no", orderNum);
 		// 符合ISO 4217标准的三位字母代码，默认人民币：CNY. [非必填]
 		paramMap.put("fee_type", "CNY");
-		Double amount=content.getChargeAmount();
+		Double amount=0d;
 		if(rewardAmount!=null){
 			amount=rewardAmount;
 		}
@@ -72,7 +75,7 @@ public class WeixinPay {
 			}
 		}
 		// 商品ID{trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。}
-		paramMap.put("product_id",content.getId().toString());
+		paramMap.put("product_id",product_id);
 		if (StringUtils.isNotBlank(config.getTransferApiPassword())) {
 			// 根据微信签名规则，生成签名
 			paramMap.put("sign",
@@ -129,7 +132,7 @@ public class WeixinPay {
 	
 	//微信扫码支付
 	public static  String enterWeiXinPay(String serverUrl,
-			CmsConfigContentCharge config,Content content,String orderNumber,
+			CmsConfigContentCharge config,String content,String orderNumber,String product_id,
 			Double rewardAmount,HttpServletRequest request,
 			HttpServletResponse response,ModelMap model) throws JSONException {
 		if (StringUtils.isNotBlank(config.getWeixinAppId())
@@ -137,7 +140,7 @@ public class WeixinPay {
 			CmsSite site=CmsUtils.getSite(request);
 			if (StringUtils.isNotBlank(config.getTransferApiPassword())) {
 				Map<String, String> map=weixinUniformOrder( "NATIVE",null,
-						request, serverUrl,config, content, orderNumber, rewardAmount);
+						request, serverUrl,config, content, orderNumber, rewardAmount,product_id);
 				String returnCode = map.get("return_code");
 				if(StringUtils.isNotBlank(returnCode)){
 					if (returnCode.equalsIgnoreCase("FAIL")) {
@@ -152,8 +155,6 @@ public class WeixinPay {
 							model.addAttribute("orderNumber",orderNumber);
 							if(rewardAmount!=null){
 								model.addAttribute("payAmount", rewardAmount);
-							}else{
-								model.addAttribute("payAmount", content.getChargeAmount());
 							}
 							model.addAttribute("content", content);
 							FrontUtils.frontData(request, model, site);
@@ -173,7 +174,7 @@ public class WeixinPay {
 
 	//微信公众号支付(手机端)
 	public static String weixinPayByMobile(String serverUrl,CmsConfigContentCharge config,
-			String openId,Content content,String orderNum,Double rewardAmount,
+			String openId,String content,String orderNum,Double rewardAmount,String product_id,
 			HttpServletRequest request,HttpServletResponse response,
 			ModelMap model){
 		CmsSite site=CmsUtils.getSite(request);
@@ -182,7 +183,7 @@ public class WeixinPay {
 				&& StringUtils.isNotBlank(config.getWeixinAccount())) {
 			if (StringUtils.isNotBlank(config.getTransferApiPassword())) {
 				Map<String, String> map=weixinUniformOrder("JSAPI",openId,
-						request, serverUrl,config, content, orderNum, rewardAmount);
+						request, serverUrl,config, content, orderNum, rewardAmount,product_id);
 				String returnCode = map.get("return_code");
 				if (returnCode.equalsIgnoreCase("FAIL")) {
 					return FrontUtils.showMessage(request, model, map.get("return_msg"));
@@ -215,8 +216,6 @@ public class WeixinPay {
 						model.addAttribute("orderNumber",orderNum);
 						if(rewardAmount!=null){
 							model.addAttribute("payAmount", rewardAmount);
-						}else{
-							model.addAttribute("payAmount", content.getChargeAmount());
 						}
 						model.addAttribute("content", content);
 						return FrontUtils.getTplPath(request, site.getSolutionPath(),

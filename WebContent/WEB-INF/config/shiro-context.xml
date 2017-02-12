@@ -28,6 +28,7 @@
 				/login.jspx = authc
 				/logout.jspx = logout
 				/member/** = user
+				/buy/** = authc
 				/admin/cms/login.do = authc
 				/admin/cms/logout.do = logout
 				/admin/cms/** =user
