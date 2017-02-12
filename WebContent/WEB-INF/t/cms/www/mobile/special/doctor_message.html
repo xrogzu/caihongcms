@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>${doctor.realname!doctor.username} - ${site.name}</title>
+<link rel="stylesheet" rev="stylesheet" href="${resSys}/blog/global.css" type="text/css">
+<link rel="stylesheet" rev="stylesheet" href="${resSys}/blog/file-page-all.css" type="text/css">
+<link rel="stylesheet" rev="stylesheet" href="${resSys}/blog/file-page-dot.css" type="text/css">
+<link rel="stylesheet" rev="stylesheet" href="${resSys}/blog/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" rev="stylesheet" href="${resSys}/blog/bootstrap-ie6.min.css" type="text/css">
+<link rel="stylesheet" rev="stylesheet" href="${resSys}/blog/dialog.css" type="text/css">
+<link href="${resSys}/jqueryUI/jquery.ui.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="/${res}/css/index-new.css" />
+<style type="text/css">
+#top{height:34px;background-color:#f0f4f7;line-height:34px;font-size:12px;z-index:1000px;position:relative;z-index:9999;min-width:1100px}#top a.l1{color:#666666;padding:0 10px}#top a.rb{background:url(${resSys}/blog/blog/line.png) no-repeat right center}#top a.l1:hover{text-decoration:underline}#top li.home{padding-left:22px;background:url(${resSys}/blog/blog/icon_home.png) no-repeat 0 10px}#top li.home a{padding-left:0}#top li.more{position:relative;padding-right:15px;padding-left:15px;z-index:9999;float:left;width:100px}#top li.more a{display:block;position:relative;height:34px;line-height:34px;*line-height:40px;left:-1px;text-indent:1px}#top li.more .down{display:inline-block;width:0;height:0;_font-size:0;_overflow:hidden;border-width:4px;border-style:solid dashed dashed;border-color:#f58926 transparent transparent;position:relative;top:2px;*top:-6px;-webkit-transition:all 0.5s ease-in-out;-webkit-transform:rotate(0deg);-moz-transition:all 0.5s ease-in-out;-moz-transform:rotate(-0deg);transition:all 0.5s ease-in-out;transform:rotate(-0deg)}#top li.more:hover .down{-webkit-transition:all 0.5s ease-in-out;-webkit-transform:rotate(180deg);-moz-transition:all 0.5s ease-in-out;-moz-transform:rotate(180deg);transition:all 0.5s ease-in-out;transform:rotate(180deg)}#top .down-list{display:none;background-color:#f0f4f7;position:absolute;left:0px;top:34px;padding:5px 0;font-size:12px}#top .down-list li{height:26px;line-height:26px;width:50px;padding-left:25px;text-align:left}#top .down-list li a{color:#666666;line-height:26px}#top .down-list li a:hover{text-decoration:underline}#top .user-login-state a{color:#666666;padding-left:15px}#top .user-login-state a:hover{text-decoration:underline}body{background:#FFFFFF url(${resSys}/blog/blog/pic_bg.jpg) no-repeat center 34px}#header{height:261px}#header .headerinfo{position:relative}#header .blogtitle{position:absolute;left:15px;top:40px}#header .blogtitle h1{font-size:32px;line-height:32px;margin-bottom:5px}#header .blogtitle .blogintro{margin:30px 0 0 180px;font-size:18px}#header .menu{margin-top:210px;height:31px}#header .menu ul{height:31px;line-height:31px;background-color:#fefefe;display:inline-block}#header .menu li{float:left}#header .menu li a{display:inline-block;padding:0 10px}#header .menu li a.selected{color:#8F56E1}#header .menu li a.line{background:url(${resSys}/blog/blog/line.png) no-repeat right center}.container{min-height:500px}.block .avatarimg{padding:9px 17px;text-align:center}.block .avatarimg img{min-height:100px;min-width:100px;max-height:200px;max-width:200px;_height:200px;_width:200px}.userinfo{padding:0 20px 35px;line-height:28px}.userinfo .btn2{display:inline-block;background-color:#4b9ad2;padding:3px 5px 5px 20px;height:14px;line-height:14px;font-size:12px;color:#fff;margin:10px 8px 0 0}.userinfo .btn-add{background:#4B9AD2 url(${resSys}/blog/blog/icon_friend.png) no-repeat left center}.userinfo .btn-follow{background:#4B9AD2 url(${resSys}/blog/blog/icon_look.png) no-repeat 2px center}.userinfo .btn-msg{background:#4B9AD2 url(${resSys}/blog/blog/icon_dialog.png) no-repeat left center}.block .avatar li{font-size:12px;float:left;margin:15px 13px;text-align:center;width:50px;height:78px;overflow:hidden}.block .avatar li a{color:#999}.block .avatar li a:hover{color:#FF9600}.block .avatar .img-wrap{width:50px;height:50px;overflow:hidden}.block .avatar .img-wrap img{width:50px;min-height:50px;_height:50px}.block .userinfo .realname{background:url(${resSys}/blog/blog/realname.gif) no-repeat 0 4px;display:inline;padding:0 8px;margin:5px 0 0 5px}.block .category{padding-left:14px;line-height:30px;padding-bottom:15px}.block .comment{padding-left:14px;padding-right:14px;line-height:30px;padding-bottom:15px}.block .comment li{border-bottom:1px solid #E7E7E7;padding:10px 0}.block .comment li.last{border:none}.block .comment a{color:#0D6BB5}.block .comment a:hover{color:#FF9600}.block .comment .blogc{color:#333}span.auth_one{background:transparent url(${resSys}/blog/blog/icon_aut011.png) no-repeat 0 0;display:inline-block;margin-right:10px;width:28px;height:28px}span.auth_two{background:transparent url(${resSys}/blog/blog/icon_aut012.png) no-repeat 0 0;display:inline-block;margin-right:10px;width:28px;height:28px}span.auth_three{background:transparent url(${resSys}/blog/blog/icon_aut013.png) no-repeat 0 0;display:inline-block;margin-right:10px;width:28px;height:28px}#footer{background-color:#F3F3F3;line-height:26px;margin-top:50px;padding:20px 0 40px;text-align:center;font-size:12px}#footer a{color:#333333;margin:0 8px}#footer a:hover{color:#FF9600;text-decoration:underline}.block{border:1px solid #bfbfbf;background-color:#fff}.block h3{height:36px;line-height:36px;color:#333;font-size:18px;margin-bottom:8px;font-weight:normal;background-color:#efefef;padding-left:20px}.block h3 .more{font-size:12px;line-height:36px;padding-right:20px}.container .aside{width:236px}.container .main{width:824px;overflow:hidden;//background-color:#fff}.container .main .listtrends{padding:0 20px}.trend{padding:10px 0;border-bottom:1px solid #e7e7e7}.trend p{margin:5px 0;word-break:break-all}.container .main .listview{padding:0 20px}.container .main .article{padding:20px 0;border-bottom:1px solid #e7e7e7}.container .main .last{border:none}.container .main .no-article{text-align:center;margin:40px 0;font-size:24px}.article a,.trend a{color:#0d6bb5}.article a:hover,.trend a:hover{color:#8f56e1}.article h2 a{font-weight:normal;font-size:16px}.article p{margin:6px 0}.article .omit{margin:10px 0}.article .opts a{color:#999}.article .opts a:hover{color:#0d6bb5}
+</style>
+
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/jqueryUI/jquery-ui.js" type="text/javascript"></script>
+<script type="text/javascript" src="${base}/thirdparty/layer/layer.js"></script>
+<script type="text/javascript" src="${resSys}/blog/jquery.mb.browser.min.js"></script>
+<script type="text/javascript" src="${resSys}/blog/bootstrap.min.js"></script>
+<script type="text/javascript" src="${resSys}/blog/jquery.placeholder.min.js"></script>
+<script type="text/javascript" src="${resSys}/blog/jquery.highlighter-1.0.0.min.js"></script>
+<script type="text/javascript" src="${resSys}/blog/list-default-index.js"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<script type="text/javascript" src="/${res}/js/jquery.SuperSlide.js"></script>
+<script type="text/javascript">
+function follow(uid,fuid){
+	$.ajax({
+	    url:'${base}/follow.jspx',
+	    type:'POST', //GET
+	    async:false,    //或false,是否异步
+	    data:{
+	    	userid:uid,follow_userid:fuid
+	    },	   
+	    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text	   
+	    success:function(data){
+	        if(data){
+	        	alert("关注成功！");
+	        	 window.location.reload();
+	        }else{
+	        	alert("关注失败！");
+	        }
+	    },
+	    error:function(){
+	       alert("系统异常");
+	    }
+});
+}
+function unfollow(uid,fuid){		
+	if(confirm("确定要取消关注吗？")){
+		$.ajax({
+		    url:'${base}/unfollow.jspx',
+		    type:'POST', //GET
+		    async:false,    //或false,是否异步
+		    data:{
+		    	userid:uid,follow_userid:fuid
+		    },	   
+		    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text	   
+		    success:function(data){
+		        if(data){
+		        	alert("取消关注成功！");
+		        	 window.location.reload();
+		        }else{
+		        	alert("取消关注失败！");
+		        }
+		    },
+		    error:function(){
+		       alert("系统异常");
+		    }
+	});
+	}
+}
+
+jQuery(document).ready(function($){ 
+$('.content-comment').click(function(){
+	$('html,body').animate({scrollTop:$('#comments-text').offset().top}, 1000)
+	$('#comments-text').focus();
+	});  
+});
+
+$(function(){
+	//设置一个定时器，为BUTTON点击事件用
+	var timer=null;
+	var number1=0;
+
+	//文本输入时改变
+	$('#comments-text').keyup(function(){
+		if(!$(this).val()==''){
+			$('.submit-on').attr("class", "submit-out");
+		}else{
+			$(".submit-out").attr("class", "submit-on");
+		}
+	});
+	
+	//处理输入的内容是文字还是字母的函数
+	function getLength(str){
+		return String(str).replace(/[^\x00-\xff]/g,'aa').length;
+	};
+
+	
+	Cms.loginSSO('');
+	
+     
+});
+/**
+ * 打赏
+ *2017-02-10
+ */
+function reward(){
+	layer.open({
+		 type:1,
+		 title: '彩虹币打赏',
+		 shade: 0.8,
+		 shadeClose:true,
+	[#if user??]
+		[#if user.id!=doctor.id]
+	 	 btn:['赠送'],
+		 content: '<div style="padding:30px; line-height: 22px;  font-weight: 300;">你有彩虹币：${user.grain}个<br><br>打赏:<input id="give_grain" name="give_grain"/><br><br>要更多彩虹币，去<a href="${base}/buy/reward.jspx"><font color="blue">购买</font></a><br></div>',
+		 yes: function(index, layero){
+		    var grain=$('#give_grain').val();
+		    
+		    var re = /^[0-9]*[1-9][0-9]*$/ ;  
+		    if(re.test(grain)){
+		    	var hasgrain=${user.grain};
+		    	if(grain>hasgrain){
+		    		layer.msg('彩虹币数量不够，请购买');
+		    	}else{
+		    		$.ajax({
+		    		    url:'${base}/reward.jspx',
+		    		    type:'POST', //GET
+		    		    async:false,    //或false,是否异步
+		    		    data:{
+		    		    	userid:${doctor.id},fromuserid:${user.id},grainCnt:grain
+		    		    },	   
+		    		    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text	   
+		    		    success:function(data){
+		    		        if(data){
+		    		        	layer.msg("打赏成功！",{
+		    		                time: 20000, //20s后自动关闭
+		    		                btn: ['关闭']});
+		    		        	 window.location.reload();
+		    		        }else{
+		    		        	layer.msg("打赏失败！");
+		    		        }
+		    		    },
+		    		    error:function(){
+		    		    	layer.msg("系统异常");
+		    		    }
+		    	});
+		    	}
+		    }else{
+		    	layer.msg('彩虹币数量必须是正整数');
+		    }
+		  }
+		[#else ]
+		content: '<div style="padding:30px; line-height: 22px;  font-weight: 300;">自己不能给自己打赏<br></div>'
+		[/#if]
+	[#else ]		
+		 content: '<div style="padding:30px; line-height: 22px;  font-weight: 300;">登录之后才能打赏哦，去<a href="${base}/login.jspx"><font color="blue">登录</font></a><br></div>'	  
+	[/#if]
+	}); 
+}
+</script>
+</head>
+<body>
+    <div id="top">
+        <div class="w1080 clearfix">
+    <ul class="pull-left">
+        <li class="home pull-left"><a href="http://www.caihongyixue.com/" class="l1 rb">网站首页</a></li>
+        <li  class="pull-left"><a href="http://www.caihongyixue.com/education/index.jhtml" class="l1 rb">空中课堂</a></li>
+        <li  class="pull-left"><a href="http://www.caihongyixue.com/zjtd/index.jhtml" class="l1 rb">专家团队</a></li>
+        <li  class="pull-left"><a href="http://www.caihongyixue.com/yyhz/index.jhtml" class="l1 rb">预约会诊</a></li>
+        <li  class="pull-left"><a href="http://bbs.caihongyixue.com" target="_blank" class="l1 rb">在线论坛</a></li>     
+        <li  class="pull-left"><a href="http://www.caihongyixue.com/gywm.jhtml" class="l1">关于我们</a></li>
+     </ul>
+    <div class="pull-right user-login-state"> [#if user??]<a href="${base}/member/index.jspx">个人中心</a>[#else]
+    <a href="${base}/login.jspx">登录</a><a href="${base}/register.jspx">注册</a>
+    [/#if]</div>
+</div>    </div>
+    <div id="header">
+        <div class="w1080 headerinfo clearfix">
+    <div class="blogtitle">
+        <h1>${doctor.realname!doctor.username}</h1>
+        <span>http://www.caihongyixue.com/blog/${doctor.username}.jspx</span>
+        <div class="blogintro"></div>
+    </div>
+    <div class="menu clearfix">
+        <ul class="clearfix">
+                        <li><a href="${base}/blog/${doctor.username}.jspx" class="line">首 页</a></li>
+                       
+                        <li><a href="${base}/blog/${doctor.username}/message.jspx" class="selected ">留言板</a></li>
+                </ul>
+    </div>
+</div>    </div>
+    <div class="container">
+        <div class="w1080 clearfix">
+    <div class="aside pull-left">
+        <div class="block">
+    <h3>个人资料</h3>
+    <div class="avatarimg">
+        <img src="${doctor.userImg!site.defImg}">
+      </div>
+    <ul class="userinfo">
+        <li>姓名：${doctor.realname!doctor.username}</li>
+        [#if doctor.group.id==2]
+        <li>国籍：${doctor.nation.name!}</li>
+		<li>专业：${doctor.major.name!}</li>
+		<li>职称：${doctor.jobTitle.name!}</li>
+		<li>级别：${doctor.jobLevel.name!}</li>
+		[/#if]
+        <li>彩虹币：${doctor.grain!}</li>
+        <li>粉丝数：${doctor.fansCnt!}</li>
+       
+        <li class="clearfix">                       
+             [#if followed??] <a href="javascript:unfollow('${user.id!}','${doctor.id!}');" class="btn2 btn-add"  title="取消关注">取消关注</a>
+             [#elseif user??&&user.id!=doctor.id] <a href="javascript:follow('${user.id!}','${doctor.id!}');" class="btn2 btn-add" title="关注">加关注</a>
+             [/#if]
+            <a href="#" class="btn2 btn-msg sendMessage" onclick="reward();">打赏</a>
+        </li>
+    </ul>
+</div>
+
+<div class="block mgt20">
+    <h3>个人介绍</h3>
+     <ul class="category"> ${doctor.intro!"<li class='no-article'>暂无介绍</li>"} </ul>
+</div>
+</div>
+    <div class="main pull-right">
+       <div class="block mgb20">
+                <h3>最新留言</h3>
+                <ul class="listtrends">
+      [#include "../content/inc_comment_list.html"/]  
+      </ul>
+      </div>  
+       <div class="block mgb20">
+           <h3>留言</h3>
+            <ul class="listtrends">
+       [#include "../content/inc_comment_input.html"/]   
+       </ul> 
+       </div> 
+    </div>
+</div>   
+</div>
+
+
+</body></html>
