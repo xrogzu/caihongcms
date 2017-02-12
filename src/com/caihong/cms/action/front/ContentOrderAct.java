@@ -552,8 +552,10 @@ public class ContentOrderAct {
 			String alipyOrderNum){
 		Element e = cache.get(orderNumber);
 	    CmsUser user= null;
+	    System.out.println(e);
 		if(e!=null&&StringUtils.isNotBlank(orderNumber)){
 		    Order b=orderMng.findByOrderNumber(orderNumber);
+		    System.out.println(b);
 		    //不能重复提交
 		    if(b==null){
 		    	Object obj= e.getObjectValue();
@@ -581,6 +583,7 @@ public class ContentOrderAct {
 					type=Integer.parseInt(objArray[3]);;
 				}
 			    Order order=new Order();
+			    System.out.println(buyUserId);
 			    if(buyUserId!=null){
 			    	user=userMng.findById(buyUserId);
 			    	order.setUser(user);
@@ -597,7 +600,7 @@ public class ContentOrderAct {
 		 			order.setOrderNumWeiXin(weixinOrderNum);
 		 			order.setOrderNumAliPay(alipyOrderNum);
 		 			order=orderMng.save(order);
-		 			
+		 			 System.out.println("ok");
 			 	}
 		    }
 		}
