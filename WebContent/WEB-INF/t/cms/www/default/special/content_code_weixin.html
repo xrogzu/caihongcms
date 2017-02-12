@@ -16,7 +16,7 @@ function queryWeChatStatus() {
         success: function (data) {
             if (data.status==0||data.status==4) { //订单状态为0表示支付成功
                alert("支付成功");
-               window.location.href = "${content.url!}"; 
+               window.location.href = "${url!}"; 
             }else if(data.status==1){
             	alert("微信扫码支付密钥错误，请通知管理员");
             }else if(data.status==2){
@@ -30,6 +30,6 @@ function queryWeChatStatus() {
 </script>
 </head>
 <body>
- <img src="${base}/special/o_create_dimensioncode.jspx?content=${code_url!}&size=90" style="width:150px;height:150px;"/>
+ <img src="${base}/special/o_create_dimensioncode.jspx?content=${url!}&size=90" style="width:150px;height:150px;"/>
 </body>
 </html>

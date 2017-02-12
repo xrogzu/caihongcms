@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.caihong.cms.entity.main">
-	<class name="order" table="jc_order">
+	<class name="Order" table="jc_order">
 		<meta attribute="sync-DAO">false</meta>
 		<cache usage="read-write"/>
 		<id name="id" type="java.lang.Long" column="id"><generator class="identity"/></id>

@@ -3,6 +3,7 @@ package com.caihong.common.util;
 import static com.caihong.cms.Constants.TPLDIR_SPECIAL;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +48,14 @@ public class WeixinPay {
 		if(content==null){
 			content="购买";
 		}
-		paramMap.put("body", content);
+		String bodyString=content;
+		try {
+			 bodyString = new String(content.getBytes("utf-8"));
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		paramMap.put("body", bodyString);
 		// 商户系统内部的订单号,32个字符内、可包含字母, [必填]
 		paramMap.put("out_trade_no", orderNum);
 		// 符合ISO 4217标准的三位字母代码，默认人民币：CNY. [非必填]
@@ -83,6 +91,7 @@ public class WeixinPay {
 		}
 		// 把参数转换成XML数据格式
 		String xmlWeChat = PayUtil.assembParamToXml(paramMap);
+		
 		String resXml = HttpClientUtil.post(serverUrl,xmlWeChat);
 		Map<String, String> map=new HashMap<String, String>();
 		try {
@@ -132,7 +141,7 @@ public class WeixinPay {
 	
 	//微信扫码支付
 	public static  String enterWeiXinPay(String serverUrl,
-			CmsConfigContentCharge config,String content,String orderNumber,String product_id,
+			CmsConfigContentCharge config,String content,String orderNumber,String product_id,String url,
 			Double rewardAmount,HttpServletRequest request,
 			HttpServletResponse response,ModelMap model) throws JSONException {
 		if (StringUtils.isNotBlank(config.getWeixinAppId())
@@ -156,7 +165,7 @@ public class WeixinPay {
 							if(rewardAmount!=null){
 								model.addAttribute("payAmount", rewardAmount);
 							}
-							model.addAttribute("content", content);
+							model.addAttribute("url", url);
 							FrontUtils.frontData(request, model, site);
 							return FrontUtils.getTplPath(request, site.getSolutionPath(),
 									TPLDIR_SPECIAL,CONTENT_CODE_WEIXIN);

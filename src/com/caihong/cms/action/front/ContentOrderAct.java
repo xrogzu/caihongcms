@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alipay.api.response.AlipayTradeQueryResponse;
@@ -83,8 +84,10 @@ public class ContentOrderAct {
 	public static final String CONTENT_ORDERS="tpl.content.orders";
 	public static final String WEIXIN_AUTH_CODE_URL ="weixin.auth.getCodeUrl";
 	
-	private static final String url="http://www.caihongyixue.com";
-	
+	private static final String url="http://www.caihongyixue.com/buy/reward%s.jspx";
+	public static void main(String args[]){
+		System.out.println(String.format(url, 1));
+	}
 	//支付购买（先选择支付方式，在进行支付）
 	@RequestMapping(value = "/content/buy.jspx")
 	public String contentBuy(Integer doctorId,
@@ -130,8 +133,8 @@ public class ContentOrderAct {
 	}
 	
 	//彩虹币购买
-	@RequestMapping(value = "/buy/reward.jspx")
-	public String contentReward(String code,Integer grainConfigId,
+	@RequestMapping(value = "/buy/reward{grainConfigId}.jspx")
+	public String contentReward(String code, @PathVariable(value="grainConfigId")Integer grainConfigId,
 			HttpServletRequest request,
 			HttpServletResponse response,ModelMap model) throws JSONException {
 		WebErrors errors=WebErrors.create(request);
@@ -142,6 +145,7 @@ public class ContentOrderAct {
 				if(grainConfigId!=null){
 					 GrainBuyConfig config=grainBuyConfigMng.findById(grainConfigId);
 					 s=config.getPrice();
+					 model.addAttribute("rewardAmount", config.getPrice());
 				}
 	  	    	String ua = ((HttpServletRequest) request).getHeader("user-agent")
 			  	          .toLowerCase();
@@ -295,22 +299,22 @@ public class ContentOrderAct {
   	    			if(rewardAmount!=null){
   	    				totalAmount=rewardAmount;
   	    			}
-  	    			
+  	    			String find_url=String.format(url, grainConfigId);
 		  	    	if(payMethod!=null){
 		  	    		if(payMethod==1){
 		  	    			return WeixinPay.enterWeiXinPay(getWeiXinPayUrl(),config,content,
-									orderNumber,grainConfigId+"",rewardAmount,request, response, model);
+									orderNumber,grainConfigId+"",find_url,rewardAmount,request, response, model);
 		  	    		}else if(payMethod==3){
 		  	    			String openId=(String) session.getAttribute(request, "wxopenid");
 		  	    			return WeixinPay.weixinPayByMobile(getWeiXinPayUrl(),config,
 		  	    					openId,content, orderNumber, rewardAmount,grainConfigId+"",
 		  	    					request, response, model);
 		  	    		}else if(payMethod==2){
-		  	    			return AliPay.enterAliPayImmediate(config,orderNumber,content, rewardAmount,content,url,null,
+		  	    			return AliPay.enterAliPayImmediate(config,orderNumber,content, rewardAmount,content,find_url,null,
 									request, response, model);
 		  	    		}else if(payMethod==4){
 		  	    			return AliPay.enterAlipayScanCode(request,response, model,
-		  	    					getAliPayUrl(), config, content, content,url,
+		  	    					getAliPayUrl(), config, content, content,find_url,
 		  	    					orderNumber, totalAmount);
 		  	    		}else if(payMethod==5){		  				
 		  					model.addAttribute("url", url);
@@ -324,7 +328,7 @@ public class ContentOrderAct {
 		  	    		}
 					}//支付宝
 		  	    	
-					return AliPay.enterAliPayImmediate(config,orderNumber,content, rewardAmount,content,url,null,
+					return AliPay.enterAliPayImmediate(config,orderNumber,content, rewardAmount,content,find_url,null,
 							request, response, model);
 		  	    
 		    }else{
@@ -350,9 +354,9 @@ public class ContentOrderAct {
 				String content="彩虹币购买"+buyConfig.getCount()+"个";
 				CmsConfigContentCharge config=configContentChargeMng.getDefault();
 			
-				
+				String find_url=String.format(url, grainConfigId);
 				AliPay.enterAlipayInMobile(request, response,
-						getAliPayUrl(), config, content, orderNumber, rewardAmount,content,url);
+						getAliPayUrl(), config, content, orderNumber, rewardAmount,content,find_url);
 				return "";
 			}else{
 		    	errors.addErrorCode("error.beanNotFound","buyConfig");

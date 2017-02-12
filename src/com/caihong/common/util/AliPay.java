@@ -91,7 +91,7 @@ public class AliPay {
 				model.addAttribute("code_url", aliResponse.getQrCode());
 				model.addAttribute("orderNumber",outTradeNo);
 				model.addAttribute("payAmount", totalAmount);
-				model.addAttribute("content", content);
+				model.addAttribute("url", url);
 				FrontUtils.frontData(request, model, site);
 				return FrontUtils.getTplPath(request, site.getSolutionPath(),
 						TPLDIR_SPECIAL, CONTENT_CODE_ALIPAY);
