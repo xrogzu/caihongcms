@@ -300,6 +300,7 @@ public class WeixinPay {
 		try{    		
 			if(StringUtils.isNotBlank(weiXinPayUrl)){
 				String s=HttpClientUtil.post(weiXinPayUrl, xmlWeChat, Constants.UTF8);
+				System.out.println("notice:"+s);
 			}
 		}catch(Exception e){
 			e.printStackTrace();

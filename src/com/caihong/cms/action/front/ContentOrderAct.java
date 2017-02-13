@@ -48,6 +48,7 @@ import com.caihong.common.util.StrUtils;
 import com.caihong.common.util.WeixinPay;
 import com.caihong.common.web.Constants;
 import com.caihong.common.web.CookieUtils;
+import com.caihong.common.web.GetGrainType;
 import com.caihong.common.web.HttpClientUtil;
 import com.caihong.common.web.OrderType;
 import com.caihong.common.web.ResponseUtils;
@@ -85,9 +86,7 @@ public class ContentOrderAct {
 	public static final String WEIXIN_AUTH_CODE_URL ="weixin.auth.getCodeUrl";
 	
 	private static final String url="http://www.caihongyixue.com/buy/reward%s.jspx";
-	public static void main(String args[]){
-		System.out.println(String.format(url, 1));
-	}
+	
 	//支付购买（先选择支付方式，在进行支付）
 	@RequestMapping(value = "/content/buy.jspx")
 	public String contentBuy(Integer doctorId,
@@ -389,6 +388,7 @@ public class ContentOrderAct {
 		}else{
 			// 回调结果
 			String xml_receive_result = PayUtil.getWeiXinResponse(request);
+			System.out.println("微信回调参数："+xml_receive_result);
 			if (StringUtils.isBlank(xml_receive_result)) {
 				//检测到您可能没有进行扫码支付，请支付
 				json.put("status", 5);
@@ -401,8 +401,8 @@ public class ContentOrderAct {
 					//微信扫码支付密钥错误，请通知商户
 					json.put("status", 1);
 				}
-				String checkSign = PayUtil.createSign(result_map, key);
-				if (checkSign != null && checkSign.equals(sign_receive)) {
+//				String checkSign = PayUtil.createSign(result_map, key);
+//				if (checkSign != null && checkSign.equals(sign_receive)) {
 					try {
 						if (result_map != null) {
 							String return_code = result_map.get("return_code");
@@ -429,7 +429,7 @@ public class ContentOrderAct {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				} else {
+				/*} else {
 					Map<String, String> parames = new HashMap<String, String>();
 					parames.put("return_code", "FAIL");
 					parames.put("return_msg", "校验错误");
@@ -442,11 +442,13 @@ public class ContentOrderAct {
 					}
 					//支付参数错误，请重新支付!
 					json.put("status", 3);
-				}
+				}*/
 			}
 		}
 		ResponseUtils.renderJson(response, json.toString());
 	}
+	
+
 	
 	//支付宝即时支付回调地址
 	@RequestMapping(value = "/order/payCallByAliPay.jspx")
@@ -555,7 +557,6 @@ public class ContentOrderAct {
 	    System.out.println(e);
 		if(e!=null&&StringUtils.isNotBlank(orderNumber)){
 		    Order b=orderMng.findByOrderNumber(orderNumber);
-		    System.out.println(b);
 		    //不能重复提交
 		    if(b==null){
 		    	Object obj= e.getObjectValue();
@@ -583,15 +584,16 @@ public class ContentOrderAct {
 					type=Integer.parseInt(objArray[3]);;
 				}
 			    Order order=new Order();
-			    System.out.println(buyUserId);
-			    if(buyUserId!=null){
+			    if(buyUserId!=null&&type!=null){
 			    	user=userMng.findById(buyUserId);
 			    	order.setUser(user);
 			    	order.setType(type);;
 			   	   
 			   	    if(grainBuyConfigId!=null){
 			   	    	GrainBuyConfig config=grainBuyConfigMng.findById(grainBuyConfigId);
-			   	    	order.setGrainConfig(config);
+			   	    	order.setGrainConfig(config);			   	    	
+			   	    	rewardAmount=config.getPrice();
+			   	    	userMng.updateGrainCnt(user, null, config.getCount(), GetGrainType.BUY);//获取彩虹币
 			   	    }
 			   	    order.setAmount(rewardAmount);
 			   	    order.setOrderNum(orderNumber);
@@ -599,8 +601,9 @@ public class ContentOrderAct {
 			 		// 这里是把微信商户的订单号放入了交易号中
 		 			order.setOrderNumWeiXin(weixinOrderNum);
 		 			order.setOrderNumAliPay(alipyOrderNum);
+		 			order.setStatus(1);
 		 			order=orderMng.save(order);
-		 			 System.out.println("ok");
+		 			
 			 	}
 		    }
 		}

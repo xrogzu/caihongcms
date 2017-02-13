@@ -24,7 +24,7 @@ public class Order  implements Serializable{
 	//订单金额不足以购买内容
 	public static final Integer PRE_PAY_STATUS_ORDER_AMOUNT_NOT_ENOUGH=3;
 	
-	private java.lang.Integer id;
+	private java.lang.Long id;
 	private CmsUser user;
 	private CmsUser rewardUser;
 	private java.lang.Double amount;
@@ -47,10 +47,10 @@ public class Order  implements Serializable{
 
 	private int prePayStatus;
 	
-	public java.lang.Integer getId() {
+	public java.lang.Long getId() {
 		return id;
 	}
-	public void setId(java.lang.Integer id) {
+	public void setId(java.lang.Long id) {
 		this.id = id;
 	}
 	public CmsUser getUser() {

@@ -160,7 +160,7 @@ public class CmsUserMngImpl implements CmsUserMng {
 		detail.setType(type.getValue());
 		detail.setTime(new Date());
 		grainDetailMng.save(detail);
-		if(type!=GetGrainType.REG){
+		if(type!=GetGrainType.REG&&type!=GetGrainType.BBS){//注册和论坛来源不做同步
 			TopicHttpSender.updateGrain(user.getUsername(), grain);//注册不同步，接口请求修改
 		}
 	}
