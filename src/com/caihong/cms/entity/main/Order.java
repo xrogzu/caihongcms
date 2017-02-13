@@ -31,6 +31,7 @@ public class Order  implements Serializable{
 	private String orderNum;
 	private String orderNumWeiXin;
 	private String orderNumAliPay;
+	private String note;
 		// fields
 	private java.util.Date time;	
 	private java.lang.Integer type;
@@ -89,6 +90,14 @@ public class Order  implements Serializable{
 	public void setOrderNumAliPay(String orderNumAliPay) {
 		this.orderNumAliPay = orderNumAliPay;
 	}
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
 	public java.util.Date getTime() {
 		return time;
 	}

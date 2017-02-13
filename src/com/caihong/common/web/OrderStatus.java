@@ -1,8 +1,13 @@
 package com.caihong.common.web;
-
-public enum OrderType {
-	REWARD(1,"彩虹币"),
-	RESERVE(2,"预约");
+/**
+ * 订单状态
+ * @author rishi.ding
+ *
+ */
+public enum OrderStatus {
+	PAID(1,"支付"),
+	UNPAID(2,"未支付"),
+	CANCEL(3,"取消");
 	private Integer value;
 	private String name;
 	public void setValue(Integer value) {
@@ -25,14 +30,14 @@ public enum OrderType {
 	public String getName() {
 		return name;
 	}
-	OrderType(Integer value,String name){
+	OrderStatus(Integer value,String name){
 		setValue(value);
 		setName(name);
 	}
-	public static OrderType getOrderTypeValue(Integer value){
+	public static OrderStatus getOrderStatusValue(Integer value){
 		if (null == value)
 			return null;
-		for (OrderType _enum : OrderType.values()) {
+		for (OrderStatus _enum : OrderStatus.values()) {
 			if (value.equals(_enum.getValue()))
 				return _enum;
 		}

@@ -32,31 +32,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.caihong.cms.entity.assist.CmsConfigContentCharge;
-import com.caihong.cms.entity.main.Content;
-import com.caihong.cms.entity.main.ContentBuy;
 import com.caihong.cms.entity.main.ContentCharge;
 import com.caihong.cms.entity.main.GrainBuyConfig;
 import com.caihong.cms.entity.main.Order;
 import com.caihong.cms.manager.assist.CmsConfigContentChargeMng;
-import com.caihong.cms.manager.main.ContentBuyMng;
-import com.caihong.cms.manager.main.ContentChargeMng;
-import com.caihong.cms.manager.main.ContentMng;
 import com.caihong.cms.manager.main.GrainBuyConfigMng;
 import com.caihong.cms.manager.main.OrderMng;
 import com.caihong.common.util.PropertyUtils;
 import com.caihong.common.util.StrUtils;
 import com.caihong.common.util.WeixinPay;
-import com.caihong.common.web.Constants;
 import com.caihong.common.web.CookieUtils;
 import com.caihong.common.web.GetGrainType;
-import com.caihong.common.web.HttpClientUtil;
+import com.caihong.common.web.OrderStatus;
 import com.caihong.common.web.OrderType;
 import com.caihong.common.web.ResponseUtils;
 import com.caihong.common.web.session.SessionProvider;
 import com.caihong.common.web.springmvc.RealPathResolver;
 import com.caihong.core.entity.CmsSite;
 import com.caihong.core.entity.CmsUser;
-import com.caihong.core.manager.CmsUserAccountMng;
 import com.caihong.core.manager.CmsUserMng;
 import com.caihong.core.web.WebErrors;
 import com.caihong.core.web.util.CmsUtils;
@@ -85,7 +78,7 @@ public class ContentOrderAct {
 	public static final String CONTENT_ORDERS="tpl.content.orders";
 	public static final String WEIXIN_AUTH_CODE_URL ="weixin.auth.getCodeUrl";
 	
-	private static final String url="http://www.caihongyixue.com/buy/reward%s.jspx";
+//	private static final String url="http://www.caihongyixue.com/buy/reward%s.jspx";
 	
 	//支付购买（先选择支付方式，在进行支付）
 	@RequestMapping(value = "/content/buy.jspx")
@@ -140,6 +133,11 @@ public class ContentOrderAct {
 		CmsSite site=CmsUtils.getSite(request);
 		CmsUser user=CmsUtils.getUser(request);
 		if(user!=null){
+				String returnurl = request.getHeader("Referer");  
+				if(returnurl==null||returnurl.equals("")){
+					returnurl =site.getProtocol()+site.getDomain();  
+				}
+				model.addAttribute("returnurl",returnurl);
 				double  s=1d;
 				if(grainConfigId!=null){
 					 GrainBuyConfig config=grainBuyConfigMng.findById(grainConfigId);
@@ -161,7 +159,7 @@ public class ContentOrderAct {
 				if(pagination!=null){
 					 confList= (List<GrainBuyConfig>)pagination.getList();
 				}
-				
+				model.addAttribute("type", OrderType.RESERVE.getValue());
 				
 	  	    	String orderNumber=System.currentTimeMillis()+RandomStringUtils.random(5,Num62.N10_CHARS);
 	  	    	FrontUtils.frontData(request, model, site);
@@ -184,7 +182,7 @@ public class ContentOrderAct {
 	@RequestMapping(value = "/buy/fixSelect.jspx")
 	public String contentFixSelect(
 			Integer grainConfigId,String orderNumber,
-			Double rewardAmount,
+			Double rewardAmount,Integer type,String returnurl,
 			HttpServletRequest request,
 			HttpServletResponse response,ModelMap model) throws JSONException {
 		WebErrors errors=WebErrors.create(request);
@@ -205,9 +203,11 @@ public class ContentOrderAct {
 			GrainBuyConfig content=grainBuyConfigMng.findById(grainConfigId);
 		    if(content!=null){
 		    	FrontUtils.frontData(request, model, site);
+		    	model.addAttribute("returnurl",returnurl);
 				model.addAttribute("grainConfigId", grainConfigId);
 		  		model.addAttribute("orderNumber", orderNumber);		  		
 		  		model.addAttribute("content", content);
+		  		model.addAttribute("type", type);
 		  		model.addAttribute("webCatBrowser", webCatBrowser);
 		  		model.addAttribute("wxopenid", wxopenid);
 		  		model.addAttribute("rewardAmount", content.getPrice());
@@ -270,7 +270,7 @@ public class ContentOrderAct {
 	 */
 	@RequestMapping(value = "/buy/selectPay.jspx")
 	public String selectPay(String orderNumber,
-			Integer payMethod,Double rewardAmount,Integer grainConfigId,
+			Integer payMethod,Double rewardAmount,Integer grainConfigId,Integer type,String returnurl,
 			HttpServletRequest request,
 			HttpServletResponse response,ModelMap model) throws JSONException {
 		WebErrors errors=WebErrors.create(request);
@@ -278,45 +278,46 @@ public class ContentOrderAct {
 		CmsSite site=CmsUtils.getSite(request);
 		initWeiXinPayUrl();
 		initAliPayUrl();
-		if(grainConfigId==null){
+		if(grainConfigId==null||type==null){
 			errors.addErrorCode("error.required","grainConfigId");
 			return FrontUtils.showError(request, response, model, errors);
 		}else{
-			
-			GrainBuyConfig buyConfig= grainBuyConfigMng.findById(grainConfigId);
+			GrainBuyConfig buyConfig=null;
+			if(type==OrderType.RESERVE.getValue()){
+			 buyConfig= grainBuyConfigMng.findById(grainConfigId);
+			}
 		    if(buyConfig!=null){
-		    		String content="彩虹币购买"+buyConfig.getCount()+"个";
+		    		String content="彩虹币"+buyConfig.getCount()+"个";
 		  	    	CmsConfigContentCharge config=configContentChargeMng.getDefault();
 		  			
 		  	    	if(user!=null){
 		  	    		cache.put(new Element(orderNumber,
-			  	    			user.getId()+","+rewardAmount+","+grainConfigId+","+OrderType.REWARD.getValue()));
+			  	    			user.getId()+","+rewardAmount+","+grainConfigId+","+type+","+content));
 		  	    	}else{
-		  	    		cache.put(new Element(orderNumber,rewardAmount+","+grainConfigId+","+OrderType.REWARD.getValue()));
+		  	    		cache.put(new Element(orderNumber,rewardAmount+","+grainConfigId+","+type+","+content));
 		  	    	}
   	    			Double totalAmount=buyConfig.getPrice();
   	    			if(rewardAmount!=null){
   	    				totalAmount=rewardAmount;
   	    			}
-  	    			String find_url=String.format(url, grainConfigId);
 		  	    	if(payMethod!=null){
 		  	    		if(payMethod==1){
 		  	    			return WeixinPay.enterWeiXinPay(getWeiXinPayUrl(),config,content,
-									orderNumber,grainConfigId+"",find_url,rewardAmount,request, response, model);
+									orderNumber,grainConfigId+"",returnurl,rewardAmount,request, response, model);
 		  	    		}else if(payMethod==3){
 		  	    			String openId=(String) session.getAttribute(request, "wxopenid");
 		  	    			return WeixinPay.weixinPayByMobile(getWeiXinPayUrl(),config,
 		  	    					openId,content, orderNumber, rewardAmount,grainConfigId+"",
 		  	    					request, response, model);
 		  	    		}else if(payMethod==2){
-		  	    			return AliPay.enterAliPayImmediate(config,orderNumber,content, rewardAmount,content,find_url,null,
+		  	    			return AliPay.enterAliPayImmediate(config,orderNumber,content, rewardAmount,content,returnurl,null,
 									request, response, model);
 		  	    		}else if(payMethod==4){
 		  	    			return AliPay.enterAlipayScanCode(request,response, model,
-		  	    					getAliPayUrl(), config, content, content,find_url,
+		  	    					getAliPayUrl(), config, content, content,returnurl,
 		  	    					orderNumber, totalAmount);
 		  	    		}else if(payMethod==5){		  				
-		  					model.addAttribute("url", url);
+		  					model.addAttribute("url", returnurl);
 				  	    	model.addAttribute("grainConfigId",grainConfigId);
 				  	    	model.addAttribute("orderNumber",orderNumber);
 		  					model.addAttribute("content", content);
@@ -327,7 +328,7 @@ public class ContentOrderAct {
 		  	    		}
 					}//支付宝
 		  	    	
-					return AliPay.enterAliPayImmediate(config,orderNumber,content, rewardAmount,content,find_url,null,
+					return AliPay.enterAliPayImmediate(config,orderNumber,content, rewardAmount,content,returnurl,null,
 							request, response, model);
 		  	    
 		    }else{
@@ -339,7 +340,7 @@ public class ContentOrderAct {
 	
 	@RequestMapping(value = "/buy/alipayInMobile.jspx")
 	public String enterAlipayInMobile(String orderNumber,Integer grainConfigId,
-			Double rewardAmount,HttpServletRequest request,
+			Double rewardAmount,HttpServletRequest request,String returnurl,
 			HttpServletResponse response,ModelMap model) throws JSONException {
 		WebErrors errors=WebErrors.create(request);
 		initAliPayUrl();
@@ -350,10 +351,10 @@ public class ContentOrderAct {
 			
 			GrainBuyConfig buyConfig= grainBuyConfigMng.findById(grainConfigId);
 			if(buyConfig!=null){
-				String content="彩虹币购买"+buyConfig.getCount()+"个";
+				String content="彩虹币"+buyConfig.getCount()+"个";
 				CmsConfigContentCharge config=configContentChargeMng.getDefault();
 			
-				String find_url=String.format(url, grainConfigId);
+				String find_url=String.format(returnurl, grainConfigId);
 				AliPay.enterAlipayInMobile(request, response,
 						getAliPayUrl(), config, content, orderNumber, rewardAmount,content,find_url);
 				return "";
@@ -569,7 +570,7 @@ public class ContentOrderAct {
 				
 				Integer grainBuyConfigId=null;
 				Integer type=null;
-				
+				String content=null;
 				if(objArray!=null&&objArray[0]!=null){
 					buyUserId=Integer.parseInt(objArray[0]) ;
 				}
@@ -583,13 +584,17 @@ public class ContentOrderAct {
 				if(objArray!=null&&objArray[3]!=null){
 					type=Integer.parseInt(objArray[3]);;
 				}
+				if(objArray!=null&&objArray[4]!=null){
+					content=objArray[4];
+				}
+				
 			    Order order=new Order();
-			    if(buyUserId!=null&&type!=null){
+			    if(buyUserId!=null&&type!=null&&grainBuyConfigId!=null){
 			    	user=userMng.findById(buyUserId);
 			    	order.setUser(user);
 			    	order.setType(type);;
 			   	   
-			   	    if(grainBuyConfigId!=null){
+			   	    if(type==OrderType.REWARD.getValue()){ //彩虹币购买
 			   	    	GrainBuyConfig config=grainBuyConfigMng.findById(grainBuyConfigId);
 			   	    	order.setGrainConfig(config);			   	    	
 			   	    	rewardAmount=config.getPrice();
@@ -597,11 +602,12 @@ public class ContentOrderAct {
 			   	    }
 			   	    order.setAmount(rewardAmount);
 			   	    order.setOrderNum(orderNumber);
+			   	    order.setNote(content);
 			   	    order.setTime(Calendar.getInstance().getTime());
 			 		// 这里是把微信商户的订单号放入了交易号中
 		 			order.setOrderNumWeiXin(weixinOrderNum);
 		 			order.setOrderNumAliPay(alipyOrderNum);
-		 			order.setStatus(1);
+		 			order.setStatus(OrderStatus.PAID.getValue());
 		 			order=orderMng.save(order);
 		 			
 			 	}

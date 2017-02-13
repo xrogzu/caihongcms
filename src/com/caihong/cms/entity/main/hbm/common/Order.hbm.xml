@@ -9,7 +9,7 @@
 		<property name="orderNum" column="order_num" type="string" not-null="true" length="50"/>
 		<property name="orderNumWeiXin" column="order_num_weixin" type="string" not-null="false" length="255"/>
 		<property name="orderNumAliPay" column="order_num_alipay" type="string" not-null="false" length="100"/>
-		
+		<property name="note" column="note" type="string" not-null="false" length="255"/>
 		<property name="type" column="type" type="integer" not-null="true" length="3"/>
 		<property name="status" column="status" type="integer" not-null="true" length="1"/>
 		<property name="time" column="time" type="timestamp" not-null="true" length="19"/>

@@ -49,12 +49,12 @@ public class WeixinPay {
 			content="购买";
 		}
 		String bodyString=content;
-		try {
-			 bodyString = new String(content.getBytes("utf-8"));
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+//		try {
+//			 bodyString = new String(content.getBytes("utf-8"));
+//		} catch (UnsupportedEncodingException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 		paramMap.put("body", bodyString);
 		// 商户系统内部的订单号,32个字符内、可包含字母, [必填]
 		paramMap.put("out_trade_no", orderNum);
@@ -92,7 +92,7 @@ public class WeixinPay {
 		// 把参数转换成XML数据格式
 		String xmlWeChat = PayUtil.assembParamToXml(paramMap);
 		
-		String resXml = HttpClientUtil.post(serverUrl,xmlWeChat);
+		String resXml = HttpClientUtil.post(serverUrl,xmlWeChat,Constants.UTF8);
 		Map<String, String> map=new HashMap<String, String>();
 		try {
 			if(StringUtils.isNotBlank(resXml)){

@@ -19,8 +19,8 @@
 $(function() {
 	
 		[#if rewardAmount??]
-			$("#wcode").load("${base}/buy/selectPay.jspx?grainConfigId=${grainConfigId!}&orderNumber=${orderNumber!}&payMethod=1&chargeReward=${type!}&rewardAmount=${rewardAmount!}");
-// 			$("#acode").load("${base}/buy/selectPay.jspx?grainConfigId=${grainConfigId!}&orderNumber=${orderNumber!}&payMethod=4&chargeReward=${type!}&rewardAmount=${rewardAmount!}");
+			$("#wcode").load("${base}/buy/selectPay.jspx?grainConfigId=${grainConfigId!}&orderNumber=${orderNumber!}&payMethod=1&chargeReward=${type!}&rewardAmount=${rewardAmount!}&type=${type!}&returnurl=${returnurl!}");
+// 			$("#acode").load("${base}/buy/selectPay.jspx?grainConfigId=${grainConfigId!}&orderNumber=${orderNumber!}&payMethod=4&chargeReward=${type!}&rewardAmount=${rewardAmount!&type=${type!}}&returnurl=${returnurl!}");
 				
 		[/#if]
 
@@ -56,7 +56,8 @@ function changeAmountSubmit(value,grainConfigId){
 	  <form method="post" action="${base}/buy/fixSelect.jspx" id="jvForm">
 		<input name="grainConfigId" id="grainConfigId" value="${grainConfigId!}" type="hidden" /> 
 		<input name="orderNumber" value="${orderNumber!}" type="hidden" /> 
-		<input name="chargeReward" value="${type!}" type="hidden" />
+		<input name="type" value="${type!}" type="hidden" />
+		<input name="returnurl" value="${returnurl!}" type="hidden"/>
 		<input name="rewardAmount" value="${randomOne!}" id="rewardAmount" type="hidden" />
 		<div>
 		[#list confList as r]
