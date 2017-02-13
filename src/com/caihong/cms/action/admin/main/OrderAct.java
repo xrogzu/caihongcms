@@ -68,10 +68,7 @@ public class OrderAct {
 	@RequestMapping("/Order/o_update.do")
 	public String update(Order bean, Integer pageNo, HttpServletRequest request,
 			ModelMap model) {
-		WebErrors errors = validateUpdate(bean.getId(), request);
-		if (errors.hasErrors()) {
-			return errors.showErrorPage(model);
-		}
+		
 		bean = manager.update(bean);
 		log.info("update Order id={}.", bean.getId());
 		return list(pageNo, request, model);
@@ -107,14 +104,7 @@ public class OrderAct {
 		return errors;
 	}
 
-	private WebErrors validateUpdate(Integer id, HttpServletRequest request) {
-		WebErrors errors = WebErrors.create(request);
-		CmsSite site = CmsUtils.getSite(request);
-		if (vldExist(id, site.getId(), errors)) {
-			return errors;
-		}
-		return errors;
-	}
+	
 
 	private WebErrors validateDelete(Integer[] ids, HttpServletRequest request) {
 		WebErrors errors = WebErrors.create(request);
