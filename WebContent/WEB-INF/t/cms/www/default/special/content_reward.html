@@ -19,8 +19,8 @@
 $(function() {
 	
 		[#if rewardAmount??]
-			$("#wcode").load("${base}/buy/selectPay.jspx?grainConfigId=${grainConfigId!}&orderNumber=${orderNumber!}&payMethod=1&chargeReward=${type!}&rewardAmount=${rewardAmount!}&type=${type!}&returnurl=${returnurl!}");
-// 			$("#acode").load("${base}/buy/selectPay.jspx?grainConfigId=${grainConfigId!}&orderNumber=${orderNumber!}&payMethod=4&chargeReward=${type!}&rewardAmount=${rewardAmount!&type=${type!}}&returnurl=${returnurl!}");
+			$("#wcode").load("${base}/buy/selectPay.jspx?grainConfigId=${grainConfigId!}&orderNumber=${orderNumber!}&payMethod=1&rewardAmount=${rewardAmount!}&type=${type!}&returnurl=${returnurl!}");
+// 			$("#acode").load("${base}/buy/selectPay.jspx?grainConfigId=${grainConfigId!}&orderNumber=${orderNumber!}&payMethod=4&&rewardAmount=${rewardAmount!}&type=${type!}&returnurl=${returnurl!}");
 				
 		[/#if]
 
