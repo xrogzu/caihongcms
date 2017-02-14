@@ -38,7 +38,7 @@ public class Order  implements Serializable{
 	private java.util.Date time;	
 	private java.lang.Integer type;
 	private java.lang.Integer status;
-	private GrainBuyConfig grainConfig;
+	private Integer objectId;
 	
 	
 	
@@ -128,12 +128,15 @@ public class Order  implements Serializable{
 	public void setStatus(java.lang.Integer status) {
 		this.status = status;
 	}
-	public GrainBuyConfig getGrainConfig() {
-		return grainConfig;
+	public Integer getObjectId() {
+		return objectId;
 	}
-	public void setGrainConfig(GrainBuyConfig grainConfig) {
-		this.grainConfig = grainConfig;
+
+	public void setObjectId(Integer objectId) {
+		this.objectId = objectId;
 	}
+
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

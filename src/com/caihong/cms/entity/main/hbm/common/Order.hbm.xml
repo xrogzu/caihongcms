@@ -13,8 +13,7 @@
 		<property name="type" column="type" type="integer" not-null="true" length="3"/>
 		<property name="status" column="status" type="integer" not-null="true" length="1"/>
 		<property name="time" column="time" type="timestamp" not-null="true" length="19"/>
-		<many-to-one name="grainConfig" column="grain_config_id" class="com.caihong.cms.entity.main.GrainBuyConfig" not-null="false"></many-to-one>
+		<property name="objectId" column="object_id" type="integer" not-null="true" length="11"/>		
 		<many-to-one name="user" column="user_id" class="com.caihong.core.entity.CmsUser" not-null="true"></many-to-one>
-		<many-to-one name="rewardUser" column="reward_user_id" class="com.caihong.core.entity.CmsUser" not-null="false"></many-to-one>
 	</class>
 </hibernate-mapping>

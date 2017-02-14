@@ -125,8 +125,8 @@ public class ContentOrderAct {
 	}
 	
 	//彩虹币购买
-	@RequestMapping(value = "/buy/reward{grainConfigId}.jspx")
-	public String contentReward(String code, @PathVariable(value="grainConfigId")Integer grainConfigId,
+	@RequestMapping(value = "/buy/reward{objectId}.jspx")
+	public String contentReward(String code, @PathVariable(value="objectId")Integer objectId,
 			HttpServletRequest request,
 			HttpServletResponse response,ModelMap model) throws JSONException {
 		WebErrors errors=WebErrors.create(request);
@@ -139,8 +139,8 @@ public class ContentOrderAct {
 				}
 				model.addAttribute("returnurl",returnurl);
 				double  s=1d;
-				if(grainConfigId!=null){
-					 GrainBuyConfig config=grainBuyConfigMng.findById(grainConfigId);
+				if(objectId!=null){
+					 GrainBuyConfig config=grainBuyConfigMng.findById(objectId);
 					 s=config.getPrice();
 					 model.addAttribute("rewardAmount", config.getPrice());
 				}
@@ -164,7 +164,7 @@ public class ContentOrderAct {
 	  	    	String orderNumber=System.currentTimeMillis()+RandomStringUtils.random(5,Num62.N10_CHARS);
 	  	    	FrontUtils.frontData(request, model, site);
 	  	    	
-	  			model.addAttribute("grainConfigId", grainConfigId);
+	  			model.addAttribute("objectId", objectId);
 		  		model.addAttribute("orderNumber", orderNumber);		  		
 		  		model.addAttribute("webCatBrowser", webCatBrowser);
 		  		model.addAttribute("wxopenid", wxopenid);
@@ -181,7 +181,7 @@ public class ContentOrderAct {
 	
 	@RequestMapping(value = "/buy/fixSelect.jspx")
 	public String contentFixSelect(
-			Integer grainConfigId,String orderNumber,
+			Integer objectId,String orderNumber,
 			Double rewardAmount,Integer type,String returnurl,
 			HttpServletRequest request,
 			HttpServletResponse response,ModelMap model) throws JSONException {
@@ -196,15 +196,15 @@ public class ContentOrderAct {
         	webCatBrowser=true;
         	wxopenid=(String) session.getAttribute(request, "wxopenid");
         }
-        if(grainConfigId==null){
-			errors.addErrorCode("error.required","grainConfigId");
+        if(objectId==null){
+			errors.addErrorCode("error.required","objectId");
 			return FrontUtils.showError(request, response, model, errors);
 		}else{
-			GrainBuyConfig content=grainBuyConfigMng.findById(grainConfigId);
+			GrainBuyConfig content=grainBuyConfigMng.findById(objectId);
 		    if(content!=null){
 		    	FrontUtils.frontData(request, model, site);
 		    	model.addAttribute("returnurl",returnurl);
-				model.addAttribute("grainConfigId", grainConfigId);
+				model.addAttribute("objectId", objectId);
 		  		model.addAttribute("orderNumber", orderNumber);		  		
 		  		model.addAttribute("content", content);
 		  		model.addAttribute("type", type);
@@ -270,7 +270,7 @@ public class ContentOrderAct {
 	 */
 	@RequestMapping(value = "/buy/selectPay.jspx")
 	public String selectPay(String orderNumber,
-			Integer payMethod,Double rewardAmount,Integer grainConfigId,Integer type,String returnurl,
+			Integer payMethod,Double rewardAmount,Integer objectId,Integer type,String returnurl,
 			HttpServletRequest request,
 			HttpServletResponse response,ModelMap model) throws JSONException {
 		WebErrors errors=WebErrors.create(request);
@@ -278,13 +278,13 @@ public class ContentOrderAct {
 		CmsSite site=CmsUtils.getSite(request);
 		initWeiXinPayUrl();
 		initAliPayUrl();
-		if(grainConfigId==null||type==null){
-			errors.addErrorCode("error.required","grainConfigId");
+		if(objectId==null||type==null){
+			errors.addErrorCode("error.required","objectId");
 			return FrontUtils.showError(request, response, model, errors);
 		}else{
 			GrainBuyConfig buyConfig=null;
 			if(type==OrderType.RESERVE.getValue()){
-			 buyConfig= grainBuyConfigMng.findById(grainConfigId);
+			 buyConfig= grainBuyConfigMng.findById(objectId);
 			}
 		    if(buyConfig!=null){
 		    		String content="彩虹币"+buyConfig.getCount()+"个";
@@ -292,9 +292,9 @@ public class ContentOrderAct {
 		  			
 		  	    	if(user!=null){
 		  	    		cache.put(new Element(orderNumber,
-			  	    			user.getId()+","+rewardAmount+","+grainConfigId+","+type+","+content));
+			  	    			user.getId()+","+rewardAmount+","+objectId+","+type+","+content));
 		  	    	}else{
-		  	    		cache.put(new Element(orderNumber,rewardAmount+","+grainConfigId+","+type+","+content));
+		  	    		cache.put(new Element(orderNumber,rewardAmount+","+objectId+","+type+","+content));
 		  	    	}
   	    			Double totalAmount=buyConfig.getPrice();
   	    			if(rewardAmount!=null){
@@ -303,11 +303,11 @@ public class ContentOrderAct {
 		  	    	if(payMethod!=null){
 		  	    		if(payMethod==1){
 		  	    			return WeixinPay.enterWeiXinPay(getWeiXinPayUrl(),config,content,
-									orderNumber,grainConfigId+"",returnurl,rewardAmount,request, response, model);
+									orderNumber,objectId+"",returnurl,rewardAmount,request, response, model);
 		  	    		}else if(payMethod==3){
 		  	    			String openId=(String) session.getAttribute(request, "wxopenid");
 		  	    			return WeixinPay.weixinPayByMobile(getWeiXinPayUrl(),config,
-		  	    					openId,content, orderNumber, rewardAmount,grainConfigId+"",
+		  	    					openId,content, orderNumber, rewardAmount,objectId+"",
 		  	    					request, response, model);
 		  	    		}else if(payMethod==2){
 		  	    			return AliPay.enterAliPayImmediate(config,orderNumber,content, rewardAmount,content,returnurl,null,
@@ -318,7 +318,7 @@ public class ContentOrderAct {
 		  	    					orderNumber, totalAmount);
 		  	    		}else if(payMethod==5){		  				
 		  					model.addAttribute("url", returnurl);
-				  	    	model.addAttribute("grainConfigId",grainConfigId);
+				  	    	model.addAttribute("objectId",objectId);
 				  	    	model.addAttribute("orderNumber",orderNumber);
 		  					model.addAttribute("content", content);
 		  					model.addAttribute("rewardAmount", rewardAmount);
@@ -339,22 +339,22 @@ public class ContentOrderAct {
 	}
 	
 	@RequestMapping(value = "/buy/alipayInMobile.jspx")
-	public String enterAlipayInMobile(String orderNumber,Integer grainConfigId,
+	public String enterAlipayInMobile(String orderNumber,Integer objectId,
 			Double rewardAmount,HttpServletRequest request,String returnurl,
 			HttpServletResponse response,ModelMap model) throws JSONException {
 		WebErrors errors=WebErrors.create(request);
 		initAliPayUrl();
-		if(grainConfigId==null){
-			errors.addErrorCode("error.required","grainConfigId");
+		if(objectId==null){
+			errors.addErrorCode("error.required","objectId");
 			return FrontUtils.showError(request, response, model, errors);
 		}else{
 			
-			GrainBuyConfig buyConfig= grainBuyConfigMng.findById(grainConfigId);
+			GrainBuyConfig buyConfig= grainBuyConfigMng.findById(objectId);
 			if(buyConfig!=null){
 				String content="彩虹币"+buyConfig.getCount()+"个";
 				CmsConfigContentCharge config=configContentChargeMng.getDefault();
 			
-				String find_url=String.format(returnurl, grainConfigId);
+				String find_url=String.format(returnurl, objectId);
 				AliPay.enterAlipayInMobile(request, response,
 						getAliPayUrl(), config, content, orderNumber, rewardAmount,content,find_url);
 				return "";
@@ -568,7 +568,7 @@ public class ContentOrderAct {
 				Double rewardAmount=null;
 				Integer buyUserId=null;
 				
-				Integer grainBuyConfigId=null;
+				Integer objectId=null;
 				Integer type=null;
 				String content=null;
 				if(objArray!=null&&objArray[0]!=null){
@@ -579,7 +579,7 @@ public class ContentOrderAct {
 				}
 				if(objArray!=null&&objArray[2]!=null&&StringUtils.isNotBlank(objArray[2])
 						&&!objArray[2].toLowerCase().equals("null")){
-					grainBuyConfigId=Integer.parseInt(objArray[2]);
+					objectId=Integer.parseInt(objArray[2]);
 				}
 				if(objArray!=null&&objArray[3]!=null){
 					type=Integer.parseInt(objArray[3]);;
@@ -589,17 +589,18 @@ public class ContentOrderAct {
 				}
 				
 			    Order order=new Order();
-			    if(buyUserId!=null&&type!=null&&grainBuyConfigId!=null){
+			    if(buyUserId!=null&&type!=null&&objectId!=null){
 			    	user=userMng.findById(buyUserId);
 			    	order.setUser(user);
 			    	order.setType(type);;
 			   	   
 			   	    if(type==OrderType.REWARD.getValue()){ //彩虹币购买
-			   	    	GrainBuyConfig config=grainBuyConfigMng.findById(grainBuyConfigId);
-			   	    	order.setGrainConfig(config);			   	    	
+			   	    	GrainBuyConfig config=grainBuyConfigMng.findById(objectId);
+			   	    			   	    	
 			   	    	rewardAmount=config.getPrice();
 			   	    	userMng.updateGrainCnt(user, null, config.getCount(), GetGrainType.BUY);//获取彩虹币
 			   	    }
+			   	    order.setObjectId(objectId);
 			   	    order.setAmount(rewardAmount);
 			   	    order.setOrderNum(orderNumber);
 			   	    order.setNote(content);

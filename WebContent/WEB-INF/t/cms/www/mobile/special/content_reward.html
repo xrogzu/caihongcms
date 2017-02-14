@@ -11,9 +11,9 @@
 <script src="/${mobileRes!}/js/hhSwipe.js"></script>
 <script type="text/javascript">
 
-function changeAmountSubmit(value,grainConfigId){
+function changeAmountSubmit(value,objectId){
 	$("#rewardAmount").val(value);
-	$("#grainConfigId").val(grainConfigId);
+	$("#objectId").val(objectId);
 	$("#jvForm").submit();
 }
 function isweixin(){
@@ -51,7 +51,7 @@ $(function() {
 		[/#if]
 		<form method="post" action="${base}/buy/selectPay.jspx"
 			id="jvForm">
-			<input name="grainConfigId" value="${grainConfigId!}" id="grainConfigId" type="hidden" /> 
+			<input name="objectId" value="${objectId!}" id="objectId" type="hidden" /> 
 			<input name="orderNumber" value="${orderNumber!}" type="hidden" /> 
 			<input name="type" value="${type!}" type="hidden" /> 
 			<input name="returnurl" value="${returnurl!}" type="hidden"/>

@@ -42,7 +42,7 @@ public class OrderMngImpl implements OrderMng {
 	@Autowired
 	private CmsConfigContentChargeMng configContentChargeMng;
 	/*
-	public Order contentOrder(Integer rewardUserId,OrderType type,Integer grainConfigId,Integer buyUserId,String outOrderNum,Integer payType){
+	public Order contentOrder(Integer rewardUserId,OrderType type,Integer objectId,Integer buyUserId,String outOrderNum,Integer payType){
 		Order order=new Order();
 	    if(buyUserId==null){
 	    	return null;
