@@ -39,12 +39,11 @@ function doDelete(){
 	</@p.column><#t/>
 	<@p.column title="ID">${grainDetail.id}</@p.column><#t/>
 	<@p.column code="grainDetail.user">${grainDetail.user.realname!grainDetail.user.username}</@p.column><#t/>
-	<@p.column code="grainDetail.type">${grainDetail.grainType.name}</@p.column><#t/>
+	<@p.column code="grainDetail.type">${grainDetail.typeName}</@p.column><#t/>
 	<@p.column code="grainDetail.grain.count">${grainDetail.grainCnt}</@p.column><#t/>
-	<@p.column code="grainDetail.senduser">${grainDetail.fromUser.realname!grainDetail.fromUser.username}</@p.column><#t/>
-	<@p.column code="grainDetail.type">${grainDetail.type}</@p.column><#t/>
-	<@p.column code="global.operate" align="center">
-		
+	<@p.column code="grainDetail.senduser"><#if grainDetail.fromUser??> ${grainDetail.fromUser.realname!grainDetail.fromUser.username}</#if></@p.column><#t/>
+	<@p.column code="时间">${grainDetail.time}</@p.column><#t/>
+	<@p.column code="global.operate" align="center">		
 		<a href="o_delete.do?ids=${grainDetail.id}&pageNo=${pageNo!}" onclick="if(!$.confirmToUrl(this.href)) {return false;}" class="pn-opt"><@s.m "global.delete"/></a><#t/>
 	</@p.column><#t/>
 </@p.table>

@@ -32,6 +32,7 @@ import com.caihong.core.entity.UnifiedUser;
 import com.caihong.core.manager.CmsLogMng;
 import com.caihong.core.manager.CmsUserMng;
 import com.caihong.core.manager.UnifiedUserMng;
+import com.caihong.core.web.util.EncodeURLUtils;
 import com.octo.captcha.service.image.ImageCaptchaService;
 
 /**
@@ -120,6 +121,11 @@ public class CmsAuthenticationFilter extends FormAuthenticationFilter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		String successUrl = req.getParameter(RETURN_URL);
+		
+		successUrl=EncodeURLUtils.getURLDecode(successUrl);
+		if(successUrl!=null&&successUrl.indexOf("％")>=0){
+			successUrl=successUrl.replace("％", "%");
+		}
 		if (StringUtils.isBlank(successUrl)) {
 			if (req.getRequestURI().startsWith(
 					req.getContextPath() + getAdminPrefix())) {

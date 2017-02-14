@@ -2,6 +2,8 @@ package com.caihong.cms.entity.main;
 
 import java.io.Serializable;
 
+import com.caihong.common.web.OrderStatus;
+import com.caihong.common.web.OrderType;
 import com.caihong.core.entity.CmsUser;
 
 /**
@@ -37,6 +39,16 @@ public class Order  implements Serializable{
 	private java.lang.Integer type;
 	private java.lang.Integer status;
 	private GrainBuyConfig grainConfig;
+	
+	
+	
+	public String getTypeName(){
+		return OrderType.getOrderTypeValue(getType()).getName();
+	}
+	
+	public String getStatusName(){
+		return OrderStatus.getOrderStatusValue(getStatus()).getName();
+	}
 	
 	public int getPrePayStatus() {
 		return prePayStatus;

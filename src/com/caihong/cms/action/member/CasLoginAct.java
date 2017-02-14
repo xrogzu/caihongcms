@@ -2,6 +2,10 @@ package com.caihong.cms.action.member;
 
 import static com.caihong.cms.Constants.TPLDIR_MEMBER;
 import static org.apache.shiro.web.filter.authc.FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,6 +21,7 @@ import com.caihong.core.entity.CmsSite;
 import com.caihong.core.manager.ConfigMng;
 import com.caihong.core.manager.UnifiedUserMng;
 import com.caihong.core.web.util.CmsUtils;
+import com.caihong.core.web.util.EncodeURLUtils;
 import com.caihong.core.web.util.FrontUtils;
 
 @Controller
@@ -35,8 +40,14 @@ public class CasLoginAct {
 		Integer errorTimes=configMng.getConfigLogin().getErrorTimes();
 		model.addAttribute("errorTimes", errorTimes);
 		model.addAttribute("site",site);
+		String refererUrl=request.getHeader("Referer");
+		if(StringUtils.isBlank(returnUrl)&&refererUrl!=null){			
+			returnUrl=refererUrl;
+		}
 		if(StringUtils.isBlank(returnUrl)){
 			session.setAttribute(request, response, "loginSource", null);
+		}else{			
+			model.addAttribute("returnUrl",EncodeURLUtils.getURLEncode(returnUrl));
 		}
 		Object source=session.getAttribute(request, "loginSource");
 		if(source!=null){

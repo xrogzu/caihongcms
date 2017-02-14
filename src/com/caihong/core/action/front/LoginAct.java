@@ -68,12 +68,13 @@ public class LoginAct {
 		String returnUrl = RequestUtils.getQueryParam(request, RETURN_URL);
 		String message = RequestUtils.getQueryParam(request, MESSAGE);
 		String authId = (String) session.getAttribute(request, AUTH_KEY);
+		String refererUrl=request.getHeader("Referer");
 		if (authId != null) {
 			// 存在认证ID
 			Authentication auth = authMng.retrieve(authId);
 			// 存在认证信息，且未过期
 			if (auth != null) {
-				String view = getView(processUrl, returnUrl, auth.getId());
+				String view = getView(processUrl, returnUrl,refererUrl, auth.getId());
 				if (view != null) {
 					return view;
 				} else {
@@ -91,12 +92,15 @@ public class LoginAct {
 		if (!StringUtils.isBlank(message)) {
 			model.addAttribute(MESSAGE, message);
 		}
+		if (!StringUtils.isBlank(refererUrl)) {
+			model.addAttribute("refererUrl", refererUrl);
+		}
 		return LOGIN_INPUT;
 	}
 
 	@RequestMapping(value = "/login.jspx", method = RequestMethod.POST)
 	public String submit(String username, String password, String processUrl,
-			String returnUrl, String message, HttpServletRequest request,
+			String returnUrl, String refererUrl,String message, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) {
 		WebCoreErrors errors = validateSubmit(username, password, request);
 		if (!errors.hasErrors()) {
@@ -104,7 +108,7 @@ public class LoginAct {
 				Authentication auth = authMng.login(username, password,
 						RequestUtils.getIpAddr(request), request, response,
 						session);
-				String view = getView(processUrl, returnUrl, auth.getId());
+				String view = getView(processUrl, returnUrl, refererUrl,auth.getId());
 				if (view != null) {
 					return view;
 				} else {
@@ -150,7 +154,7 @@ public class LoginAct {
 	 * @param authId
 	 * @return
 	 */
-	private String getView(String processUrl, String returnUrl, String authId) {
+	private String getView(String processUrl, String returnUrl, String refererUrl,String authId) {
 		if (!StringUtils.isBlank(processUrl)) {
 			StringBuilder sb = new StringBuilder("redirect:");
 			sb.append(processUrl).append("?").append(AUTH_KEY).append("=")
@@ -166,7 +170,14 @@ public class LoginAct {
 				sb.append("?").append(AUTH_KEY).append("=").append(authId);
 			}
 			return sb.toString();
-		} else {
+		} else if (!StringUtils.isBlank(refererUrl)) {
+			StringBuilder sb = new StringBuilder("redirect:");
+			sb.append(refererUrl);
+			if (!StringUtils.isBlank(authId)) {
+				sb.append("?").append(AUTH_KEY).append("=").append(authId);
+			}
+			return sb.toString();
+		}else {
 			return null;
 		}
 	}

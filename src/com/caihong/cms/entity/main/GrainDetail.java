@@ -11,7 +11,8 @@ public class GrainDetail extends BaseGrainDetail{
 	public GrainDetail(){
 		super();
 	}
-	public GetGrainType getGrainType(){		
-		return GetGrainType.getGetGrainTypeValue(this.getType());
+	
+	public String getTypeName(){		
+		return GetGrainType.getGetGrainTypeValue(this.getType()).getName();
 	}
 }

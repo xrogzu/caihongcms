@@ -24,12 +24,10 @@ function doDelete(){
 </head>
 <body>
 <div class="page-positon ove">
-  <div class="position-div"><@s.m "global.position"/>: <@s.m "order.function"/> > <@s.m "global.list"/></div>
+  <div class="position-div"><@s.m "global.position"/>: 订单管理 > <@s.m "global.list"/></div>
 </div>
 <div class="box-positon">
-	<form class="ropt">
-		<input class="add" type="submit" value="<@s.m "global.add"/>" onclick="this.form.action='v_add.do';"/>
-	</form>
+	
 	<div class="clear"></div>
 </div>
 <div class="body-box">
@@ -40,9 +38,17 @@ function doDelete(){
 		<input type='checkbox' name='ids' value='${order.id}'/><#t/>
 	</@p.column><#t/>
 	<@p.column title="ID">${order.id}</@p.column><#t/>
-	<@p.column code="order.name">${order.name}</@p.column><#t/>
-	<@p.column code="global.operate" align="center">
-		<a href="v_edit.do?id=${order.id}&pageNo=${pageNo!}" class="pn-opt"><@s.m "global.edit"/></a> | <#rt/>
+	<@p.column code="用户">${order.user.realname!order.user.username}</@p.column><#t/>
+	<@p.column code="订单金额">${order.amount}</@p.column><#t/>
+	<@p.column code="订单编号">${order.orderNum}</@p.column><#t/>
+	<@p.column code="订单类型">${order.typeName}</@p.column><#t/>
+	<@p.column code="订单状态">${order.statusName}</@p.column><#t/>
+	<@p.column code="微信订单编号">${order.orderNumWeiXin!}</@p.column><#t/>
+	<@p.column code="支付宝订单编号">${order.orderNumAliPay!}</@p.column><#t/>
+	
+	<@p.column code="备注">${order.note!}</@p.column><#t/>
+	<@p.column code="时间">${order.time!}</@p.column><#t/>
+	<@p.column code="global.operate" align="center">		
 		<a href="o_delete.do?ids=${order.id}&pageNo=${pageNo!}" onclick="if(!$.confirmToUrl(this.href)) {return false;}" class="pn-opt"><@s.m "global.delete"/></a><#t/>
 	</@p.column><#t/>
 </@p.table>
