@@ -21,5 +21,4 @@ public interface OrderMng {
 	
 	public Pagination getPageByUser(Integer userId,Integer type,int pageNo, int pageSize);
 	
-//	public Order contentOrder(Integer rewardUserId,OrderType type,Integer objectId,Integer buyUserId,String outOrderNum,Integer payType);
 }

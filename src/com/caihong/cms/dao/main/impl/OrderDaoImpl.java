@@ -82,7 +82,7 @@ public class OrderDaoImpl extends HibernateBaseDao<Order, Integer> implements Or
 			f.append(" and bean.type=:type")
 			.setParam("type", type);
 		}
-		f.append(" order by bean.buyTime desc");
+		f.append(" order by bean.time desc");
 		f.setCacheable(true);
 		Pagination page = find(f, pageNo, pageSize);
 		return page;

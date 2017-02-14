@@ -8,16 +8,16 @@
 [#if error??]
 alert("${error}");
 [#else]
-var imgSrc = parent.document.getElementById("preImg${uploadNum}");
-var path = $(parent.document.getElementById("uploadImgPath${uploadNum}")).val();
+var imgSrc = parent.document.getElementById("preImg${uploadNum!}");
+var path = $(parent.document.getElementById("uploadImgPath${uploadNum!}")).val();
 if(path.indexOf("?")==-1) {
 	imgSrc.src=path+"?d="+new Date()*1;
 } else {
 	imgSrc.src=path+"&d="+new Date()*1;
 }
 if(!$(imgSrc).attr("noResize")) {
-	$(imgSrc).css("width","auto");
-	$(imgSrc).css("height","auto");
+	$(imgSrc).css("width","140");
+	$(imgSrc).css("height","140");
 }
 [/#if]
 </script>

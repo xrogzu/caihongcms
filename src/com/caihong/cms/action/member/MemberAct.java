@@ -1,6 +1,7 @@
 package com.caihong.cms.action.member;
 
 import static com.caihong.cms.Constants.TPLDIR_MEMBER;
+import static com.caihong.common.page.SimplePage.cpn;
 
 import java.io.IOException;
 
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.caihong.cms.entity.assist.CmsWebservice;
 import com.caihong.cms.manager.assist.CmsWebserviceMng;
+import com.caihong.cms.manager.main.OrderMng;
+import com.caihong.common.page.Pagination;
+import com.caihong.common.web.CookieUtils;
 import com.caihong.common.web.ResponseUtils;
 import com.caihong.core.entity.CmsSite;
 import com.caihong.core.entity.CmsUser;
@@ -38,6 +42,7 @@ public class MemberAct {
 	private static final Logger log = LoggerFactory.getLogger(MemberAct.class);
 
 	public static final String MEMBER_CENTER = "tpl.memberCenter";
+	public static final String MEMBER_ORDER = "tpl.memberOrder";
 	public static final String MEMBER_PROFILE = "tpl.memberProfile";
 	public static final String MEMBER_PORTRAIT = "tpl.memberPortrait";
 	public static final String MEMBER_PASSWORD = "tpl.memberPassword";
@@ -69,6 +74,22 @@ public class MemberAct {
 		}
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER, MEMBER_CENTER);
+	}
+	@RequestMapping(value = "/member/orders.jspx")
+	public String orders(HttpServletRequest request,Integer pageNo,Integer type,
+			HttpServletResponse response, ModelMap model) {
+		CmsSite site = CmsUtils.getSite(request);
+		CmsUser user = CmsUtils.getUser(request);
+		FrontUtils.frontData(request, model, site);
+		
+		if (user == null) {
+			return FrontUtils.showLogin(request, model, site);
+		}
+		Pagination pagination=orderMng.getPageByUser(user.getId(), type, cpn(pageNo), CookieUtils.getPageSize(request));
+		model.addAttribute("pagination",pagination);
+		
+		return FrontUtils.getTplPath(request, site.getSolutionPath(),
+				TPLDIR_MEMBER, MEMBER_ORDER);
 	}
 
 	/**
@@ -330,6 +351,8 @@ public class MemberAct {
 
 	@Autowired
 	private CmsUserMng cmsUserMng;
+	@Autowired
+	private OrderMng orderMng;
 	@Autowired
 	private CmsUserExtMng cmsUserExtMng;
 	@Autowired

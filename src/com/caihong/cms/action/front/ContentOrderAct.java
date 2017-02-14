@@ -220,7 +220,7 @@ public class ContentOrderAct {
 		}
 	}
 	
-	//内容购买或打赏记录
+	//订单记录
 	@RequestMapping(value = "/content/orders.jspx")
 	public String contentOrders(Integer doctorId,Integer type,Integer pageNo,
 			HttpServletRequest request,HttpServletResponse response

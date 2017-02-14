@@ -35,57 +35,11 @@ import com.caihong.cms.manager.main.OrderMng;
 public class OrderMngImpl implements OrderMng {
 	public static final String WEIXIN_ORDER_QUERY_URL="weixin.orderquery.url";
 	public static final String ALI_PAY_URL="alipay.openapi.url";
-	@Autowired
-	private CmsUserMng userMng;
+	
 	@Autowired
 	private RealPathResolver realPathResolver;
-	@Autowired
-	private CmsConfigContentChargeMng configContentChargeMng;
-	/*
-	public Order contentOrder(Integer rewardUserId,OrderType type,Integer objectId,Integer buyUserId,String outOrderNum,Integer payType){
-		Order order=new Order();
-	    if(buyUserId==null){
-	    	return null;
-	    }
-	    CmsUser user=userMng.findById(buyUserId);
-	    if(user==null){
-	    	return null;
-	    }
-	    CmsConfigContentCharge config=configContentChargeMng.getDefault();
-	    initWeiXinPayUrl();
-	    initAliPayUrl();
-	    Double orderAmount = 0d;
-		 		// 这里是把微信商户的订单号放入了交易号中
-		if(payType.equals(Order.PAY_METHOD_WECHAT)){
-			order.setOrderNumWeiXin(outOrderNum);
-			orderAmount=getWeChatOrderAmount(outOrderNum, config);
-			}else if(payType.equals(Order.PAY_METHOD_ALIPAY)){
-		   	    	order.setOrderNumAliPay(outOrderNum);
-		   	    	orderAmount=getAliPayOrderAmount(outOrderNum, config);
-		   	    }
-		   	    //订单金额不能等于0
-		   	    if(!orderAmount.equals(0d)){		   	    	
-				   	order.setUser(user);				   	   
-				   	String orderNumber=System.currentTimeMillis()+RandomStringUtils.random(5,Num62.N10_CHARS);
-				   	 order.setOrderNum(orderNumber);
-				   	 order.setTime(Calendar.getInstance().getTime());
-				   	 order.setAmount(orderAmount);
-				   	 order.setStatus(Order.PRE_PAY_STATUS_SUCCESS);
-				   	 order.setType(type.getValue());
-				   	 order.setGrainConfig(null);
-				   	 order=dao.save(order);
-			 				
-			 			
-			 			order.setPrePayStatus(Order.PRE_PAY_STATUS_SUCCESS);
-		   	    	}else{
-		   	    		order.setPrePayStatus(Order.PRE_PAY_STATUS_ORDER_NUM_ERROR);
-		   	    	}
-		   	   
-	    	
-	 	
-	    return order;
-	}
-	*/
+	
+	
 	@Transactional(readOnly = true)
 	public Pagination getPage(int pageNo, int pageSize) {
 		Pagination page = dao.getPage(pageNo, pageSize);
@@ -217,7 +171,6 @@ public class OrderMngImpl implements OrderMng {
 
 	@Transactional(readOnly = true)
 	public Pagination getPageByUser(Integer userId, Integer type, int pageNo, int pageSize) {
-		// TODO Auto-generated method stub
 		return dao.getPageByUser(userId, type, pageNo, pageSize);
 	}
 }
