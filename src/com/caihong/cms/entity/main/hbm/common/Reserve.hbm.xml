@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.caihong.cms.entity.main">
+	<class name="Reserve" table="jc_reserve">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Long" column="id"><generator class="identity"/></id>
+		<property name="price" column="price" type="double" not-null="true" length="20"/>
+		<property name="expectTime" column="expect_time" type="timestamp" not-null="false" length="19"/>
+		<property name="status" column="status" type="integer" not-null="true" length="11"/>
+		<property name="time" column="time" type="timestamp" not-null="true" length="19"/>
+		<property name="payStatus" column="pay_status" type="boolean" not-null="false" length="1"/>
+		<property name="orderNum" column="order_num" type="string" not-null="false" length="50"/>
+		<property name="diagnosis" column="diagnosis" type="string" not-null="false" length="20000"/>
+		<property name="clinicalDiagnosis" column="clinical_diagnosis" type="string" not-null="false" length="20000"/>		
+		<many-to-one name="reserveUser" column="reserve_user_id" class="com.caihong.core.entity.CmsUser" not-null="true"></many-to-one>
+		<many-to-one name="patient" column="patient_id" class="com.caihong.cms.entity.main.Patient" not-null="true"></many-to-one>
+		<many-to-one name="doctorUser" column="doctor_id" class="com.caihong.core.entity.CmsUser" not-null="false"></many-to-one>
+		
+		<list name="attachments" table="jc_reserve_attachment">
+			<cache usage="read-write"/>
+			<key column="reserve_id"/>
+			<list-index column="priority"/>
+			<composite-element class="ReserveAttachment">
+				<property name="path" column="path" type="string" length="255" not-null="true"/>
+				<property name="name" column="name" type="string" length="100" not-null="true"/>
+				<property name="filename" column="filename" type="string" length="100" not-null="false"/>
+			</composite-element>
+		</list>
+	</class>
+</hibernate-mapping>

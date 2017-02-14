@@ -5,7 +5,7 @@
 		<meta attribute="sync-DAO">false</meta>
 		<cache usage="read-write"/>
 		<id name="id" type="java.lang.Long" column="id"><generator class="identity"/></id>
-		<property name="amount"	column="amount"	type="java.lang.Double"	not-null="true" length="11"/>
+		<property name="amount"	column="amount"	type="java.lang.Double"	not-null="true" length="20"/>
 		<property name="orderNum" column="order_num" type="string" not-null="true" length="50"/>
 		<property name="orderNumWeiXin" column="order_num_weixin" type="string" not-null="false" length="255"/>
 		<property name="orderNumAliPay" column="order_num_alipay" type="string" not-null="false" length="100"/>

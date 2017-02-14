@@ -187,6 +187,8 @@
 	<bean id="grainDetailMng" class="com.caihong.cms.manager.main.impl.GrainDetailMngImpl"/>
 	<bean id="grainBuyConfigMng" class="com.caihong.cms.manager.main.impl.GrainBuyConfigMngImpl"/>
 	<bean id="orderMng" class="com.caihong.cms.manager.main.impl.OrderMngImpl"/>
+	<bean id="patientMng" class="com.caihong.cms.manager.main.impl.PatientMngImpl"/>
+	<bean id="reserveMng" class="com.caihong.cms.manager.main.impl.ReserveMngImpl"/>
 	
 	<!--DAO-->
 	<bean id="channelDao" class="com.caihong.cms.dao.main.impl.ChannelDaoImpl"/>
@@ -294,4 +296,6 @@
 	<bean id="grainDetailDao" class="com.caihong.cms.dao.main.impl.GrainDetailDaoImpl"/>
 	<bean id="grainBuyConfigDao" class="com.caihong.cms.dao.main.impl.GrainBuyConfigDaoImpl"/>
 	<bean id="orderDao" class="com.caihong.cms.dao.main.impl.OrderDaoImpl"/>
+	<bean id="patientDao" class="com.caihong.cms.dao.main.impl.PatientDaoImpl"/>
+	<bean id="reserveDao" class="com.caihong.cms.dao.main.impl.ReserveDaoImpl"/>
 </beans>

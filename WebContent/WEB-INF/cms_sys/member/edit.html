@@ -33,7 +33,7 @@ $(function() {
 <@p.radio width="50" colspan="1" label="cmsUser.gender" name="gender" value=cmsMember.gender list={"true":"cmsUser.male","false":"cmsUser.female","":"cmsUser.secrecy"}/><@p.tr/>
 <@p.password width="50" colspan="1" label="cmsUser.password" id="password" name="password" help="cmsUser.password.help"/>
 <@p.password width="50" colspan="1" label="cmsUser.pwdAgain" equalTo="#password" help="cmsUser.password.help"/><@p.tr/>
-<@p.select colspan="1" width="50" label="cmsUser.group" name="groupId" value=cmsMember.group.id list=groupList listKey="id" listValue="name" required="true"/>
+<@p.select colspan="1" width="50" label="cmsUser.group" name="groupId" value=cmsMember.group.id list=groupList listKey="id" listValue="name"  required="true"/>
 <@p.select colspan="1" width="50" label="cmsUser.job.department" name="departmentId" value=cmsMember.department.id list=departmentList  listKey="id" listValue="name" listDeep="deep" headerKey="" headerValue=" " required="true"/>	
 <@p.tr/>
 <@p.td label="cmsUser.headImg" colspan="1" width="50" noHeight="true">
@@ -48,11 +48,11 @@ $(function() {
 </@p.td><@p.td colspan="1">
 <img id="preImg1" alt="<@s.m "imageupload.preview"/>" noResize="true" style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
 </@p.td><@p.tr/>
-<@p.select colspan="1" width="50" label="cmsUser.nation" name="nationId" value=cmsMember.nation.id list=nationList listKey="id" listValue="name" required="false"/>
-<@p.select colspan="1" width="50" label="cmsUser.major" name="majorId"  value=cmsMember.major.id  list=majorList listKey="id" listValue="name" required="false"/>
+<@p.select colspan="1" width="50" label="cmsUser.nation" name="nationId" value=cmsMember.nation.id list=nationList listKey="id" listValue="name" headerKey="" headerValue=" " required="false"/>
+<@p.select colspan="1" width="50" label="cmsUser.major" name="majorId"  value=cmsMember.major.id  list=majorList listKey="id" listValue="name" headerKey="" headerValue=" " required="false"/>
 <@p.tr/>
-<@p.select colspan="1" width="50" label="cmsUser.job.title" name="jobTitleId"  value=cmsMember.jobTitle.id list=jobTitleList listKey="id" listValue="name" required="false"/>
-<@p.select colspan="1" width="50" label="cmsUser.job.level" name="jobLevelId" value=cmsMember.jobLevel.id list=jobLevelList listKey="id" listValue="name" required="false"/>
+<@p.select colspan="1" width="50" label="cmsUser.job.title" name="jobTitleId"  value=cmsMember.jobTitle.id list=jobTitleList listKey="id" listValue="name" headerKey="" headerValue=" " required="false"/>
+<@p.select colspan="1" width="50" label="cmsUser.job.level" name="jobLevelId" value=cmsMember.jobLevel.id list=jobLevelList listKey="id" listValue="name" headerKey="" headerValue=" " required="false"/>
 <@p.tr/>
 
 <@p.text width="50" colspan="1" label="cmsUser.caihong.coin" name="grain" value=cmsMember.grain required="true" class="required digits" maxlength="10"/>
