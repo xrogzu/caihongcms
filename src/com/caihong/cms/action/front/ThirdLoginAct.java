@@ -220,7 +220,7 @@ public class ThirdLoginAct {
 						StringUtils.isNotBlank(weixinOpenId)){
 					//初始设置密码同用户名
 					CmsConfig config = site.getConfig();
-					cmsUserMng.registerMember(username, null,null, username, RequestUtils.getIpAddr(request), null, null, null,false,1,null,null,null,null,0,0,ext , null,config.getMemberConfig().getRegisterSendGrain());
+					cmsUserMng.registerMember(username, null,null, username, RequestUtils.getIpAddr(request), null, null, null,false,1,null,null,null,null,0,0,null,ext , null,config.getMemberConfig().getRegisterSendGrain());
 				}
 				if(StringUtils.isNotBlank(openId)){
 					source=CmsThirdAccount.QQ_PLAT;

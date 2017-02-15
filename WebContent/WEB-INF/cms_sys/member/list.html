@@ -49,7 +49,7 @@ function doCheck(){
 <div style="padding-bottom:10px; text-indent:6px;">
 <@s.m "cmsUser.username"/>: <input type="text" name="queryUsername" value="${queryUsername!}" style="width:100px; margin-right:10px;"/>
 <@s.m "cmsUser.email"/>: <input type="text" name="queryEmail" value="${queryEmail!}" style="width:70px; margin-right:10px;"/>
-<label class="p-label" style="margin-left:0; margin-right:8px;"><input type="checkbox" name="queryDisabled" value="true"<#if queryDisabled?? && queryDisabled> checked="checked"</#if>/><@s.m "cmsUser.disabled"/></label>
+<label class="p-label" style="margin-left:0; margin-right:8px;"><input type="checkbox" name="queryDisabled" value="true"<#if queryDisabled?? && queryDisabled> checked="checked"</#if> /><@s.m "cmsUser.disabled"/></label>
 <@p.select name="queryGroupId" value=queryGroupId list=groupList listKey="id" listValue="name" headerKey="" headerValue="cmsUser.group.all" style="height:24px;"/>
 <input class="query" type="submit" value="<@s.m "global.query"/>"/>
 </div>
@@ -62,6 +62,7 @@ function doCheck(){
 	</@p.column><#t/>
 	<@p.column title="ID" align="center">${cmsUser.id}</@p.column><#t/>
 	<@p.column code="cmsUser.username" align="center">${cmsUser.username}</@p.column><#t/>
+	<@p.column code="坐诊价格" align="center">${cmsUser.price!0.00}元</@p.column><#t/>
 	<@p.column code="cmsUser.email" align="center">${cmsUser.email!}</@p.column><#t/>
 	<@p.column code="cmsUser.group" align="center">${cmsUser.group.name}<#if cmsUser.admin><span style="color:red"> [<@s.m "cmsUser.admin"/>]</span></#if></@p.column><#t/>
 	<@p.column code="cmsUser.lastLogin" align="center">${cmsUser.lastLoginTime?string('yyyy-MM-dd HH:mm:ss')}<br/>${cmsUser.lastLoginIp}</@p.column><#t/>

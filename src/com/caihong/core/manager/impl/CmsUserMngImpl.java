@@ -103,7 +103,7 @@ public class CmsUserMngImpl implements CmsUserMng {
 	}
 
 	public CmsUser registerMember(String username, String email,String telphone,
-			String password, String ip, Integer groupId,Integer departmentId,Integer grain,boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,CmsUserExt userExt,Map<String,String>attr,Integer prestige){
+			String password, String ip, Integer groupId,Integer departmentId,Integer grain,boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,Double price,CmsUserExt userExt,Map<String,String>attr,Integer prestige){
 		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,telphone,
 				password, ip);
 		CmsUser user = new CmsUser();
@@ -125,6 +125,9 @@ public class CmsUserMngImpl implements CmsUserMng {
 		}
 		if(prestige!=null){
 			user.setGrain(prestige);
+		}
+		if(price!=null){
+			user.setPrice(price);
 		}
 		user.setIdNo(idNo);
 		user.setFansCnt(fansCnt);
@@ -152,6 +155,9 @@ public class CmsUserMngImpl implements CmsUserMng {
 
 	public void saveGrainDetail(CmsUser user,CmsUser fromUser,Integer grain,GetGrainType type){
 		GrainDetail detail=new GrainDetail();
+		if(grain==null||grain==0){
+			return;
+		}
 		detail.setUser(user);
 		if(fromUser!=null){
 			detail.setFromUser(fromUser);
@@ -166,7 +172,7 @@ public class CmsUserMngImpl implements CmsUserMng {
 	}
 	
 	public CmsUser registerMember(String username, String email,String telphone,
-			String password, String ip, Integer groupId,Integer departmentId, boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt, Integer prestige,CmsUserExt userExt,Map<String,String>attr,
+			String password, String ip, Integer groupId,Integer departmentId, boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt, Integer prestige,Double price,CmsUserExt userExt,Map<String,String>attr,
 			Boolean activation, EmailSender sender, MessageTemplate msgTpl)throws UnsupportedEncodingException, MessagingException{
 		UnifiedUser unifiedUser = unifiedUserMng.save(username, email,telphone,
 				password, ip, activation, sender, msgTpl);
@@ -185,6 +191,9 @@ public class CmsUserMngImpl implements CmsUserMng {
 		}
 		if(jobTitle!=null){
 			user.setJobTitle(cmsDictionaryMng.findById(jobTitle));
+		}
+		if(price!=null){
+			user.setPrice(price);
 		}
 		user.setIdNo(idNo);
 		user.setFansCnt(fansCnt);
@@ -267,7 +276,7 @@ public class CmsUserMngImpl implements CmsUserMng {
 		return updateGrainCnt(user,null,cnt,type);
 	}
 	public CmsUser updateGrainCnt(CmsUser user,CmsUser fromuser,int cnt,GetGrainType type){
-		if(user!=null){
+		if(user!=null&&cnt!=0){
 			if((user.getGrain()+cnt)<0){
 				user.setGrain(0);
 			}else{
@@ -433,7 +442,7 @@ public class CmsUserMngImpl implements CmsUserMng {
 	}
 
 	public CmsUser updateMember(Integer id, String email,String telphone, String password,
-			Boolean isDisabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,CmsUserExt ext, Integer groupId,Integer departmentId,Integer grain,Integer fansCnt,Integer followCnt,Map<String,String>attr) {
+			Boolean isDisabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,CmsUserExt ext, Integer groupId,Integer departmentId,Integer grain,Integer fansCnt,Integer followCnt,Double price,Map<String,String>attr) {
 		CmsUser entity = findById(id);
 		entity.setEmail(email);
 		/*
@@ -456,6 +465,9 @@ public class CmsUserMngImpl implements CmsUserMng {
 			
 		if(grain!=null){
 			entity.setGrain(grain);
+		}
+		if(price!=null){
+			entity.setPrice(price);
 		}
 		if(fansCnt!=null){
 			entity.setFansCnt(fansCnt);
@@ -489,7 +501,7 @@ public class CmsUserMngImpl implements CmsUserMng {
 		return entity;
 	}
 	
-	public CmsUser updateMember(Integer id, String email,String telphone, String password,Integer groupId,Integer departmentId,String realname,String mobile,Boolean sex,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt) {
+	public CmsUser updateMember(Integer id, String email,String telphone, String password,Integer groupId,Integer departmentId,String realname,String mobile,Boolean sex,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,Double price) {
 		CmsUser entity = findById(id);
 		CmsUserExt ext =entity.getUserExt();
 		if (!StringUtils.isBlank(email)) {
@@ -521,6 +533,9 @@ public class CmsUserMngImpl implements CmsUserMng {
 		}
 		if (groupId != null) {
 			entity.setGroup(cmsGroupMng.findById(groupId));
+		}
+		if(price!=null){
+			entity.setPrice(price);
 		}
 		if(departmentId!=null){
 			entity.setDepartment(cmsDepartmentMng.findById(departmentId));

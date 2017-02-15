@@ -31,7 +31,7 @@ public class GrainDetailAct {
 				 ResponseUtils.renderJson(response, "false");
 			 }else{
 				 cmsUserMng.updateGrainCnt(user, fromUser, grainCnt, GetGrainType.SEND);	
-				 cmsUserMng.updateGrainCnt(fromUser, null, -grainCnt, GetGrainType.SEND);
+				 cmsUserMng.updateGrainCnt(fromUser, null, -grainCnt, GetGrainType.SENDTO);
 				 ResponseUtils.renderJson(response, "true");
 			 }
 		}

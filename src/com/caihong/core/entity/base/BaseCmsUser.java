@@ -122,6 +122,7 @@ public abstract class BaseCmsUser  implements Serializable {
 	private java.lang.Integer followCnt;	
 	private java.lang.Integer commentCnt;
 	private java.lang.String idNo;
+	private java.lang.Double price;
 	
 	// many to one
 	private com.caihong.core.entity.CmsGroup group;
@@ -746,6 +747,14 @@ public abstract class BaseCmsUser  implements Serializable {
 
 	public void setIdNo(java.lang.String idNo) {
 		this.idNo = idNo;
+	}
+
+	public java.lang.Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(java.lang.Double price) {
+		this.price = price;
 	}
 
 	public boolean equals (Object obj) {

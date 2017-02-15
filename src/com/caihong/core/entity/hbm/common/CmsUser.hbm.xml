@@ -28,6 +28,7 @@
 		<property name="followCnt"  column="follow_cnt" type="integer" not-null="true" length="11"/>
 		<property name="commentCnt"  column="comment_cnt" type="integer" not-null="false" length="11"/>		
 		<property name="idNo"  column="id_no" type="string" not-null="false" length="20"/>
+		<property name="price"  column="price" type="double" not-null="false" length="20"/>
 		
 		<many-to-one name="major" column="major" class="CmsDictionary" not-null="false"></many-to-one>
 		<many-to-one name="jobTitle" column="job_title" class="CmsDictionary" not-null="false"></many-to-one>

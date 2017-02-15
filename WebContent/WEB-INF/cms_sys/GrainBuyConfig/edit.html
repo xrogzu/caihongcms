@@ -22,7 +22,7 @@ $(function() {
 </div>
 <div class="body-box">
 <@p.form id="jvForm" action="o_update.do">
-<@p.text label="grainBuyConf.price" name="price" value=grainBuyConfig.price required="true" class="required digits" maxlength="100"/>
+<@p.text label="grainBuyConf.price" name="price" value=grainBuyConfig.price required="true" class="required number" maxlength="100"/>
 <@p.text label="grainBuyConf.count" name="count" value=grainBuyConfig.count required="true" class="required digits" maxlength="100"/>
 
 <@p.td><@p.hidden name="id" value=grainBuyConfig.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
