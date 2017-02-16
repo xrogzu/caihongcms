@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.caihong.cms.entity.main">
+	<class name="UserSchedule" table="jc_user_schedule">
+	<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="user_id">
+			<generator class="foreign"><param name="property">user</param></generator>
+		</id>
+
+		<property name="zuozhenTimes" type="java.lang.String"
+			column="zuozhen_times" not-null="true" />
+
+		<property name="counts" type="java.lang.Integer"
+			column="counts" not-null="false" />
+
+		<property name="startDate" type="java.util.Date"
+			column="start_date" not-null="true" />
+
+		<property name="endDate" type="java.util.Date"
+			column="end_date" not-null="false" />
+
+		<property name="price" type="java.lang.Double"
+			column="price" not-null="true" />
+
+		<property name="createTime" type="java.util.Date"
+			column="create_time" not-null="false" />
+	<one-to-one name="user" class="com.caihong.core.entity.CmsUser" constrained="true"/>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.caihong.cms.entity.main">
+	<class name="Schedule" table="jc_schedule">
+	<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="id">
+			<generator class="assigned" />
+		</id>
+
+
+		<property name="scheduleTime" type="java.util.Date"
+			column="schedule_time" not-null="false" />
+
+		<property name="price" type="java.lang.Double"
+			column="price" not-null="true" />
+
+		<property name="counts" type="java.lang.Integer"
+			column="counts" not-null="true" />
+
+		<property name="status" type="java.lang.Byte"
+			column="status" not-null="true" />
+		<many-to-one name="doctor" column="doctor_id" class="com.caihong.core.entity.CmsUser" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

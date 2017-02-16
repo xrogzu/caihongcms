@@ -122,6 +122,9 @@
 			<key column="user_id"/>
 			<one-to-many class="com.caihong.cms.entity.main.CmsThirdAccount"/>
 		</set>
-
+		<set name="userScheduleSet" inverse="true" cascade="delete-orphan">
+			<key column="user_id"/>
+			<one-to-many class="com.caihong.cms.entity.main.UserSchedule"/>
+		</set>
 	</class>
 </hibernate-mapping>

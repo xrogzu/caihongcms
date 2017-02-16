@@ -17,6 +17,8 @@
 	<bean id="grainDetailAct" class="com.caihong.cms.action.admin.main.GrainDetailAct"/>
 	<bean id="grainBuyConfigAct" class="com.caihong.cms.action.admin.main.GrainBuyConfigAct"/>
 	<bean id="orderAct" class="com.caihong.cms.action.admin.main.OrderAct"/>
+	<bean id="scheduleAct" class="com.caihong.cms.action.admin.main.ScheduleAct"/>
+	<bean id="userScheduleAct" class="com.caihong.cms.action.admin.main.UserScheduleAct"/>
 	<!--菜单涉及到插件-->
 	<bean id="frameAct" class="com.caihong.cms.action.admin.FrameAct">
 		<property name="menus" value="#{propertyUtils.getMap('plug.menu.')}"></property>

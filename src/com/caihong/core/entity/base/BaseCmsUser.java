@@ -156,7 +156,7 @@ public abstract class BaseCmsUser  implements Serializable {
 	private java.util.Set<com.caihong.core.entity.CmsWorkflowRecord> checkRecords;
 	private java.util.Set<com.caihong.cms.entity.main.ContentRecord> contentRecordSet;
 	private java.util.Set<com.caihong.cms.entity.main.CmsThirdAccount> thirdAccounts;
-
+	private java.util.Set<com.caihong.cms.entity.main.UserSchedule> userScheduleSet;
 
 	/**
 	 * Return the unique identifier of this class
@@ -706,6 +706,14 @@ public abstract class BaseCmsUser  implements Serializable {
 
 	public void setThirdAccounts(java.util.Set<com.caihong.cms.entity.main.CmsThirdAccount> thirdAccounts) {
 		this.thirdAccounts = thirdAccounts;
+	}
+
+	public java.util.Set<com.caihong.cms.entity.main.UserSchedule> getUserScheduleSet() {
+		return userScheduleSet;
+	}
+
+	public void setUserScheduleSet(java.util.Set<com.caihong.cms.entity.main.UserSchedule> userScheduleSet) {
+		this.userScheduleSet = userScheduleSet;
 	}
 
 	public int getHashCode() {
