@@ -180,7 +180,7 @@ public class WeiXinAuthAct {
 			redirect_uri=site.getUrlPrefixWithNoDefaultPort()+redirect_uri;
 		}
 		codeUrl=getWeixinAuthCodeUrl()+"?appid="+config.getWeixinAppId()+"&redirect_uri="+redirect_uri
-				+"&response_type=code&scope=snsapi_base&state=jeecms#wechat_redirect";
+				+"&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
 		try {
 			json.put("url", codeUrl);
 		} catch (JSONException e) {
@@ -208,7 +208,7 @@ public class WeiXinAuthAct {
 					new File(realPathResolver.get(com.caihong.cms.Constants.JEECMS_CONFIG)),WEIXIN_AUTH_TOKEN_URL));
 		}
 		CmsConfigContentCharge config=configContentChargeMng.getDefault();
-		String tokenUrl=getWeixinAuthTokenUrl()+"&appid="+config.getWeixinAppId()+"&secret="+config.getWeixinSecret()+"&code="+code;
+		String tokenUrl=getWeixinAuthTokenUrl()+"&appid="+config.getWeixinAppId()+"&secret="+config.getWeixinSecret()+"&code="+code+"&grant_type=authorization_code";
 		JSONObject json=null;
 		try {
 			json = new JSONObject(HttpClientUtil.getInstance().get(tokenUrl));

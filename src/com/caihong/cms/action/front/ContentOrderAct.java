@@ -35,9 +35,11 @@ import com.caihong.cms.entity.assist.CmsConfigContentCharge;
 import com.caihong.cms.entity.main.ContentCharge;
 import com.caihong.cms.entity.main.GrainBuyConfig;
 import com.caihong.cms.entity.main.Order;
+import com.caihong.cms.entity.main.Reserve;
 import com.caihong.cms.manager.assist.CmsConfigContentChargeMng;
 import com.caihong.cms.manager.main.GrainBuyConfigMng;
 import com.caihong.cms.manager.main.OrderMng;
+import com.caihong.cms.manager.main.ReserveMng;
 import com.caihong.common.util.PropertyUtils;
 import com.caihong.common.util.StrUtils;
 import com.caihong.common.util.WeixinPay;
@@ -206,7 +208,12 @@ public class ContentOrderAct {
 		    	model.addAttribute("returnurl",returnurl);
 				model.addAttribute("objectId", objectId);
 		  		model.addAttribute("orderNumber", orderNumber);		  		
-		  		model.addAttribute("content", content);
+		  		Pagination pagination=grainBuyConfigMng.getPage(1, 100);
+				List<GrainBuyConfig> confList=null;
+				if(pagination!=null){
+					 confList= (List<GrainBuyConfig>)pagination.getList();
+				}
+				model.addAttribute("confList", confList);
 		  		model.addAttribute("type", type);
 		  		model.addAttribute("webCatBrowser", webCatBrowser);
 		  		model.addAttribute("wxopenid", wxopenid);
@@ -282,12 +289,24 @@ public class ContentOrderAct {
 			errors.addErrorCode("error.required","objectId");
 			return FrontUtils.showError(request, response, model, errors);
 		}else{
-			GrainBuyConfig buyConfig=null;
+			Object buyConfig=null;
 			if(type==OrderType.RESERVE.getValue()){
 			 buyConfig= grainBuyConfigMng.findById(objectId);
+			}else{
+				buyConfig=reserveMng.findById(objectId);
 			}
 		    if(buyConfig!=null){
-		    		String content="彩虹币"+buyConfig.getCount()+"个";
+		    		String content="";
+		    		Double totalAmount=0d;
+		    		if(type==OrderType.RESERVE.getValue()){
+		    			GrainBuyConfig conf=(GrainBuyConfig)buyConfig;
+		    			content="彩虹币"+conf.getCount()+"个";
+		    			totalAmount=conf.getPrice();
+		    		}else{
+		    			Reserve reserve=(Reserve)buyConfig;
+		    			content="预约医生:"+reserve.getDoctorUser().getRealname();
+		    			totalAmount=reserve.getPrice();
+		    		}
 		  	    	CmsConfigContentCharge config=configContentChargeMng.getDefault();
 		  			
 		  	    	if(user!=null){
@@ -296,7 +315,7 @@ public class ContentOrderAct {
 		  	    	}else{
 		  	    		cache.put(new Element(orderNumber,rewardAmount+","+objectId+","+type+","+content));
 		  	    	}
-  	    			Double totalAmount=buyConfig.getPrice();
+  	    			
   	    			if(rewardAmount!=null){
   	    				totalAmount=rewardAmount;
   	    			}
@@ -332,7 +351,7 @@ public class ContentOrderAct {
 							request, response, model);
 		  	    
 		    }else{
-		    	errors.addErrorCode("error.beanNotFound","buyConfig");
+		    	errors.addErrorCode("error.beanNotFound","ObjectId");
 		    	return FrontUtils.showError(request, response, model, errors);
 		    }
 		}
@@ -666,6 +685,9 @@ public class ContentOrderAct {
 
 	@Autowired
 	private OrderMng orderMng;
+	
+	@Autowired
+	private ReserveMng reserveMng;
 
 	@Autowired
 	private CmsConfigContentChargeMng configContentChargeMng;
