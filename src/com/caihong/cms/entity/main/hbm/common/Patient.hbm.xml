@@ -4,7 +4,7 @@
 	<class name="Patient" table="jc_patient">
 		<meta attribute="sync-DAO">false</meta>
 		<cache usage="read-write"/>
-		<id name="id" type="java.lang.Long" column="id"><generator class="identity"/></id>
+		<id name="id" type="java.lang.Integer" column="id"><generator class="identity"/></id>
 		<property name="name" column="name" type="string" not-null="true" length="50"/>
 		<property name="gender" column="gender" type="boolean" not-null="true" length="1"/>
 		<property name="telphone" column="telphone" type="string" not-null="true" length="50"/>

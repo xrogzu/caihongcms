@@ -4,7 +4,7 @@
 	<class name="Reserve" table="jc_reserve">
 		<meta attribute="sync-DAO">false</meta>
 		<cache usage="read-write"/>
-		<id name="id" type="java.lang.Long" column="id"><generator class="identity"/></id>
+		<id name="id" type="java.lang.Integer" column="id"><generator class="identity"/></id>
 		<property name="price" column="price" type="double" not-null="true" length="20"/>
 		<property name="expectTime" column="expect_time" type="timestamp" not-null="false" length="19"/>
 		<property name="status" column="status" type="integer" not-null="true" length="11"/>

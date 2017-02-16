@@ -304,7 +304,7 @@ public class ContentOrderAct {
 			return FrontUtils.showError(request, response, model, errors);
 		}else{
 			Object buyConfig=null;
-			if(type==OrderType.RESERVE.getValue()){
+			if(type==OrderType.REWARD.getValue()){
 			 buyConfig= grainBuyConfigMng.findById(objectId);
 			}else{
 				buyConfig=reserveMng.findById(objectId);
@@ -312,7 +312,7 @@ public class ContentOrderAct {
 		    if(buyConfig!=null){
 		    		String content="";
 		    		Double totalAmount=0d;
-		    		if(type==OrderType.RESERVE.getValue()){
+		    		if(type==OrderType.REWARD.getValue()){
 		    			GrainBuyConfig conf=(GrainBuyConfig)buyConfig;
 		    			content="彩虹币"+conf.getCount()+"个";
 		    			totalAmount=conf.getPrice();

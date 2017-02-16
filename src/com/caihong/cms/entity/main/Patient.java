@@ -10,7 +10,7 @@ public class Patient  implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private java.lang.Long id;
+	private java.lang.Integer id;
 	private CmsUser user;
 	private java.lang.Boolean gender;
 	private java.util.Date birthday;
@@ -21,10 +21,10 @@ public class Patient  implements Serializable {
 	private Date time;
 	private java.lang.String workAddress;
 	private java.lang.String homeAddress;
-	public java.lang.Long getId() {
+	public java.lang.Integer getId() {
 		return id;
 	}
-	public void setId(java.lang.Long id) {
+	public void setId(java.lang.Integer id) {
 		this.id = id;
 	}
 	public CmsUser getUser() {

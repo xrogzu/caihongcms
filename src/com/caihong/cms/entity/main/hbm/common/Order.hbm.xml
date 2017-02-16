@@ -4,7 +4,7 @@
 	<class name="Order" table="jc_order">
 		<meta attribute="sync-DAO">false</meta>
 		<cache usage="read-write"/>
-		<id name="id" type="java.lang.Long" column="id"><generator class="identity"/></id>
+		<id name="id" type="java.lang.Integer" column="id"><generator class="identity"/></id>
 		<property name="amount"	column="amount"	type="java.lang.Double"	not-null="true" length="20"/>
 		<property name="orderNum" column="order_num" type="string" not-null="true" length="50"/>
 		<property name="orderNumWeiXin" column="order_num_weixin" type="string" not-null="false" length="255"/>

@@ -14,7 +14,7 @@ public class Reserve implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private java.lang.Long id;
+	private java.lang.Integer id;
 	private java.lang.Double price;
 	private java.util.Date expectTime;
 	private java.lang.Integer status;
@@ -27,10 +27,10 @@ public class Reserve implements Serializable {
 	private Patient patient;
 	private CmsUser reserveUser;
 	private java.util.List<com.caihong.cms.entity.main.ReserveAttachment> attachments;
-	public java.lang.Long getId() {
+	public java.lang.Integer getId() {
 		return id;
 	}
-	public void setId(java.lang.Long id) {
+	public void setId(java.lang.Integer id) {
 		this.id = id;
 	}
 	public java.lang.Double getPrice() {
