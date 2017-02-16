@@ -91,8 +91,8 @@ function reward(){
 		 shadeClose:true,
 	[#if user??]
 		[#if user.id!=doctor.id]
-	 	 btn:['赠送'],
-		 content: '<div style="padding:30px; line-height: 22px;  font-weight: 300;">你有彩虹币：${user.grain}个<br><br>打赏:<input id="give_grain" name="give_grain"/><br><br>要更多彩虹币，去<a href="${base}/buy/reward.jspx"><font color="blue">购买</font></a><br></div>',
+	 	 btn:['打赏'],
+		 content: '<div style="padding:30px; line-height: 22px;  font-weight: 300;">你有彩虹币：${user.grain}个<br><br>打赏:<input id="give_grain" name="give_grain"/><br><br>要更多彩虹币，去<a href="${base}/buy/reward.jspx?type=1"><font color="blue">购买</font></a><br></div>',
 		 yes: function(index, layero){
 		    var grain=$('#give_grain').val();
 		    

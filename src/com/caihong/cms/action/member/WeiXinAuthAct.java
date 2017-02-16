@@ -181,6 +181,7 @@ public class WeiXinAuthAct {
 		}
 		codeUrl=getWeixinAuthCodeUrl()+"?appid="+config.getWeixinAppId()+"&redirect_uri="+redirect_uri
 				+"&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+		System.out.println("微信网页："+codeUrl);
 		try {
 			json.put("url", codeUrl);
 		} catch (JSONException e) {
@@ -212,6 +213,7 @@ public class WeiXinAuthAct {
 		JSONObject json=null;
 		try {
 			json = new JSONObject(HttpClientUtil.getInstance().get(tokenUrl));
+			System.out.println("微信网页："+json.toString());
 		} catch (JSONException e2) {
 			//e2.printStackTrace();
 			log.error("get token ->",e2.getMessage());

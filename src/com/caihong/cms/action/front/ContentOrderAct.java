@@ -129,7 +129,7 @@ public class ContentOrderAct {
 	//彩虹币购买
 	@RequestMapping(value = "/buy/reward{objectId}.jspx")
 	public String contentReward(String code, @PathVariable(value="objectId")Integer objectId,
-			HttpServletRequest request,
+			HttpServletRequest request,Integer type,
 			HttpServletResponse response,ModelMap model) throws JSONException {
 		WebErrors errors=WebErrors.create(request);
 		CmsSite site=CmsUtils.getSite(request);
@@ -142,9 +142,15 @@ public class ContentOrderAct {
 				model.addAttribute("returnurl",returnurl);
 				double  s=1d;
 				if(objectId!=null){
+					if(type==OrderType.REWARD.getValue()){
 					 GrainBuyConfig config=grainBuyConfigMng.findById(objectId);
-					 s=config.getPrice();
-					 model.addAttribute("rewardAmount", config.getPrice());
+					 	s=config.getPrice();
+					 	model.addAttribute("rewardAmount", config.getPrice());
+					}else{
+						Reserve config=reserveMng.findById(objectId);
+					 	s=config.getPrice();
+					 	model.addAttribute("rewardAmount", config.getPrice());
+					}
 				}
 	  	    	String ua = ((HttpServletRequest) request).getHeader("user-agent")
 			  	          .toLowerCase();
@@ -155,13 +161,15 @@ public class ContentOrderAct {
 	  	        	webCatBrowser=true;
 	  	        	wxopenid=(String) session.getAttribute(request, "wxopenid");
 	  	        }     
-
+	  	      if(type==OrderType.REWARD.getValue()){
 				Pagination pagination=grainBuyConfigMng.getPage(1, 100);
 				List<GrainBuyConfig> confList=null;
 				if(pagination!=null){
 					 confList= (List<GrainBuyConfig>)pagination.getList();
 				}
-				model.addAttribute("type", OrderType.RESERVE.getValue());
+				model.addAttribute("confList", confList);
+	  	      }
+				model.addAttribute("type", type);
 				
 	  	    	String orderNumber=System.currentTimeMillis()+RandomStringUtils.random(5,Num62.N10_CHARS);
 	  	    	FrontUtils.frontData(request, model, site);
@@ -170,7 +178,7 @@ public class ContentOrderAct {
 		  		model.addAttribute("orderNumber", orderNumber);		  		
 		  		model.addAttribute("webCatBrowser", webCatBrowser);
 		  		model.addAttribute("wxopenid", wxopenid);
-		  		model.addAttribute("confList", confList);
+		  		
 		  		model.addAttribute("randomOne", s);
 		  		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 						TPLDIR_SPECIAL, CONTENT_REWARD);
@@ -202,22 +210,28 @@ public class ContentOrderAct {
 			errors.addErrorCode("error.required","objectId");
 			return FrontUtils.showError(request, response, model, errors);
 		}else{
-			GrainBuyConfig content=grainBuyConfigMng.findById(objectId);
-		    if(content!=null){
+			Object obj=null;
+			if(type==OrderType.REWARD.getValue()){
+				obj=grainBuyConfigMng.findById(objectId);
+			}else{
+				obj=reserveMng.findById(objectId);				 	
+			}
+		    if(obj!=null){
+		    	if(type==OrderType.REWARD.getValue()){					
+					 	model.addAttribute("rewardAmount", ((GrainBuyConfig)obj).getPrice());
+					}else{
+						obj=reserveMng.findById(objectId);
+					 	model.addAttribute("rewardAmount", ((Reserve)obj).getPrice());
+					}
 		    	FrontUtils.frontData(request, model, site);
 		    	model.addAttribute("returnurl",returnurl);
 				model.addAttribute("objectId", objectId);
 		  		model.addAttribute("orderNumber", orderNumber);		  		
-		  		Pagination pagination=grainBuyConfigMng.getPage(1, 100);
-				List<GrainBuyConfig> confList=null;
-				if(pagination!=null){
-					 confList= (List<GrainBuyConfig>)pagination.getList();
-				}
-				model.addAttribute("confList", confList);
+		  		
+				
 		  		model.addAttribute("type", type);
 		  		model.addAttribute("webCatBrowser", webCatBrowser);
 		  		model.addAttribute("wxopenid", wxopenid);
-		  		model.addAttribute("rewardAmount", content.getPrice());
 		  		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 						TPLDIR_SPECIAL, CONTENT_REWARD);
 		    }else{
