@@ -284,6 +284,13 @@ public class ContentOrderAct {
 	     ResponseUtils.renderJson(response, s.toString());
 	}
 	
+	
+	@RequestMapping(value = "/buy/test.jspx")
+	public void test(HttpServletRequest request,
+			HttpServletResponse response) {
+		WeixinPay.test();
+	}
+	
 	/**
 	 * 选择支付方式
 	 * @param doctorId 打赏用户ID

@@ -153,7 +153,7 @@ public class WeixinPay {
 		return map;
 	}
 	
-	public static void main(String args[]){		
+	public static void test(){		
 		
 		String url="https://api.mch.weixin.qq.com/secapi/pay/refund"; //
 		Map<String, String> paramMap = new HashMap<String, String>();
