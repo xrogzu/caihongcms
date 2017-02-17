@@ -2,16 +2,30 @@ package com.caihong.common.util;
 
 import static com.caihong.cms.Constants.TPLDIR_SPECIAL;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.UnsupportedEncodingException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.net.ssl.SSLContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContexts;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.springframework.ui.ModelMap;
 
@@ -139,6 +153,175 @@ public class WeixinPay {
 		return map;
 	}
 	
+	public static void main(String args[]){		
+		
+		String url="https://api.mch.weixin.qq.com/secapi/pay/refund"; //
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("appid", "wx7057eaa8d8dafab9");
+		// 微信支付分配的商户号 [必填]
+		paramMap.put("mch_id", "1428676402");	
+		paramMap.put("device_info", "WEB");
+		paramMap.put("nonce_str",  RandomStringUtils.random(10,Num62.N62_CHARS));
+		paramMap.put("op_user_id", "1428676402");
+		paramMap.put("out_trade_no","148697605719451653");
+		paramMap.put("out_refund_no","148697605719451653");
+		paramMap.put("refund_fee","1");
+		paramMap.put("total_fee","1");
+		
+		paramMap.put("sign",PayUtil.createSign(paramMap, "THfSFiifVVvrRShin3NJ3HDNPaHeyJyx"));
+		
+		String reuqestXml = PayUtil.assembParamToXml(paramMap);
+	
+		
+		
+	
+        try {
+        	KeyStore keyStore  = KeyStore.getInstance("PKCS12");
+            FileInputStream instream = new FileInputStream(new File(WeixinPay.class.getResource(".").getFile().toString()+"apiclient_cert.p12"));//放退款证书的路径
+            try {
+                keyStore.load(instream, "1428676402".toCharArray());
+            } finally {
+                instream.close();
+            }
+
+            SSLContext sslcontext = SSLContexts.custom().loadKeyMaterial(keyStore, "1428676402".toCharArray()).build();
+            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
+                    sslcontext,
+                    new String[] { "TLSv1" },
+                    null,
+                    SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+            CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
+            HttpPost httpPost = new HttpPost("https://api.mch.weixin.qq.com/secapi/pay/refund");//退款接口
+            
+            System.out.println("executing request" + httpPost.getRequestLine());
+            StringEntity  reqEntity  = new StringEntity(reuqestXml);
+            // 设置类型 
+            reqEntity.setContentType("application/x-www-form-urlencoded"); 
+            httpPost.setEntity(reqEntity);
+            CloseableHttpResponse response = httpclient.execute(httpPost);
+            try {
+                HttpEntity entity = response.getEntity();
+
+              
+                String line = "";  
+                if (entity != null) {
+                    System.out.println("Response content length: " + entity.getContentLength());
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent(),"UTF-8"));
+                    String text;
+                    
+                     
+        			
+                    while ((text = bufferedReader.readLine()) != null) {
+                    	line=line+text;
+                        System.out.println(text);
+                    }
+                   
+                }
+                EntityUtils.consume(entity);
+                System.out.println(line);
+                Map<String, String> map=new HashMap<String, String>();
+        		try {
+        			if(StringUtils.isNotBlank(line)){
+        				map = PayUtil.parseXMLToMap(line);
+        			}
+        		} catch (Exception e) {
+        			e.printStackTrace();
+        		} 
+            }catch(Exception e){
+            	
+            }finally {
+                try {
+					response.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+        }catch(Exception e){
+        	
+        }
+        
+	}
+	/**
+	 * 微信退费
+	 */
+	public static Map<String, String> refoundWeixin(HttpServletRequest request,CmsConfigContentCharge config,
+			String orderNum,Double rewardAmount){
+		String url="https://api.mch.weixin.qq.com/secapi/pay/refund"; //
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("appid", config.getWeixinAppId());
+		// 微信支付分配的商户号 [必填]
+		paramMap.put("mch_id", config.getWeixinAccount());		
+		paramMap.put("nonce_str", UUIDGenerator.getUUID());
+		paramMap.put("op_user_id", config.getWeixinAccount());
+		paramMap.put("out_trade_no",orderNum);
+		paramMap.put("out_refund_no",orderNum);
+		paramMap.put("refund_fee",PayUtil.changeY2F(rewardAmount));
+		paramMap.put("total_fee",PayUtil.changeY2F(rewardAmount));
+		paramMap.put("transaction_id","");
+		if (StringUtils.isNotBlank(config.getTransferApiPassword())) {
+			// 根据微信签名规则，生成签名
+			paramMap.put("sign",PayUtil.createSign(paramMap, config.getTransferApiPassword()));
+		}
+		String reuqestXml = PayUtil.assembParamToXml(paramMap);
+		
+		String resXml ="";
+		try {
+        	KeyStore keyStore  = KeyStore.getInstance("PKCS12");
+            FileInputStream instream = new FileInputStream(new File(WeixinPay.class.getResource(".").getFile().toString()+"apiclient_cert.p12"));//放退款证书的路径
+            try {
+                keyStore.load(instream, config.getAlipayAccount().toCharArray());
+            } finally {
+                instream.close();
+            }
+            SSLContext sslcontext = SSLContexts.custom().loadKeyMaterial(keyStore, config.getAlipayAccount().toCharArray()).build();
+            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
+                    sslcontext,
+                    new String[] { "TLSv1" },
+                    null,
+                    SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+            CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
+            HttpPost httpPost = new HttpPost(url);//退款接口            
+            StringEntity  reqEntity  = new StringEntity(reuqestXml);
+            // 设置类型 
+            reqEntity.setContentType("application/x-www-form-urlencoded"); 
+            httpPost.setEntity(reqEntity);
+            CloseableHttpResponse response = httpclient.execute(httpPost);
+            try {
+                HttpEntity entity = response.getEntity();              
+                String line = "";  
+                if (entity != null) {
+                    System.out.println("Response content length: " + entity.getContentLength());
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent(),"UTF-8"));
+                    String text;        			
+                    while ((text = bufferedReader.readLine()) != null) {
+                    	line=line+text;                       
+                    }                   
+                }
+                EntityUtils.consume(entity);               
+            }catch(Exception e){            	
+            }finally {
+                try {
+					response.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+        }catch(Exception e){        	
+        }      
+	
+		Map<String, String> map=new HashMap<String, String>();
+		try {
+			if(StringUtils.isNotBlank(resXml)){
+				map = PayUtil.parseXMLToMap(resXml);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return map; 
+		
+	}
 	//微信扫码支付
 	public static  String enterWeiXinPay(String serverUrl,
 			CmsConfigContentCharge config,String content,String orderNumber,String product_id,String url,

@@ -23,11 +23,13 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.domain.TradeFundBill;
 import com.alipay.api.request.AlipayTradeCancelRequest;
 import com.alipay.api.request.AlipayTradePrecreateRequest;
+import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipayTradeCancelResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.caihong.cms.entity.assist.CmsConfigContentCharge;
 import com.caihong.common.web.RequestUtils;
 import com.caihong.core.entity.CmsSite;
@@ -238,7 +240,68 @@ public class AliPay {
 		String sHtmlText = PayUtil.buildAliPayRequest(sParaTemp,config.getAlipayKey(),"get","确认");	
 		return sHtmlText;
 	}
-	
+	public static void main(String args[]){
+		AlipayClient alipayClient = AlipayAPIClientFactory.getAlipayClient(
+        		"https://openapi.alipay.com/gateway.do","2017021205630503"
+        		,"MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAKc27CiecnWWG/0omjvWs62u8SGmTehNttAWEZB03Wud8aHSBsLbCeitDxq6hsYNtANNPaBAXeDNTBVlKEAGmQaEdgIo1KiODRvBKGbN6RG1YeN7lvAY4BkjhteGu8BcU/hSoFTMosO685hLEf40uB7OLxBruni2OOaC48V5yZq9AgMBAAECgYBw/l4rPJbf+qXDNrKyiO02CqeLM5QlzI4ioycPVMljNYHY9dH3zogtoPQ5/Z2hLBVevc1NAvHtPQ2Sz56ZVVwFwcUfe6gcSFtcbCokqTP2Qqf4shwqfNBFLk/97RUFEfKxOwgDu7KEj+3J+lJN+qVOMoc8/1r9ZYUtvPbk8KTGgQJBANLClg2rcJZCGo8HvPtN8QVn9kVZzxgkFL5OH1pNJRQWPJmhYn15KbUuJffMPlQ4rhBd/lDRdWkvno8hmYdeBJECQQDLG3pApRMD/fwxSrrYNaV8zhQjVMqQyGY2IzPfUyjMJPlSiH9Ynj3C7xFHoPFRmvZ4lG9U0gZcmCW1ACPtF5ltAkAiuANYBSHq3sDZRwEOtOw7Y8Dh88V1yJvSLbRkf8jX4kHhXQCIgukn+44tn+u0nBGwiItYbOjWhw2rrnFIJ2jBAkEAhGUE696u5otJOVhdM1LE7PXoap9666W1+tQ3m/u5PFldrE8Ns9Zyq/7qZKakp207/J3FdKTzQKhs6++Le6FGgQJBAIXx9bCq5zY+ZCuQs4xwehfCoQuvQmOCRuJcEy3fueDV7dH9oA4OZuYRUrtoZdS+KqR1phXwvQm/l/sbQwVQT8Q="
+        		,"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB","UTF-8");
+		AlipayTradeRefundRequest request=new AlipayTradeRefundRequest();
+		String biz_content="{" +
+		        //商户订单号
+				" \"out_trade_no\":\"148731344312656495\"," +
+		        //支付宝交易订单号
+				"\"refund_amount\":\"0.01\"," +
+				
+				"\"refund_reson\":\"test\"," +
+				"\"store_id\":\"test_store_id\"" +
+				"}";
+		request.setBizContent(biz_content);
+		try {
+			AlipayTradeRefundResponse  response=alipayClient.execute(request);
+			if(response!=null&&response.isSuccess()){
+				if (response.getCode().equals("10000")) {
+					
+			}
+			}
+		} catch (AlipayApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 支付宝退费	
+	 * @param serverUrl
+	 * @param config
+	 * @param out_trade_no 订单好号
+	 * @param price  价格
+	 * @param refund_reson 退款原因
+	 */
+	public static AlipayTradeRefundResponse AlipayRefund(String serverUrl,CmsConfigContentCharge config,final String out_trade_no,double price,String refund_reson){
+		AlipayClient alipayClient = AlipayAPIClientFactory.getAlipayClient(
+        		serverUrl,config.getAlipayAppId()
+        		,config.getAlipayPrivateKey(),config.getAlipayPublicKey(),"UTF-8");
+		AlipayTradeRefundRequest request=new AlipayTradeRefundRequest();
+		String biz_content="{" +
+		        //商户订单号
+				" \"out_trade_no\":\""+out_trade_no+"\"," +
+		        //支付宝交易订单号
+				"\"refund_amount\":\""+price+"\"," +
+				"\"refund_reson\":\""+refund_reson+"\"," +
+				"\"store_id\":\"test_store_id\"" +
+				"}";
+		request.setBizContent(biz_content);
+		AlipayTradeRefundResponse  response=null;
+		try {
+			response=alipayClient.execute(request);
+			if(response!=null&&response.isSuccess()){
+				return response;
+			}
+		} catch (AlipayApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return response;
+	}
 
 	/**
 	 * 交易查询
@@ -253,14 +316,14 @@ public class AliPay {
         		serverUrl,config.getAlipayAppId()
         		,config.getAlipayPrivateKey(),config.getAlipayPublicKey(),"UTF-8");
 		AlipayTradeQueryRequest alipayQueryRequest = new AlipayTradeQueryRequest();
-		//String biz_content = "{\"out_trade_no\":\"" + out_trade_no + "\"}";
+		String biz_content = "{\"out_trade_no\":\"" + out_trade_no + "\"}";
 
-		String biz_content="{" +
+		/*String biz_content="{" +
 		        //商户订单号
 				"    \"out_trade_no\":\""+out_trade_no+"\"," +
 		        //支付宝交易订单号
 				"    \"trade_no\":\""+trade_no+"\"" +
-				"  }";
+				"  }";*/
 		
 		alipayQueryRequest.setBizContent(biz_content);
 		AlipayTradeQueryResponse alipayQueryResponse = null;

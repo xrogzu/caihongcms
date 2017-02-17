@@ -5,7 +5,8 @@ public enum GetGrainType {
 	BBS(2,"论坛"),
 	BUY(3,"购买"),
 	SEND(4,"打赏"),
-	SENDTO(5,"打赏用户");
+	SENDTO(5,"打赏用户"),
+	REFUND(6,"退费");
 	private Integer value;
 	private String name;
 	public void setValue(Integer value) {

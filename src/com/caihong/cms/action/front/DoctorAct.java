@@ -28,6 +28,7 @@ import com.caihong.core.entity.CmsUser;
 import com.caihong.core.manager.CmsUserMng;
 import com.caihong.core.web.WebErrors;
 import com.caihong.core.web.util.CmsUtils;
+import com.caihong.core.web.util.EncodeURLUtils;
 import com.caihong.core.web.util.FrontUtils;
 
 
@@ -54,6 +55,11 @@ public class DoctorAct {
 			return FrontUtils.showError(request, response, model, errors);
 		}else{
 			CmsUser doctor = cmsUserMng.findByUsername(username);
+			if(doctor==null){
+				username=EncodeURLUtils.getURLDecode(username.replace("％", "%"));
+				doctor = cmsUserMng.findByUsername(username);
+			}
+			
 		    if(doctor!=null){	 	   
 			  		model.addAttribute("doctor", doctor);
 			  		if(user!=null){

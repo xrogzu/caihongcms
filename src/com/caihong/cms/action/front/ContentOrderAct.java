@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alipay.api.response.AlipayTradeQueryResponse;
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.caihong.cms.entity.assist.CmsConfigContentCharge;
 import com.caihong.cms.entity.main.ContentCharge;
 import com.caihong.cms.entity.main.GrainBuyConfig;
@@ -47,6 +48,7 @@ import com.caihong.common.web.CookieUtils;
 import com.caihong.common.web.GetGrainType;
 import com.caihong.common.web.OrderStatus;
 import com.caihong.common.web.OrderType;
+import com.caihong.common.web.ReserveStatus;
 import com.caihong.common.web.ResponseUtils;
 import com.caihong.common.web.session.SessionProvider;
 import com.caihong.common.web.springmvc.RealPathResolver;
@@ -352,6 +354,7 @@ public class ContentOrderAct {
 		  	    		}else if(payMethod==5){		  				
 		  					model.addAttribute("url", returnurl);
 				  	    	model.addAttribute("objectId",objectId);
+				  	    	model.addAttribute("type",type);
 				  	    	model.addAttribute("orderNumber",orderNumber);
 		  					model.addAttribute("content", content);
 		  					model.addAttribute("rewardAmount", rewardAmount);
@@ -373,7 +376,7 @@ public class ContentOrderAct {
 	
 	@RequestMapping(value = "/buy/alipayInMobile.jspx")
 	public String enterAlipayInMobile(String orderNumber,Integer objectId,
-			Double rewardAmount,HttpServletRequest request,String returnurl,
+			Double rewardAmount,HttpServletRequest request,String returnurl,String content ,
 			HttpServletResponse response,ModelMap model) throws JSONException {
 		WebErrors errors=WebErrors.create(request);
 		initAliPayUrl();
@@ -382,17 +385,16 @@ public class ContentOrderAct {
 			return FrontUtils.showError(request, response, model, errors);
 		}else{
 			
-			GrainBuyConfig buyConfig= grainBuyConfigMng.findById(objectId);
-			if(buyConfig!=null){
-				String content="彩虹币"+buyConfig.getCount()+"个";
+			if(content!=null){			
+				
 				CmsConfigContentCharge config=configContentChargeMng.getDefault();
 			
-				String find_url=String.format(returnurl, objectId);
+				
 				AliPay.enterAlipayInMobile(request, response,
-						getAliPayUrl(), config, content, orderNumber, rewardAmount,content,find_url);
+						getAliPayUrl(), config, content, orderNumber, rewardAmount,content,returnurl);
 				return "";
 			}else{
-		    	errors.addErrorCode("error.beanNotFound","buyConfig");
+		    	errors.addErrorCode("error.beanNotFound","content");
 		    	return FrontUtils.showError(request, response, model, errors);
 		    }
 		}
@@ -450,7 +452,7 @@ public class ContentOrderAct {
 								String out_trade_no = result_map.get("out_trade_no");
 								// 通知微信该订单已处理
 								WeixinPay.noticeWeChatSuccess(getWeiXinPayUrl());
-								payAfter(out_trade_no,config.getChargeRatio(),transaction_id, null);
+								payAfter(out_trade_no,transaction_id, null);
 								//支付成功
 								json.put("status", 0);
 							} else if ("SUCCESS".equals(return_code)
@@ -519,7 +521,7 @@ public class ContentOrderAct {
 				//判断该笔订单是否在商户网站中已经做过处理
 				//如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
 				//如果有做过处理，不执行商户的业务程序
-				CmsUser content=payAfter(out_trade_no,config.getChargeRatio(), null, trade_no);
+				CmsUser content=payAfter(out_trade_no, null, trade_no);
 				try {
 					response.sendRedirect("http://www.caihongyixue.com/blog/"+content.getUsername()+".jspx");
 				} catch (IOException e) {
@@ -538,6 +540,52 @@ public class ContentOrderAct {
 		}
 		return  FrontUtils.showMessage(request, model,"error.alipay.status.payfail");
 	}
+	/**
+	 * 退费
+	 * @param orderNumber
+	 * @param request
+	 * @param response
+	 * @param model
+	 */
+	@RequestMapping(value = "/buy/refund.jspx")
+	public void refund(String orderNumber,String reason,HttpServletRequest request,
+			HttpServletResponse response, ModelMap model){
+		JSONObject json = new JSONObject();
+		try{
+			if(orderNumber!=null){
+				Order order=orderMng.findByOrderNumber(orderNumber);
+				if(order==null){
+					json.put("status", 2);
+				}else{
+					CmsConfigContentCharge config=configContentChargeMng.getDefault();
+					if(order.getOrderNumWeiXin()!=null){
+						Map<String,String> map= WeixinPay.refoundWeixin(request,  config,  order.getOrderNum(), order.getAmount());
+						if(map!=null&&map.get("result_code").equals("SUCCESS")){
+							json.put("status", 0);
+							refundAfter(order.getOrderNum(),order.getOrderNumWeiXin(),	null);
+						}else{
+							json.put("status", 1);
+						}
+					}else{
+						AlipayTradeRefundResponse res=AliPay.AlipayRefund(getAliPayUrl(), config, order.getOrderNum(), order.getAmount(), reason);
+						if(res!=null&&res.isSuccess()){
+							json.put("status", 0);
+							refundAfter(order.getOrderNum(),null,	order.getOrderNumAliPay());
+						}else{
+							json.put("status", 1);
+						}
+						
+					}
+				}
+			}else{
+				json.put("status", 1);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		ResponseUtils.renderJson(response, json.toString());
+	}
+	
 	
 	//支付宝查询订单状态（扫码支付和手机网页支付均由此处理订单）
 	@RequestMapping(value = "/content/orderQuery.jspx")
@@ -557,7 +605,7 @@ public class ContentOrderAct {
 					if ("TRADE_SUCCESS".equalsIgnoreCase(res
 							.getTradeStatus())) {
 							json.put("status", 0);
-							payAfter(orderNumber, config.getChargeRatio(),
+							payAfter(orderNumber, 
 									null, res.getTradeNo());
 					} else if ("WAIT_BUYER_PAY".equalsIgnoreCase(res
 							.getTradeStatus())) {
@@ -583,8 +631,38 @@ public class ContentOrderAct {
 		}
 		ResponseUtils.renderJson(response, json.toString());
 	}
+	/**
+	 * 退费之后的事件
+	 * @param orderNumber
+	 * @param weixinOrderNum
+	 * @param alipyOrderNum
+	 */
+	private CmsUser refundAfter(String orderNumber,String weixinOrderNum,	String alipyOrderNum){
+		
+		 CmsUser user= null;
+	   
+		if(StringUtils.isNotBlank(orderNumber)){
+		    Order b=orderMng.findByOrderNumber(orderNumber);
+		    //不能重复提交
+		    if(b!=null&&(b.getStatus()==OrderStatus.PAID.getValue())){
+		    	b.setStatus(OrderStatus.CANCEL.getValue());
+		    	orderMng.save(b);
+			  
+			   if(b.getType()==OrderType.REWARD.getValue()){//如果是彩虹币
+				   GrainBuyConfig config=grainBuyConfigMng.findById(b.getObjectId());			   	    
+		   	    	userMng.updateGrainCnt(b.getUser(), null, -config.getCount(), GetGrainType.REFUND);//退费
+			   }else{
+				   Reserve reserve=reserveMng.findById(b.getObjectId());		   	    	
+		   	    	reserve.setPayStatus(false);
+		   	    	reserve.setStatus(ReserveStatus.CANCEL.getValue());
+		   	    	reserveMng.save(reserve);
+			   }
+		    }
+		}
+	    return user;
+	}
 	
-	private CmsUser payAfter(String orderNumber,Double ratio,
+	private CmsUser payAfter(String orderNumber,
 			String weixinOrderNum,
 			String alipyOrderNum){
 		Element e = cache.get(orderNumber);
@@ -633,6 +711,11 @@ public class ContentOrderAct {
 			   	    			   	    	
 			   	    	rewardAmount=config.getPrice();
 			   	    	userMng.updateGrainCnt(user, null, config.getCount(), GetGrainType.BUY);//获取彩虹币
+			   	    }else{
+			   	    	Reserve reserve=reserveMng.findById(objectId);
+			   	    	rewardAmount=reserve.getPrice();
+			   	    	reserve.setPayStatus(true);
+			   	    	reserveMng.update(reserve);
 			   	    }
 			   	    order.setObjectId(objectId);
 			   	    order.setAmount(rewardAmount);

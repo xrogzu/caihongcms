@@ -4,10 +4,10 @@ package com.caihong.common.web;
  * @author rishi.ding
  *
  */
-public enum OrderStatus {
-	PAID(1,"支付"),
-	UNPAID(2,"未支付"),
-	CANCEL(3,"退费取消");
+public enum ReserveStatus {
+	RESERVE(1,"预约中"),
+	CONSULTATION(2,"已会诊"),
+	CANCEL(3,"取消");
 	private Integer value;
 	private String name;
 	public void setValue(Integer value) {
@@ -30,14 +30,14 @@ public enum OrderStatus {
 	public String getName() {
 		return name;
 	}
-	OrderStatus(Integer value,String name){
+	ReserveStatus(Integer value,String name){
 		setValue(value);
 		setName(name);
 	}
-	public static OrderStatus getOrderStatusValue(Integer value){
+	public static ReserveStatus getReserveStatusValue(Integer value){
 		if (null == value)
 			return null;
-		for (OrderStatus _enum : OrderStatus.values()) {
+		for (ReserveStatus _enum : ReserveStatus.values()) {
 			if (value.equals(_enum.getValue()))
 				return _enum;
 		}
