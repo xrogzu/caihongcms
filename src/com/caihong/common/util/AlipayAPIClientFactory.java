@@ -26,7 +26,7 @@ public class AlipayAPIClientFactory {
         
         if(null == alipayClient){
             alipayClient = new DefaultAlipayClient(url, appId, 
-            		privateKey, "json",charset,publicKey);
+            		privateKey, "json",charset,publicKey,"RSA","4WDQ+eJkCVWXFjlJ5XsbGQ==","AES");
         }
         return alipayClient;
     }

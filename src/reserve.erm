@@ -11,8 +11,8 @@
 	</page_setting>
 	<category_index>0</category_index>
 	<zoom>1.0</zoom>
-	<x>253</x>
-	<y>297</y>
+	<x>52</x>
+	<y>105</y>
 	<default_color>
 		<r>128</r>
 		<g>128</g>
@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2017-02-14 17:51:26</creation_date>
-			<updated_date>2017-02-17 00:48:47</updated_date>
+			<updated_date>2017-02-17 08:54:27</updated_date>
 			<model_property>
 				<name>Project Name</name>
 				<value></value>
@@ -1865,8 +1865,8 @@
 			<width>172</width>
 				<font_name>微软雅黑</font_name>
 				<font_size>9</font_size>
-			<x>516</x>
-			<y>360</y>
+			<x>417</x>
+			<y>384</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -2098,8 +2098,8 @@
 			<width>253</width>
 				<font_name>微软雅黑</font_name>
 				<font_size>9</font_size>
-			<x>732</x>
-			<y>191</y>
+			<x>648</x>
+			<y>361</y>
 			<color>
 				<r>128</r>
 				<g>128</g>

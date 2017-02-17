@@ -36,7 +36,6 @@ import com.caihong.core.web.util.CmsUtils;
 import com.caihong.core.web.util.FrontUtils;
 
 public class AliPay {
-
 	public static final String CONTENT_CODE_ALIPAY="tpl.content.code.alipay";
 	private static final Logger log = LoggerFactory.getLogger(AliPay.class);
 	
@@ -58,21 +57,21 @@ public class AliPay {
 			CmsConfigContentCharge config,String content,String title,String url,
 			String outTradeNo,Double totalAmount){
 		CmsSite site=CmsUtils.getSite(request);
-		AlipayClient alipayClient = AlipayAPIClientFactory.getAlipayClient(
-        		serverUrl,config.getAlipayAppId()
-        		,config.getAlipayPrivateKey(),config.getAlipayPublicKey(),"utf-8");
+		
+		AlipayClient alipayClient = AlipayAPIClientFactory.getAlipayClient(serverUrl,config.getAlipayAppId(),config.getAlipayPrivateKey(),config.getAlipayPublicKey(),"utf-8");
         AlipayTradePrecreateRequest aliRequest = new AlipayTradePrecreateRequest();
         aliRequest.setBizContent("{" +
         //商户订单号
-		"    \"out_trade_no\":\""+outTradeNo+"\"," +
+		"\"out_trade_no\":\""+outTradeNo+"\"," +
         //卖家支付宝用户 ID
-		"    \"seller_id\":\""+config.getAlipayPartnerId()+"\"," +
+		"\"seller_id\":\""+config.getAlipayPartnerId()+"\"," +
 		//订单标题
-		"    \"subject\":\""+title+"\"," +
+		"\"subject\":\""+title+"\"," +
+		"\"body\":\""+content+"\"," +
 		//订单总金额
-		"    \"total_amount\":"+totalAmount+"," +
+		"\"total_amount\":"+totalAmount+"," +
 		//支付超时时间
-		"    \"timeout_express\":\"90m\"" +
+		"\"timeout_express\":\"90m\"" +
 		"  }");
         //设置回转地址
         aliRequest.setReturnUrl(url);
