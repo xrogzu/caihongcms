@@ -57,8 +57,7 @@ $(function() {
 <@p.text width="50" colspan="1" label="cmsUser.caihong.coin" name="grain" value=cmsMember.grain required="true" class="required digits" maxlength="10"/>
 <@p.text width="50" colspan="1" label="cmsUser.fans" name="fansCnt" value=cmsMember.fansCnt required="true" class="required digits" maxlength="10"/>
 <@p.tr/>
-<@p.text width="50" colspan="1" label="坐诊价格" name="price" value=cmsMember.price required="true" class="required number" maxlength="20"/>
-<@p.text width="50" colspan="1" label="身份证号" name="idNo" value=cmsMember.idNo  maxlength="20"/>
+<@p.text width="50" colspan="2" label="身份证号" name="idNo" value=cmsMember.idNo  maxlength="20"/>
 <@p.tr/>
 <@p.radio width="50" colspan="1" label="cmsUser.disabled" name="disabled" value=cmsMember.disabled list={"true":"global.true","false":"global.false"} required="true"/>
 <@p.td width="50" colspan="1" label="cmsUser.loginCount">${cmsMember.loginCount}</@p.td><@p.tr/>

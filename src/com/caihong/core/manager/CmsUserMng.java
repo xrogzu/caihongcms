@@ -40,10 +40,10 @@ public interface CmsUserMng {
 	public CmsUser findByUsername(String username);
 
 	public CmsUser registerMember(String username, String email,String telphone,
-			String password, String ip, Integer groupId,Integer departmentId,Integer grain, boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,Double price,CmsUserExt userExt,Map<String,String>attr,Integer prestige);
+			String password, String ip, Integer groupId,Integer departmentId,Integer grain, boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,CmsUserExt userExt,Map<String,String>attr,Integer prestige);
 	
 	public CmsUser registerMember(String username, String email,String telphone,
-			String password, String ip, Integer groupId, Integer departmentId,boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,Integer prestige,Double price,CmsUserExt userExt,Map<String,String>attr, Boolean activation , EmailSender sender, MessageTemplate msgTpl)throws UnsupportedEncodingException, MessagingException ;
+			String password, String ip, Integer groupId, Integer departmentId,boolean disabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,Integer prestige,CmsUserExt userExt,Map<String,String>attr, Boolean activation , EmailSender sender, MessageTemplate msgTpl)throws UnsupportedEncodingException, MessagingException ;
 
 	public void updateLoginInfo(Integer userId, String ip,Date loginTime,String sessionId);
 	
@@ -80,9 +80,9 @@ public interface CmsUserMng {
 			Integer siteId, Byte step, Boolean allChannel,Boolean allControlChannel);
 
 	public CmsUser updateMember(Integer id, String email,String telphone, String password,
-			Boolean isDisabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel, String idNo,CmsUserExt ext, Integer groupId,Integer departmentId,Integer grain,Integer fansCnt,Integer followCnt,Double price,Map<String,String>attr);
+			Boolean isDisabled,Integer nation,Integer major,Integer jobTitle,Integer jobLevel, String idNo,CmsUserExt ext, Integer groupId,Integer departmentId,Integer grain,Integer fansCnt,Integer followCnt,Map<String,String>attr);
 	
-	public CmsUser updateMember(Integer id, String email, String telphone,String password,Integer groupId,Integer departmentId,String realname,String mobile,Boolean sex,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt,Double price);
+	public CmsUser updateMember(Integer id, String email, String telphone,String password,Integer groupId,Integer departmentId,String realname,String mobile,Boolean sex,Integer nation,Integer major,Integer jobTitle,Integer jobLevel,String idNo,Integer fansCnt,Integer followCnt);
 	
 	public CmsUser updateUserConllection(CmsUser user,Integer cid,Integer operate);
 

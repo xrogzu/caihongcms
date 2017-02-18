@@ -449,6 +449,13 @@ html,body {
     -o-transition-property: all;
     -o-transition-timing-function: ease;
 	}
+/*top*/
+.top{width:100%; height:3px;}
+.top > div{width:20%; float:left; height:3px;} 
+.top > div.yellow{ background-color:#ffb400;}
+.top > div.red{ background-color:#ef3838;}
+.top > div.blue{ background-color:#1e8dff;}	
+
 comments{margin-top:80px;}
 .comments h1{color:#1f1f1f; font-size:24px; font-weight:normal; position:relative;}
 .comments h1 span{color:#1f1f1f; font-size:14px; display:inline-block; position:absolute; right:0; bottom:0;}

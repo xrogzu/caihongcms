@@ -17,6 +17,7 @@ import com.caihong.cms.entity.main.Channel;
 import com.caihong.cms.entity.main.CmsThirdAccount;
 import com.caihong.cms.entity.main.Content;
 import com.caihong.cms.entity.main.ContentBuy;
+import com.caihong.cms.entity.main.UserSchedule;
 import com.caihong.common.hibernate4.PriorityInterface;
 import com.caihong.common.util.DateUtils;
 import com.caihong.core.entity.base.BaseCmsUser;
@@ -185,6 +186,15 @@ public class CmsUser extends BaseCmsUser implements PriorityInterface {
 	
 	public CmsUserAccount getUserAccount() {
 		Set<CmsUserAccount> set = getUserAccountSet();
+		if (set != null && set.size() > 0) {
+			return set.iterator().next();
+		} else {
+			return null;
+		}
+	}
+	
+	public UserSchedule getUserSchedule() {
+		Set<UserSchedule> set = getUserScheduleSet();
 		if (set != null && set.size() > 0) {
 			return set.iterator().next();
 		} else {

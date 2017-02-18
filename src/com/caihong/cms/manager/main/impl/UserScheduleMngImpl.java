@@ -1,5 +1,7 @@
 package com.caihong.cms.manager.main.impl;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +20,17 @@ public class UserScheduleMngImpl implements UserScheduleMng {
 		Pagination page = dao.getPage(username,pageNo, pageSize);
 		return page;
 	}
-
+	
+	@Transactional(readOnly = true)
+	public Pagination getPage(Integer userid ,int pageNo, int pageSize) {
+		Pagination page = dao.getPage(userid,pageNo, pageSize);
+		return page;
+	}
+	@Transactional(readOnly = true)
+	public Pagination getPage(Integer userid,Date startDate,Date endDate,Integer nationId,Integer majorId,Integer jobTitleId,Integer jobLevelId,int pageNo, int pageSize){
+		Pagination page = dao.getPage(userid, startDate, endDate, nationId, majorId, jobTitleId, jobLevelId, pageNo, pageSize);
+		return page;
+	}
 	@Transactional(readOnly = true)
 	public UserSchedule findById(Integer id) {
 		UserSchedule entity = dao.findById(id);

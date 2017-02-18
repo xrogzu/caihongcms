@@ -109,7 +109,7 @@ public class RegisterAct {
 			} else {
 				try {
 					cmsUserMng.registerMember(username, email, telphone,loginPassword, ip,
-							null,null,disabled,nation,major,jobTitle,jobLevel,idNo,0,0,config.getMemberConfig().getRegisterSendGrain(),null,userExt,attrs, false, sender, msgTpl);
+							null,null,disabled,nation,major,jobTitle,jobLevel,idNo,0,0,config.getMemberConfig().getRegisterSendGrain(),userExt,attrs, false, sender, msgTpl);
 					cmsWebserviceMng.callWebService("false",username, loginPassword, email,telphone,null, config.getMemberConfig().getRegisterSendGrain(),userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
 					model.addAttribute("status", 0);
 				} catch (UnsupportedEncodingException e) {
@@ -134,7 +134,7 @@ public class RegisterAct {
 						TPLDIR_MEMBER, REGISTER_RESULT);
 			}
 		} else {
-			cmsUserMng.registerMember(username, email, telphone,loginPassword, ip, null,null,null,disabled,nation,major,jobTitle,jobLevel,idNo,0,0,null,userExt,attrs,config.getMemberConfig().getRegisterSendGrain());
+			cmsUserMng.registerMember(username, email, telphone,loginPassword, ip, null,null,null,disabled,nation,major,jobTitle,jobLevel,idNo,0,0,userExt,attrs,config.getMemberConfig().getRegisterSendGrain());
 			cmsWebserviceMng.callWebService("false",username, loginPassword, email, telphone,null,config.getMemberConfig().getRegisterSendGrain(),userExt,CmsWebservice.SERVICE_TYPE_ADD_USER);
 			log.info("member register success. username={}", username);
 			FrontUtils.frontData(request, model, site);

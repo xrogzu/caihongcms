@@ -189,7 +189,6 @@
 	<bean id="orderMng" class="com.caihong.cms.manager.main.impl.OrderMngImpl"/>
 	<bean id="patientMng" class="com.caihong.cms.manager.main.impl.PatientMngImpl"/>
 	<bean id="reserveMng" class="com.caihong.cms.manager.main.impl.ReserveMngImpl"/>
-	<bean id="scheduleMng" class="com.caihong.cms.manager.main.impl.ScheduleMngImpl"/>
 	<bean id="userScheduleMng" class="com.caihong.cms.manager.main.impl.UserScheduleMngImpl"/>
 	
 	<!--DAO-->
@@ -300,6 +299,5 @@
 	<bean id="orderDao" class="com.caihong.cms.dao.main.impl.OrderDaoImpl"/>
 	<bean id="patientDao" class="com.caihong.cms.dao.main.impl.PatientDaoImpl"/>
 	<bean id="reserveDao" class="com.caihong.cms.dao.main.impl.ReserveDaoImpl"/>
-	<bean id="scheduleDao" class="com.caihong.cms.dao.main.impl.ScheduleDaoImpl"/>
 	<bean id="userScheduleDao" class="com.caihong.cms.dao.main.impl.UserScheduleDaoImpl"/>
 </beans>

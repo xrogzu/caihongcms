@@ -2,6 +2,8 @@ package com.caihong.cms.entity.main;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Model class of 医生排班.
@@ -10,6 +12,17 @@ import java.util.Date;
  * @version $Id$
  */
 public class UserSchedule implements Serializable {
+	public final static Map<String,String> map=new HashMap<String,String>();
+	static{
+		map.put("0", "周一");
+		map.put("1", "周二");
+		map.put("2", "周三");
+		map.put("3", "周四");
+		map.put("4", "周五");
+		map.put("5", "周六");
+		map.put("6", "周日");
+		
+	}
 
 	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -19,6 +32,8 @@ public class UserSchedule implements Serializable {
 
 	/** 看诊状态. */
 	private String zuozhenTimes;
+	
+	private String sign;	
 
 	/** 可看诊次数. */
 	private Integer counts;
@@ -42,6 +57,26 @@ public class UserSchedule implements Serializable {
 	 * Constructor.
 	 */
 	public UserSchedule() {
+	}
+	
+	public static void main(String args[]){
+		System.out.println(map.get("1"));
+	}
+	
+	public String getZuozhen(){
+		String out="";
+		if(this.getZuozhenTimes()!=null){
+			
+			String arr[]=getZuozhenTimes().split(",");
+			for(int i=0;i<arr.length;i++){
+				if(arr[i].equals("1")){
+					out=out+map.get(""+i)+",";
+				}else{
+					continue;
+				}
+			}
+		}
+		return out;
 	}
 
 	/**
@@ -80,6 +115,14 @@ public class UserSchedule implements Serializable {
 	 */
 	public String getZuozhenTimes() {
 		return this.zuozhenTimes;
+	}
+
+	public String getSign() {
+		return sign;
+	}
+
+	public void setSign(String sign) {
+		this.sign = sign;
 	}
 
 	/**

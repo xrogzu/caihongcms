@@ -188,6 +188,10 @@ function reward(){
 		<li>专业：${doctor.major.name!}</li>
 		<li>职称：${doctor.jobTitle.name!}</li>
 		<li>级别：${doctor.jobLevel.name!}</li>
+		[#if doctor.userSchedule??]
+		<li>坐诊价格：${doctor.userSchedule.price!}</li>
+		<li>坐诊时间：${doctor.userSchedule.zuozhen!}</li>
+		[/#if]
 		[/#if]
         <li>彩虹币：${doctor.grain!}</li>
         <li>粉丝数：${doctor.fansCnt!}</li>

@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="keywords" content="${channel.keywords!}"/>
+<meta http-equiv="description" content="${channel.description!}"/>
+<title>${channel.title!channel.name} - ${site.name} - Powered by caihong</title>
+
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<script type="text/javascript" src="/${res}/js/jquery.DB_tabMotionBanner.min.js"></script>
+<script type="text/javascript" src="/${res}/js/jquery.SuperSlide.js"></script>
+<link type="text/css" rel="stylesheet" href="/${res}/css/index.css" />
+<script type="text/javascript">
+$(function() {
+	Cms.channelViewCount("${base}","${channel.id}");
+	Cms.siteFlow("${base}", location.href, document.referrer,"${site.config.flowSwitch?string}");
+});
+</script>
+<head>
+<body>
+[#include "../include/top.html"/]
+[#include "../include/header.html"/]
+<div class="DB_tab25">       
+        <div class="DB_menuWrap">
+            <img style="width:100%;" src="/${res}/img/banner-team.jpg"/>                     
+        </div>        
+</div>   
+<div class="main container clearfix">  
+  <section class="tssj">
+   <div align="center">  <img  class="biaoti" src="/${res}/img/index_07.png"  /></div>
+    <div align="center"><a  href="${base}/member/reserve.jspx"><img  class="biaoti" src="/${res}/img/reserve.jpg"  /></a></div>
+    <br>
+  </section> 
+  
+</div>
+
+[#include "../include/footer.html"/]
+[#include "../include/right-fixed.html"/]
+</body>
+</html>

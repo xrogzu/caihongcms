@@ -18,39 +18,7 @@ $(function() {
 	$.cookie("_site_id_cookie","${site.id!}",{path: '${base}' });
 });
 </script>
-<script type="text/javascript">
-function GetQueryString(name)
-{
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
-}
-var goodpass='123321';
-var tmppass=GetQueryString('tmppass');
-if(!(tmppass&&tmppass==goodpass)){
-function password() { 
-	var testV = 1; 
-	var pass1 = prompt('Sorry,该网站目前测试阶段,请输入密码:',''); 
-	while (testV < 3) { 
-		if (!pass1) {
-			history.go(-1);
-		}	
-		if (pass1 == goodpass) {//初始密码123 
-			window.location.href="http://www.caihongyixue.com?tmppass="+pass1 ;//修改需要密码认证的网页 
-			break; 
-		} 
-		testV+=1; 
-		var pass1 = prompt('朋友，密码不对！:(',''); 
-	} 
-	if (pass1!=goodpass & testV ==3) {
-		history.go(-1); 
-	}
-	return " "; 
-} 
 
-	document.write(password()); 
-}
-</script>
 </head>
 <body>
 [#include "../include/header_new.html"/]

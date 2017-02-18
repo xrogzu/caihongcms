@@ -64,8 +64,19 @@ public class CmsMemberAct {
 				null, queryGroupId, queryDisabled, false, null, null,
 				null,null,null,null,nationId,majorId,jobTitleId,jobLevelId,idNo,cpn(pageNo),
 				CookieUtils.getPageSize(request));
+		List<CmsDictionary> jobLevelList=cmsDictionaryMng.getList(TYPE_JOBLEVEL);
+		List<CmsDictionary> majorList=cmsDictionaryMng.getList(TYPE_MAJOR);
+		List<CmsDictionary> nationList=cmsDictionaryMng.getList(TYPE_NATION);
+		List<CmsDictionary> jobTitleList=cmsDictionaryMng.getList(TYPE_JOBTITLE);
+		model.addAttribute("jobLevelList", jobLevelList);
+		model.addAttribute("majorList", majorList);
+		model.addAttribute("nationList", nationList);
+		model.addAttribute("jobTitleList", jobTitleList);	
 		model.addAttribute("pagination", pagination);
-
+		model.addAttribute("nationId", nationId);
+		model.addAttribute("majorId", majorId);	
+		model.addAttribute("jobTitleId", jobTitleId);
+		model.addAttribute("jobLevelId", jobLevelId);	
 		model.addAttribute("queryUsername", queryUsername);
 		model.addAttribute("queryEmail", queryEmail);
 		model.addAttribute("queryGroupId", queryGroupId);
@@ -138,6 +149,7 @@ public class CmsMemberAct {
 		for(CmsConfigItem item:registerItems){
 			userAttrValues.add(user.getAttr().get(item.getField()));
 		}
+		
 		model.addAttribute("queryUsername", queryUsername);
 		model.addAttribute("queryEmail", queryEmail);
 		model.addAttribute("queryGroupId", queryGroupId);
@@ -157,7 +169,7 @@ public class CmsMemberAct {
 	@RequiresPermissions("member:o_save")
 	@RequestMapping("/member/o_save.do")
 	public String save(CmsUser bean, CmsUserExt ext, String username,String telphone,
-			String email, String password, Integer groupId,Integer departmentId,Integer grain,Integer nationId,Integer majorId,Integer jobTitleId,Integer jobLevelId,String idNo,Integer fansCnt,Integer followCnt,Double price,
+			String email, String password, Integer groupId,Integer departmentId,Integer grain,Integer nationId,Integer majorId,Integer jobTitleId,Integer jobLevelId,String idNo,Integer fansCnt,Integer followCnt,
 			HttpServletRequest request, ModelMap model) {
 		WebErrors errors = validateSave(bean, request);
 		if (errors.hasErrors()) {
@@ -167,7 +179,7 @@ public class CmsMemberAct {
 		CmsConfig config=site.getConfig();
 		String ip = RequestUtils.getIpAddr(request);
 		Map<String,String>attrs=RequestUtils.getRequestMap(request, "attr_");
-		bean = manager.registerMember(username, email, password,telphone, ip, groupId,departmentId,grain,false, nationId, majorId, jobTitleId,jobLevelId, idNo, fansCnt, followCnt,price,ext,attrs,config.getMemberConfig().getRegisterSendGrain());
+		bean = manager.registerMember(username, email, password,telphone, ip, groupId,departmentId,grain,false, nationId, majorId, jobTitleId,jobLevelId, idNo, fansCnt, followCnt,ext,attrs,config.getMemberConfig().getRegisterSendGrain());
 		
 		cmsWebserviceMng.callWebService("false",username, password, email, telphone,groupId+"",config.getMemberConfig().getRegisterSendGrain(),ext,CmsWebservice.SERVICE_TYPE_ADD_USER);
 		log.info("save CmsMember id={}", bean.getId());
@@ -179,7 +191,7 @@ public class CmsMemberAct {
 	@RequiresPermissions("member:o_update")
 	@RequestMapping("/member/o_update.do")
 	public String update(Integer id, String email,String telphone, String password,
-			Boolean disabled, CmsUserExt ext, Integer groupId,Integer departmentId,Integer grain,Integer nationId,Integer majorId,Integer jobTitleId,Integer jobLevelId,String idNo,Integer fansCnt,Integer followCnt,Double price,
+			Boolean disabled, CmsUserExt ext, Integer groupId,Integer departmentId,Integer grain,Integer nationId,Integer majorId,Integer jobTitleId,Integer jobLevelId,String idNo,Integer fansCnt,Integer followCnt,
 			String queryUsername, String queryEmail, Integer queryGroupId,
 			Boolean queryDisabled, Integer pageNo, HttpServletRequest request,
 			ModelMap model) {
@@ -188,7 +200,7 @@ public class CmsMemberAct {
 			return errors.showErrorPage(model);
 		}
 		Map<String,String>attrs=RequestUtils.getRequestMap(request, "attr_");
-		CmsUser bean = manager.updateMember(id, email, telphone,password, disabled, nationId, majorId, jobTitleId,jobLevelId, idNo,ext,groupId,departmentId,grain, fansCnt, followCnt,price,attrs);
+		CmsUser bean = manager.updateMember(id, email, telphone,password, disabled, nationId, majorId, jobTitleId,jobLevelId, idNo,ext,groupId,departmentId,grain, fansCnt, followCnt,attrs);
 		cmsWebserviceMng.callWebService("false",bean.getUsername(), password, email,telphone, groupId+"",null,ext,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
 		log.info("update CmsMember id={}.", bean.getId());
 		cmsLogMng.operating(request, "cmsMember.log.update", "id="

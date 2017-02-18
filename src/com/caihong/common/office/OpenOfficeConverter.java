@@ -134,10 +134,10 @@ public class OpenOfficeConverter{
     
     
     public void init(){
-    	CmsConfig config=cmsConfigMng.get();
+    	/*CmsConfig config=cmsConfigMng.get();
     	OpenOfficeConverter  coverter = new OpenOfficeConverter(config.getOfficeHome(),config.getOfficePort());
     	coverter.startService();
-		this.openOfficeConverter=coverter;
+		this.openOfficeConverter=coverter;*/
     }
     
     public void destroy(){

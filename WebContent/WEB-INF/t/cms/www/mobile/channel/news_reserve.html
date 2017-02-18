@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,minimal-ui">
+<meta http-equiv="keywords" content="${channel.keywords!}"/>
+<meta http-equiv="description" content="${channel.description!}"/>
+<title>${site.name} - Powered by caihong</title>
+<link rel="stylesheet" type="text/css" href="/${mobileRes!}/css/index.css"> 
+<link rel="stylesheet" type="text/css" href="/${mobileRes!}/css/news.css"> 
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+$(function() {
+	Cms.channelViewCount("${base}","${channel.id}");
+	Cms.siteFlow("${base}", location.href, document.referrer,"${site.config.flowSwitch?string}");
+});
+</script>
+</head>
+
+<body>
+<div class="viewport">
+  [#include "../include/header.html" /]
+  <div class="picList">
+   <div class="item">
+      <div class="picList-titleImg"><a href="${base}/member/reserve.jspx"><img src="/${mobileRes!}/img/reserve.jpg"/></a></div>
+  </div>
+  
+  </div>
+ <div class="login-btn" align="center"> [#if user??] <a class="login-submit" href="${base}/member/reserve.jspx">&nbsp;&nbsp;&nbsp;预&nbsp;约&nbsp;会&nbsp;诊&nbsp;&nbsp;&nbsp;</a>[#else]<a class="login-submit" href="${base}/login.jspx">&nbsp;&nbsp;&nbsp;登&nbsp;录&nbsp;&nbsp;&nbsp;</a>后才可以预约[/#if]
+</div>
+[#include "../include/gotop.html" /]
+</body>
+</html>

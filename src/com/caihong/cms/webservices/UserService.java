@@ -62,7 +62,7 @@ public class UserService  extends SpringBeanAutowiringSupport{
 						group=cmsGroupMng.getRegDef();
 					}
 					if(admin.equals("false")){
-						cmsUserMng.registerMember(username, telphone,email, password, LOCAL_IP, group.getId(),null, null, false,1,null,null,null,null,0,0, null,userExt, null,prestige==null?null:new Integer(prestige));
+						cmsUserMng.registerMember(username, telphone,email, password, LOCAL_IP, group.getId(),null, null, false,1,null,null,null,null,0,0,userExt, null,prestige==null?null:new Integer(prestige));
 					}else if(admin.equals("true")){
 						Integer rankInt=1;
 						if(StringUtils.isNotBlank(rank)){
@@ -135,7 +135,7 @@ public class UserService  extends SpringBeanAutowiringSupport{
 								groupInt=gid;
 							}
 						}
-						cmsUserMng.updateMember(user.getId(), email,telphone, password, groupInt, null,realname, tel, gender,null,null, null,null ,null ,null,null ,null);
+						cmsUserMng.updateMember(user.getId(), email,telphone, password, groupInt, null,realname, tel, gender,null,null, null,null ,null ,null,null );
 						responseCode=RESPONSE_CODE_SUCCESS;
 						webserviceCallRecordMng.save(auth_username, SERVICE_CODE_USER_UPDATE);
 					} catch (Exception e) {

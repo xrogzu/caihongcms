@@ -10,6 +10,9 @@
 
 		<property name="zuozhenTimes" type="java.lang.String"
 			column="zuozhen_times" not-null="true" />
+			
+		<property name="sign" type="java.lang.String"
+			column="sign" not-null="false" />
 
 		<property name="counts" type="java.lang.Integer"
 			column="counts" not-null="false" />

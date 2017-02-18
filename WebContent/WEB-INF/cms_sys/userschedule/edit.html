@@ -8,11 +8,19 @@
 $(function() {
 	$("#jvForm").validate();
 });
+function modi(id){
+	var obj=$('#'+id).val();
+	if(obj=='0'){
+		$('#'+id).val('1');
+	}else{
+		$('#'+id).val('0');
+	}
+}
 </script>
 </head>
 <body>
 <div class="page-positon ove">
-  <div class="position-div"><@s.m "global.position"/>: <@s.m "userSchedule.function"/> > <@s.m "global.edit"/></div>
+  <div class="position-div"><@s.m "global.position"/>: 医生排班管理 > 医生排班</div>
 </div>
 <div class="box-positon ck">
 	<form class="ropt">
@@ -22,8 +30,34 @@ $(function() {
 </div>
 <div class="body-box">
 <@p.form id="jvForm" action="o_update.do">
-<@p.text label="userSchedule.name" name="name" value=userSchedule.name required="true" class="required" maxlength="100"/>
-<@p.td><@p.hidden name="id" value=userSchedule.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+<@p.td label="cmsUser.headImg" colspan="2" width="50" noHeight="true">
+<img  alt="<@s.m "imageupload.preview"/>" src="${cmsMember.userImg}" noResize="true" style="width:100px;height:100px;background-color:#CCCCCC;border:1px solid #333"/>
+</@p.td><@p.tr/>
+<@p.td width="50" colspan="1" label="cmsUser.username">${cmsMember.username!}</@p.td>
+<@p.td width="50" colspan="1" label="cmsUser.realname">${cmsMember.realname!}</@p.td><@p.tr/>
+<@p.td width="50" colspan="1" label="cmsUser.gender"><#if cmsMember.gender??><#if cmsMember.gender==false><@s.m "cmsUser.female"/><#else><@s.m "cmsUser.male"/></#if><#else>保密</#if></@p.td>
+<@p.td width="50" colspan="1" label="cmsUser.email">${cmsMember.email!}</@p.td>
+<@p.tr/>
+<@p.td label="排班信息" colspan="2" width="50" noHeight="true"></@p.td><@p.tr/>
+<td>看诊价格(元):</td><td colspan="1" class="pn-fcontent"> <input type="text" name="price" value="<#if cmsMember.userSchedule??>${cmsMember.userSchedule.price!}</#if>" required="true" class="required number" maxlength="10" /></td>
+<td>每日看诊次数(次):</td><td colspan="1" class="pn-fcontent"><input type="text" name="counts" value="<#if cmsMember.userSchedule??>${cmsMember.userSchedule.counts!}</#if>" required="true" class="required digits" maxlength="10" /></td>
+<@p.tr/>
+<td>看诊有效期：</td><td colspan="3" class="pn-fcontent"><input type="text"  name="startDate" value="<#if cmsMember.userSchedule??>${cmsMember.userSchedule.startDate!}</#if>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>~
+<input type="text"  name="endDate" value="<#if cmsMember.userSchedule??>${cmsMember.userSchedule.endDate!}</#if>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+</td>
+<@p.tr/>
+<td>每周看诊时间：</td><td colspan="3" >
+&nbsp; <label><input type="checkbox" onclick="modi('mon')" <#if mon=='1'>checked="checked"</#if>/>周一<input type="hidden" id="mon" name="mon" value="${mon}"/></label>
+&nbsp; <label><input type="checkbox" onclick="modi('tue')"  <#if tue=='1'>checked="checked"</#if>/>周二<input type="hidden" id="tue" name="tue" value="${tue}"/></label>
+&nbsp; <label><input type="checkbox" onclick="modi('wed')" <#if wed=='1'>checked="checked"</#if>/>周三<input type="hidden" id="wed" name="wed" value="${wed}"/></label>
+&nbsp; <label><input type="checkbox" onclick="modi('thur')" <#if thur=='1'>checked="checked"</#if>/>周四<input type="hidden" id="thur" name="thur" value="${thur}"/></label>
+&nbsp; <label><input type="checkbox" onclick="modi('fri')" <#if fri=='1'>checked="checked"</#if>/>周五<input type="hidden" id="fri" name="fri" value="${fri}"/></label>
+&nbsp; <label><input type="checkbox" onclick="modi('sat')" <#if sat=='1'>checked="checked"</#if>/>周六<input type="hidden" id="sat" name="sat" value="${sat}"/></label>
+&nbsp; <label><input type="checkbox" onclick="modi('sun')" <#if sun=='1'>checked="checked"</#if>/>周日<input type="hidden" id="sun" name="sun" value="${sun}"/></label>
+
+</td>
+<@p.tr/>
+<@p.td><@p.hidden name="id" value=cmsMember.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
 </@p.form>
 </div>
 </body>

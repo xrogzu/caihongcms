@@ -4,6 +4,7 @@ import static com.caihong.cms.Constants.TPLDIR_MEMBER;
 import static com.caihong.common.page.SimplePage.cpn;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.caihong.cms.entity.assist.CmsWebservice;
+import com.caihong.cms.entity.main.UserSchedule;
 import com.caihong.cms.manager.assist.CmsWebserviceMng;
 import com.caihong.cms.manager.main.OrderMng;
+import com.caihong.cms.manager.main.UserScheduleMng;
 import com.caihong.common.page.Pagination;
 import com.caihong.common.web.CookieUtils;
 import com.caihong.common.web.ResponseUtils;
@@ -48,6 +51,9 @@ public class MemberAct {
 	public static final String MEMBER_PASSWORD = "tpl.memberPassword";
 	public static final String MEMBER_ACCOUNT = "tpl.memberAccount";
 	
+	public static final String MEMBER_RESERVE = "tpl.memberReserve";
+	public static final String MEMBER_RESERVE_DOCTOR = "tpl.memberReserveDoctor";
+	
 	/**
 	 * 会员中心页
 	 * 
@@ -75,6 +81,15 @@ public class MemberAct {
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER, MEMBER_CENTER);
 	}
+	/**
+	 * 用户订单 
+	 * @param request
+	 * @param pageNo
+	 * @param type
+	 * @param response
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/member/orders.jspx")
 	public String orders(HttpServletRequest request,Integer pageNo,Integer type,
 			HttpServletResponse response, ModelMap model) {
@@ -90,6 +105,42 @@ public class MemberAct {
 		
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER, MEMBER_ORDER);
+	}
+	
+	@RequestMapping(value = "/member/reserve.jspx")
+	public String reserve(HttpServletRequest request,Integer pageNo,Integer userid,Date startDate,Date endDate, Integer nationId,Integer majorId, Integer jobTitleId,Integer jobLevelId,
+			HttpServletResponse response, ModelMap model) {
+		CmsSite site = CmsUtils.getSite(request);
+		CmsUser user = CmsUtils.getUser(request);
+		FrontUtils.frontData(request, model, site);
+		
+		if (user == null) {
+			return FrontUtils.showLogin(request, model, site);
+		}
+		Pagination pagination=userScheduleMng.getPage(userid, startDate, endDate, nationId, majorId, jobTitleId, jobLevelId,  cpn(pageNo), CookieUtils.getPageSize(request));
+		model.addAttribute("pagination",pagination);
+		return FrontUtils.getTplPath(request, site.getSolutionPath(),
+				TPLDIR_MEMBER,MEMBER_RESERVE_DOCTOR );
+	}
+	@RequestMapping(value = "/member/reserveApply.jspx")
+	public String reserveApply(HttpServletRequest request,Integer pageNo,Integer userid,
+			HttpServletResponse response, ModelMap model) {
+		CmsSite site = CmsUtils.getSite(request);
+		CmsUser user = CmsUtils.getUser(request);
+		FrontUtils.frontData(request, model, site);
+		
+		if (user == null) {
+			return FrontUtils.showLogin(request, model, site);
+		}
+		if(userid!=null){
+			UserSchedule doctor=userScheduleMng.findById(userid);
+			if(doctor!=null){
+				model.addAttribute("doctor",doctor);
+			}
+		}
+		
+		return FrontUtils.getTplPath(request, site.getSolutionPath(),
+				TPLDIR_MEMBER,MEMBER_RESERVE );
 	}
 
 	/**
@@ -351,6 +402,8 @@ public class MemberAct {
 
 	@Autowired
 	private CmsUserMng cmsUserMng;
+	@Autowired
+	private UserScheduleMng userScheduleMng;
 	@Autowired
 	private OrderMng orderMng;
 	@Autowired

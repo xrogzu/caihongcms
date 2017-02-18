@@ -51,6 +51,11 @@ function doCheck(){
 <@s.m "cmsUser.email"/>: <input type="text" name="queryEmail" value="${queryEmail!}" style="width:70px; margin-right:10px;"/>
 <label class="p-label" style="margin-left:0; margin-right:8px;"><input type="checkbox" name="queryDisabled" value="true"<#if queryDisabled?? && queryDisabled> checked="checked"</#if> /><@s.m "cmsUser.disabled"/></label>
 <@p.select name="queryGroupId" value=queryGroupId list=groupList listKey="id" listValue="name" headerKey="" headerValue="cmsUser.group.all" style="height:24px;"/>
+<@s.m "cmsUser.nation"/>: <@p.select  value=nationId name="nationId"  list=nationList listKey="id" listValue="name"  headerKey="" headerValue=" " style="height:24px;"/>
+<@s.m "cmsUser.major"/>: <@p.select   value=majorId name="majorId" list=majorList listKey="id" listValue="name"  headerKey="" headerValue=" " style="height:24px;"/>
+<@s.m "cmsUser.job.title"/>: <@p.select  value=jobTitleId name="jobTitleId"  list=jobTitleList listKey="id" listValue="name"  headerKey="" headerValue=" " style="height:24px;"/>
+<@s.m "cmsUser.job.level"/>: <@p.select   value=jobLevelId name="jobLevelId"  list=jobLevelList listKey="id" listValue="name"  headerKey="" headerValue=" " style="height:24px;"/>
+
 <input class="query" type="submit" value="<@s.m "global.query"/>"/>
 </div>
 </form>
@@ -62,13 +67,14 @@ function doCheck(){
 	</@p.column><#t/>
 	<@p.column title="ID" align="center">${cmsUser.id}</@p.column><#t/>
 	<@p.column code="cmsUser.username" align="center">${cmsUser.username}</@p.column><#t/>
-	<@p.column code="坐诊价格" align="center">${cmsUser.price!0.00}元</@p.column><#t/>
+	<@p.column code="cmsUser.realname" align="center">${cmsUser.realname!}</@p.column><#t/>
 	<@p.column code="cmsUser.email" align="center">${cmsUser.email!}</@p.column><#t/>
 	<@p.column code="cmsUser.group" align="center">${cmsUser.group.name}<#if cmsUser.admin><span style="color:red"> [<@s.m "cmsUser.admin"/>]</span></#if></@p.column><#t/>
 	<@p.column code="cmsUser.lastLogin" align="center">${cmsUser.lastLoginTime?string('yyyy-MM-dd HH:mm:ss')}<br/>${cmsUser.lastLoginIp}</@p.column><#t/>
 	<@p.column code="cmsUser.loginCountForList" align="center">${cmsUser.loginCount}</@p.column><#t/>
 	<@p.column code="cmsUser.disabled" align="center"><#if cmsUser.disabled><span style="color:red"><@s.m "global.true"/></span><#else><@s.m "global.false"/></#if></@p.column><#t/>
 	<@p.column code="global.operate" align="center">
+		
 		<a href="v_edit.do?id=${cmsUser.id}&pageNo=${pageNo!}" class="pn-opt"><@s.m "global.edit"/></a> | <#rt/>
 		<a href="o_delete.do?ids=${cmsUser.id}&pageNo=${pageNo!}" onclick="if(!$.confirmToUrl(this.href)) {return false;}" class="pn-opt"><@s.m "global.delete"/></a><#t/>
 	</@p.column><#t/>
