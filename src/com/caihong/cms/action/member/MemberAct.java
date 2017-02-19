@@ -4,7 +4,9 @@ import static com.caihong.cms.Constants.TPLDIR_MEMBER;
 import static com.caihong.common.page.SimplePage.cpn;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,12 +21,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.caihong.cms.entity.assist.CmsWebservice;
+import com.caihong.cms.entity.main.Patient;
+import com.caihong.cms.entity.main.Reserve;
+import com.caihong.cms.entity.main.ReserveAttachment;
 import com.caihong.cms.entity.main.UserSchedule;
 import com.caihong.cms.manager.assist.CmsWebserviceMng;
 import com.caihong.cms.manager.main.OrderMng;
+import com.caihong.cms.manager.main.PatientMng;
+import com.caihong.cms.manager.main.ReserveMng;
 import com.caihong.cms.manager.main.UserScheduleMng;
 import com.caihong.common.page.Pagination;
 import com.caihong.common.web.CookieUtils;
+import com.caihong.common.web.ReserveStatus;
 import com.caihong.common.web.ResponseUtils;
 import com.caihong.core.entity.CmsSite;
 import com.caihong.core.entity.CmsUser;
@@ -53,6 +61,8 @@ public class MemberAct {
 	
 	public static final String MEMBER_RESERVE = "tpl.memberReserve";
 	public static final String MEMBER_RESERVE_DOCTOR = "tpl.memberReserveDoctor";
+	public static final String MEMBER_RESERVE_RECORD ="tpl.memberReserveRecord";
+	public static final String MEMBER_RESERVE_VIEW="tpl.memberReserveView";
 	
 	/**
 	 * 会员中心页
@@ -107,6 +117,23 @@ public class MemberAct {
 				TPLDIR_MEMBER, MEMBER_ORDER);
 	}
 	
+	@RequestMapping(value = "/member/reserveRecord.jspx")
+	public String reserveRecord(HttpServletRequest request,Integer pageNo,Integer doctorid,Date startDate,Date endDate,Boolean payStatus,Integer status,
+			HttpServletResponse response, ModelMap model) {
+		CmsSite site = CmsUtils.getSite(request);
+		CmsUser user = CmsUtils.getUser(request);
+		FrontUtils.frontData(request, model, site);
+		
+		if (user == null) {
+			return FrontUtils.showLogin(request, model, site);
+		}
+		Pagination pagination=reserveMng.search(user.getId(), doctorid, startDate, endDate, payStatus, status, cpn(pageNo), CookieUtils.getPageSize(request));
+		model.addAttribute("pagination",pagination);
+		
+		return FrontUtils.getTplPath(request, site.getSolutionPath(),
+				TPLDIR_MEMBER, MEMBER_RESERVE_RECORD);
+	}
+	
 	@RequestMapping(value = "/member/reserve.jspx")
 	public String reserve(HttpServletRequest request,Integer pageNo,Integer userid,Date startDate,Date endDate, Integer nationId,Integer majorId, Integer jobTitleId,Integer jobLevelId,
 			HttpServletResponse response, ModelMap model) {
@@ -119,8 +146,47 @@ public class MemberAct {
 		}
 		Pagination pagination=userScheduleMng.getPage(userid, startDate, endDate, nationId, majorId, jobTitleId, jobLevelId,  cpn(pageNo), CookieUtils.getPageSize(request));
 		model.addAttribute("pagination",pagination);
+		
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER,MEMBER_RESERVE_DOCTOR );
+	}
+	@RequestMapping(value = "/member/reserveView.jspx")
+	public String reserveView(HttpServletRequest request,Integer pageNo,Integer id,
+			HttpServletResponse response, ModelMap model) {
+		CmsSite site = CmsUtils.getSite(request);
+		CmsUser user = CmsUtils.getUser(request);
+		FrontUtils.frontData(request, model, site);
+		
+		if (user == null) {
+			return FrontUtils.showLogin(request, model, site);
+		}
+		if(id!=null){
+			Reserve reserve=reserveMng.findById(id);
+			if(reserve!=null){
+				model.addAttribute("reserve",reserve);
+			}
+		}
+		
+		return FrontUtils.getTplPath(request, site.getSolutionPath(),
+				TPLDIR_MEMBER,MEMBER_RESERVE_VIEW );
+	}
+	@RequestMapping(value = "/member/reserveCancel.jspx")
+	public void reserveCancel(HttpServletRequest request,Integer pageNo,Integer id,String reason,
+			HttpServletResponse response, ModelMap model) {
+		
+		String out="0";
+		if(id!=null){
+			Reserve reserve=reserveMng.findById(id);
+			if(reserve!=null){
+				if(reserve.getStatus()==ReserveStatus.RESERVE.getValue()){
+					reserve.setStatus(ReserveStatus.CANCEL.getValue());
+					reserve.setCancelReason(reason);
+					reserveMng.save(reserve);
+					out="1";
+				}
+			}
+		}
+		ResponseUtils.renderJson(response, out);
 	}
 	@RequestMapping(value = "/member/reserveApply.jspx")
 	public String reserveApply(HttpServletRequest request,Integer pageNo,Integer userid,
@@ -132,6 +198,7 @@ public class MemberAct {
 		if (user == null) {
 			return FrontUtils.showLogin(request, model, site);
 		}
+		model.addAttribute("sessionId", request.getSession().getId());
 		if(userid!=null){
 			UserSchedule doctor=userScheduleMng.findById(userid);
 			if(doctor!=null){
@@ -142,6 +209,47 @@ public class MemberAct {
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER,MEMBER_RESERVE );
 	}
+	@RequestMapping(value = "/member/reserveSave.jspx")
+	public void reserveSave(HttpServletRequest request,Integer pageNo,Integer userid,Patient patient,Reserve reserve,String fpaths,String fnames,
+			HttpServletResponse response, ModelMap model) {
+		CmsSite site = CmsUtils.getSite(request);
+		CmsUser user = CmsUtils.getUser(request);
+		FrontUtils.frontData(request, model, site);
+		if(patient.getIdNo()!=null){
+			Patient patient1 =patientMng.findByIdNo(patient.getIdNo());
+			if(patient1!=null){
+				patient.setId(patient1.getId());
+			}
+		}
+		patient.setUser(user);
+		if(patient.getId()!=null){
+			patient=patientMng.update(patient);
+		}else{
+			patient.setTime(new Date());
+			patient=patientMng.save(patient);
+		}
+		CmsUser doctor=cmsUserMng.findById(userid);
+		reserve.setPatient(patient);
+		reserve.setDoctorUser(doctor);
+		reserve.setReserveUser(user);
+		reserve.setPayStatus(false);
+		reserve.setStatus(ReserveStatus.RESERVE.getValue());
+		reserve.setTime(new Date());
+		List<ReserveAttachment> list=new ArrayList<ReserveAttachment>();
+		String paths[]=fpaths.split(",");
+		String names[]=fnames.split(",");
+		for(int i=0;i<paths.length;i++){
+			if(paths[i]==null||paths[i].equals("")){
+				continue;
+			}
+			ReserveAttachment ra=new ReserveAttachment(paths[i],names[i]);
+			list.add(ra);
+		}
+		reserve.setAttachments(list);
+		reserve=reserveMng.save(reserve);
+		ResponseUtils.renderJson(response, reserve.getId()+"");  
+	}
+	
 
 	/**
 	 * 个人资料输入页
@@ -399,7 +507,10 @@ public class MemberAct {
 		}
 		return errors;
 	}
-
+	@Autowired
+	private PatientMng patientMng;
+	@Autowired
+	private ReserveMng reserveMng;
 	@Autowired
 	private CmsUserMng cmsUserMng;
 	@Autowired

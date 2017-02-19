@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.caihong.common.web.ReserveStatus;
 import com.caihong.core.entity.CmsUser;
 
 public class Reserve implements Serializable {
@@ -20,13 +21,22 @@ public class Reserve implements Serializable {
 	private java.lang.Integer status;
 	private java.util.Date time;
 	private java.lang.Boolean payStatus;
-	private java.lang.String orderNum;
+	private java.lang.String orderNum;	
+	private java.lang.String cancelReason;
 	private java.lang.String diagnosis;
 	private java.lang.String clinicalDiagnosis;
 	private CmsUser doctorUser;
 	private Patient patient;
 	private CmsUser reserveUser;
 	private java.util.List<com.caihong.cms.entity.main.ReserveAttachment> attachments;
+	
+	public String getStatusName(){
+		if(this.getStatus()!=null){
+			return ReserveStatus.getReserveStatusValue(this.getStatus()).getName();
+		}else{
+			return "";
+		}
+	}
 	public java.lang.Integer getId() {
 		return id;
 	}
@@ -68,6 +78,12 @@ public class Reserve implements Serializable {
 	}
 	public void setOrderNum(java.lang.String orderNum) {
 		this.orderNum = orderNum;
+	}
+	public java.lang.String getCancelReason() {
+		return cancelReason;
+	}
+	public void setCancelReason(java.lang.String cancelReason) {
+		this.cancelReason = cancelReason;
 	}
 	public java.lang.String getDiagnosis() {
 		return diagnosis;

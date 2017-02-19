@@ -54,6 +54,7 @@
 	<bean id="sendRecordAct" class="com.caihong.cms.action.front.SmsSendRecordAct"/>
 	<bean id="userFollowAct" class="com.caihong.cms.action.front.UserFollowAct"/>
 	<bean id="grainDetailAct" class="com.caihong.cms.action.front.GrainDetailAct"/>
+	<bean id="uploadifyAct" class="com.caihong.cms.action.front.UploadifyAct"/>
 	<!-- API -->
 	<bean id="uploadApiAct" class="com.caihong.cms.api.UploadApiAct"/>
 	<bean id="contentApiAct" class="com.caihong.cms.api.ContentApiAct"/>

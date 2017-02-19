@@ -13,46 +13,22 @@
 <script type="text/javascript" src="${base}/thirdparty/uploadify/jquery.uploadify.js"></script>
 <script type="text/javascript" src="${base}/thirdparty/layer/layer.js"></script>
 <script src="${base}/thirdparty/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
-<style type="text/css">
-select {
- width:190px;
- height:32px;
- 
-}
-</style>
+
 
 <script type="text/javascript">
 $(function() {
 	
 	$("#tableForm").validate();
-	[#if doctor??]
+	[#if reserve??]
 		
 	[#else]
-	layer.msg("请先选择要会诊的医生!",{
+	layer.msg("参数异常!",{
         time:1000},function(){
-        	window.location="${base}/member/reserve.jspx"
+        	window.location="${base}/member/reserveRecord.jspx"
         });
 	//;
 	[/#if]
-	$("#patient").hide();
 	
-	$("#file_upload").uploadify({
-		'height'        : 30,
-		'multi'		  :true,
-		'swf'           : '${base}/thirdparty/uploadify/uploadify.swf?ver=' + new Date()*1,
-		'uploader'      : '${base}/uploadify/uploadify.jspx;jsessionid=${sessionId!}',
-		'buttonText'    : '添加附件',
-		'width'         : 120,		
-		
-		'fileTypeExts': '*.gif; *.jpg; *.png;*.doc;*.docx;*.pdf;*.ppt;*.pptx;*.rar;*.zip;*.7z;*.gz',
-		'cancelImg' :  '${base}/uploadify/uploadify-cancel.png',
-		'onUploadSuccess':function(file, data, response){  
-				console.info(file);
-	            $("#fpaths").val($("#fpaths").val()+","+data);
-	            $("#fnames").val($("#fnames").val()+","+file.name);
-	            
-	      }
-	});
 	
 	
 
@@ -60,76 +36,6 @@ $(function() {
 
 
 
-function formSubmit(){
-	$.ajax({
-       
-        type: "POST",
-        url:'${base}/member/reserveSave.jspx',
-        data:$('#tableForm').serialize(),// 你的formid
-        async: false,
-        dataType:'json',
-        error: function(request) {
-            alert("Connection error");
-        },
-        success: function(data) {
-            if(data){
-            	layer.open({
-           		 type:1,
-           		 title: '预约成功',
-           		 shade: 0.8,
-           		 shadeClose:true,
-           		btn:['确认支付'],
-       		 	content: '<div style="padding:30px; line-height: 22px;  font-weight: 300;">你已经预约成功，需要支付${doctor.price}元<br></div>',
-       		 	yes: function(index, layero){
-       		 		window.location='${base}/buy/reward'+data+'.jspx?type=2';
-       		 	}
-            	});
-            }
-        }
-        
-    });
-	
-}
-function formReset(){
-	$("#tableForm").reset();
-}
-
-
- 
-function hideDoctor(){
-	$("#doctor").hide();
-	$("#patient").show();
-}
-
-function idNoChange(idNo){
-	if(IdentityCodeValid(idNo)){
-		 var tmpStr = "";
-		 var sexStr="";
-         var birthday = $("#birthday");
-
-         idNo = $.trim(idNo);
-
-         if(idNo.length == 15){
-             tmpStr = idNo.substring(6, 12);
-             tmpStr = "19" + tmpStr;
-             tmpStr = tmpStr.substring(0, 4) + "-" + tmpStr.substring(4, 6) + "-" + tmpStr.substring(6);
-             sexStr = parseInt(iIdNo.substring(14, 1),10) % 2 ? "true" : "false";
-            
-         }else{
-             var tmpStr = idNo.substring(6, 14);
-             tmpStr = tmpStr.substring(0, 4) + "-" + tmpStr.substring(4, 6) + "-" + tmpStr.substring(6);
-             sexStr = parseInt(idNo.substring(17, 1),10) % 2 ? "true" : "false";
-           
-         }
-         
-         birthday.val(tmpStr);
-         if(sexStr=='true'){
-        	 $("input[name='gender']").eq(false).click();
-         }else{
-        	 $("input[name='gender']").eq(true).click();
-         }
-	}
-}
 </script>
 </head>
 
@@ -144,35 +50,30 @@ function idNoChange(idNo){
         <ul>
         <li><a href="${base}/member/index.jspx">个人资料</a></li>       
         <li><a href="${base}/member/orders.jspx" >我的订单</a></li>
-        <li><a href="${base}/member/reserve.jspx" class="on">预约会诊</a></li>
-         <li><a href="${base}/member/reserveRecord.jspx" >预约记录</a></li>
+        <li><a href="${base}/member/reserve.jspx" >预约会诊</a></li>
+         <li><a href="${base}/member/reserveRecord.jspx" class="on">预约记录</a></li>
         </ul>
       </div>
       <div class="member-main">
-        <div class="member-child"><a href="${base}/member/reserve.jspx" >医生选择</a>|<a  href="#" class="on">会诊申请</a></div>
+        <div class="member-child"><a href="${base}/member/reserveRecord.jspx" >预约记录</a>|<a  href="#" class="on">预约详情</a></div>
         <div class="member-text tggl">
           <form id="tableForm"  method="post">
-          [#if doctor??]
+          [#if reserve??]
           <table cellpadding="0" cellspacing="0" id="doctor">
             <tbody>
               <tr>
-                <td class="s-p">姓名(价格)</td><td width="40%">${doctor.user.realname!doctor.user.username}(${doctor.price!}元)</td><td class="s-p" rowspan="2">头像</td><td width="30%" rowspan="2" ><img src="${doctor.user.userImg!}" width="100"height="100"/></td>
+                <td class="s-p">预约医生</td><td width="40%">${reserve.doctorUser.realname!reserve.doctorUser.username}(${reserve.price!}元)</td><td class="s-p" rowspan="2">医生头像</td><td width="30%" rowspan="2" ><img src="${reserve.doctorUser.userImg!}" width="100"height="100"/></td>
               </tr>
               <tr>
-                <td class="s-p">性别：</td><td>[#if doctor.user.gender??]${doctor.user.gender?string('男','女')}[#else]保密[/#if]</td>
+                <td class="s-p">医生性别：</td><td>[#if reserve.doctorUser.gender??]${reserve.doctorUser.gender?string('男','女')}[#else]保密[/#if]</td>
               </tr>
               <tr>
-                <td class="s-p">国籍：</td><td colspan="1">${doctor.user.nation.name!}</td> <td class="s-p">部门：</td><td colspan="1">${doctor.user.department.name!}</td>
+                <td class="s-p">国籍：</td><td colspan="1">${reserve.doctorUser.nation.name!}</td> <td class="s-p">部门：</td><td colspan="1">${reserve.doctorUser.department.name!}</td>
               </tr>
                 <tr>
-                <td class="s-p">专业：</td><td colspan="1">${doctor.user.major.name!}</td> <td class="s-p">职称（级别）：</td><td colspan="1">${doctor.user.jobTitle.name!}(${doctor.user.jobLevel.name!})</td>
-              </tr>
-               <tr>
-                <td class="s-p">简介：</td><td colspan="3">${doctor.user.intro!}</td> 
-              </tr>
-               <tr>
-                <td class="s-p" colspan="4"><a href="#" onclick="javascript:hideDoctor();">确认选择</a>&nbsp;&nbsp;&nbsp;<a href="${base}/member/reserve.jspx">返回重新选择</a></td> 
-              </tr>
+                <td class="s-p">专业：</td><td colspan="1">${reserve.doctorUser.major.name!}</td> <td class="s-p">职称（级别）：</td><td colspan="1">${reserve.doctorUser.jobTitle.name!}(${doctor.user.jobLevel.name!})</td>
+              </tr>              
+              
             </tbody>
           </table>
           
@@ -203,8 +104,7 @@ function idNoChange(idNo){
               </tr>
               <tr>
               <td colspan="4">
-              <input type="hidden" id="fpaths" name="fpaths" value=""/><input type="hidden" id="fnames" name="fnames" value=""/>
-              <input type="hidden" name="price" value="${doctor.price}"></input> <input type="hidden" name="userid" value="${doctor.id}"></input>
+             
               <a  onclick="javascript:formSubmit()">保存</a>&nbsp;&nbsp;<a onclick="javascript:formReset()"> 重置</a></td>
               </tr>
              

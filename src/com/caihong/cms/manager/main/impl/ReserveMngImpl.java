@@ -1,5 +1,7 @@
 package com.caihong.cms.manager.main.impl;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +20,10 @@ public class ReserveMngImpl implements ReserveMng {
 		Pagination page = dao.getPage(pageNo, pageSize);
 		return page;
 	}
-
+	@Transactional(readOnly = true)
+	public Pagination search(Integer userid,Integer doctorid,Date startDate,Date endDate,Boolean paystatus,Integer status,int pageNo, int pageSize){
+		return dao.search(userid, doctorid, startDate, endDate, paystatus, status, pageNo, pageSize);
+	}
 	@Transactional(readOnly = true)
 	public Reserve findById(Integer id) {
 		Reserve entity = dao.findById(id);

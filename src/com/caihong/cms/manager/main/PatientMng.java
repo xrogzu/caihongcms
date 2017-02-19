@@ -7,6 +7,8 @@ public interface PatientMng {
 	public Pagination getPage(int pageNo, int pageSize);
 
 	public Patient findById(Integer id);
+	
+	public Patient findByIdNo(String idNo);
 
 	public Patient save(Patient bean);
 

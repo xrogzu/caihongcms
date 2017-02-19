@@ -5,9 +5,10 @@ package com.caihong.common.web;
  *
  */
 public enum ReserveStatus {
-	RESERVE(1,"预约中"),
-	CONSULTATION(2,"已会诊"),
-	CANCEL(3,"取消");
+	RESERVE(1,"已申请"),
+	ARRANGED(2,"已安排"),
+	CONSULTATION(3,"已会诊"),
+	CANCEL(4,"已取消");
 	private Integer value;
 	private String name;
 	public void setValue(Integer value) {

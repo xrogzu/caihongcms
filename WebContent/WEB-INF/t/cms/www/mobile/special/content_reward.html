@@ -45,7 +45,7 @@ $(function() {
 <body style="background-color: #f5f5f5;">
 	<div class="viewport">
 		<header class="header rel"> <a class="reward-back" href="#" onClick="javascript :history.go(-1);"></a>
-	    	购买彩虹币 </header>
+	    	[#if type==1]彩虹币购买[#else]预约支付[/#if]</header>
 		[#if webCatBrowser]
 		<form action="" id="wxForm" method="post" ></form>
 		<iframe id="wx1Frame" name="wxFrame"  frameborder="0" border="0" style="display:none;width:0px;height:0px;"></iframe>

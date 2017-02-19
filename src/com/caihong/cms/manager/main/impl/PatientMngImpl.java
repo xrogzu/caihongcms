@@ -24,6 +24,12 @@ public class PatientMngImpl implements PatientMng {
 		Patient entity = dao.findById(id);
 		return entity;
 	}
+	
+	@Transactional(readOnly = true)
+	public Patient findByIdNo(String idNo) {
+		Patient entity = dao.findByIdNo(idNo);
+		return entity;
+	}
 
 	public Patient save(Patient bean) {
 		dao.save(bean);

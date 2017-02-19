@@ -3,6 +3,9 @@ package com.caihong.cms.entity.main;
 import java.io.Serializable;
 
 public class ReserveAttachment  implements Serializable {
+	public ReserveAttachment(){
+		initialize();
+	}
 	public ReserveAttachment (
 			java.lang.String path,
 			java.lang.String name) {

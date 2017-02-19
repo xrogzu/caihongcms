@@ -1,8 +1,12 @@
 package com.caihong.cms.dao.main.impl;
 
+import java.util.Date;
+
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 
+import com.caihong.common.hibernate4.Finder;
 import com.caihong.common.hibernate4.HibernateBaseDao;
 import com.caihong.common.page.Pagination;
 import com.caihong.cms.dao.main.ReserveDao;
@@ -15,7 +19,30 @@ public class ReserveDaoImpl extends HibernateBaseDao<Reserve, Integer> implement
 		Pagination page = findByCriteria(crit, pageNo, pageSize);
 		return page;
 	}
-
+	public Pagination search(Integer userid,Integer doctorid,Date startDate,Date endDate,Boolean paystatus,Integer status,int pageNo, int pageSize){
+		String hql=" select bean from Reserve bean where 1=1 ";
+		Finder f=Finder.create(hql);
+		if(userid!=null){
+			f.append(" and bean.reserveUser.id=:userid").setParam("userid", userid);
+		}
+		if(doctorid!=null){
+			f.append(" and bean.doctorUser.id=:doctorid").setParam("doctorid", doctorid);
+		}
+		if(startDate!=null){
+			f.append(" and bean.time>=:startDate").setParam("startDate", startDate);
+		}
+		if(endDate!=null){
+			f.append(" and bean.time<=:endDate").setParam("endDate", endDate);
+		}
+		if(paystatus!=null){
+			f.append(" and bean.payStatus=:paystatus").setParam("paystatus", paystatus);
+		}
+		if(status!=null){
+			f.append(" and bean.status=:status").setParam("status", status);
+		}
+		f.setCacheable(true);
+		return find(f, pageNo, pageSize);
+	}
 	public Reserve findById(Integer id) {
 		Reserve entity = get(id);
 		return entity;

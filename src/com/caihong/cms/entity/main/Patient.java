@@ -13,7 +13,7 @@ public class Patient  implements Serializable {
 	private java.lang.Integer id;
 	private CmsUser user;
 	private java.lang.Boolean gender;
-	private java.util.Date birthday;
+	private java.lang.String birthday;
 	private java.lang.String telphone;
 	private java.lang.String idNo;
 	private java.lang.String name;
@@ -39,10 +39,10 @@ public class Patient  implements Serializable {
 	public void setGender(java.lang.Boolean gender) {
 		this.gender = gender;
 	}
-	public java.util.Date getBirthday() {
+	public java.lang.String getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(java.util.Date birthday) {
+	public void setBirthday(java.lang.String birthday) {
 		this.birthday = birthday;
 	}
 	public java.lang.String getTelphone() {
