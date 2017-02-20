@@ -3,6 +3,8 @@ package com.caihong.cms.entity.main;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.caihong.common.web.JobType;
+import com.caihong.common.web.ReserveStatus;
 import com.caihong.core.entity.CmsUser;
 
 public class Patient  implements Serializable {
@@ -21,6 +23,14 @@ public class Patient  implements Serializable {
 	private Date time;
 	private java.lang.String workAddress;
 	private java.lang.String homeAddress;
+	
+	public String getJobName(){
+		if(this.getJob()!=null){
+			return JobType.getJobTypeValue(getJob()).getName();
+		}else{
+			return "";
+		}
+	}
 	public java.lang.Integer getId() {
 		return id;
 	}

@@ -8,12 +8,126 @@
 <script src="${resSys}/jquery.js" type="text/javascript"></script>
 <script src="${resSys}/front.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="/${res}/css/index.css" />
-
-
+<script type="text/javascript" src="${base}/thirdparty/layer/layer.js"></script>
+<style type="text/css">
+textarea{
+border: 1px solid #DADADA;
+color: #888;
+height: 100px;
+margin-bottom: 16px;
+margin-right: 6px;
+margin-top: 2px;
+outline: 0 none;
+padding: 3px 3px 3px 5px;
+width: 90%;
+font-size: 12px;
+line-height:15px;
+box-shadow: inset 0px 1px 4px #ECECEC;
+-moz-box-shadow: inset 0px 1px 4px #ECECEC;
+-webkit-box-shadow: inset 0px 1px 4px #ECECEC;
+}
+</style>
 <script type="text/javascript">
 $(function() {
 	$("#jvForm").validate();
 });
+function reserveCancel(reserveid){
+	if(reserveid){
+	layer.open({
+		 type:1,
+		 title: '确认取消',
+		 shade: 0.8,
+		 shadeClose:true,
+		 btn:['确认'],
+		 content: '<div style="padding:30px; line-height: 22px;  font-weight: 300;">取消原因：<textarea id="cancelreason"></textarea><br></div>',
+		 yes: function(index, layero){
+		    var cancelreason=$('#cancelreason').val();
+		    
+		    
+		    	if(!cancelreason){
+		    		layer.msg('请输入取消原因');
+		    	}else{
+		    		$.ajax({
+		    		    url:'${base}/member/reserveCancel.jspx',
+		    		    type:'POST', 
+		    		    async:false,    
+		    		    data:{
+		    		    	id:reserveid,reason:cancelreason
+		    		    },	   
+		    		    dataType:'json',      
+		    		    success:function(data){
+		    		        if(data){
+		    		        	layer.msg("取消成功！",{
+		    		                time: 2000, //20s后自动关闭
+		    		                btn: ['关闭']});
+		    		        	 window.location.reload();
+		    		        }else{
+		    		        	layer.msg("取消失败失败！");
+		    		        }
+		    		    },
+		    		    error:function(){
+		    		    	layer.msg("系统异常");
+		    		    }
+		    	});
+		    	}
+		    
+		  }
+	});
+	}else{
+		layer.msg('参数异常');
+	}
+
+}
+/**
+ * 退费
+ */
+function reserveRefund(orderNumber){
+	if(reserveid){
+	layer.open({
+		 type:1,
+		 title: '确认退费',
+		 shade: 0.8,
+		 shadeClose:true,
+		 btn:['确认'],
+		 content: '<div style="padding:30px; line-height: 22px;  font-weight: 300;">退费之后你的预约将被取消<br></div>',
+		 yes: function(index, layero){
+		    var cancelreason="退费";
+		    
+		    
+		    	if(!cancelreason){
+		    		layer.msg('请输入退费原因');
+		    	}else{
+		    		$.ajax({
+		    		    url:'${base}/buy/refund.jspx',
+		    		    type:'POST', 
+		    		    async:false,    
+		    		    data:{
+		    		    	orderNumber:orderNumber,reason:cancelreason
+		    		    },	   
+		    		    dataType:'json',      
+		    		    success:function(data){
+		    		        if(data.status==0){
+		    		        	layer.msg("退费成功！",{
+		    		                time: 2000, //20s后自动关闭
+		    		                btn: ['关闭']});
+		    		        	 window.location.reload();
+		    		        }else{
+		    		        	layer.msg("退费失败！");
+		    		        }
+		    		    },
+		    		    error:function(){
+		    		    	layer.msg("系统异常");
+		    		    }
+		    	});
+		    	}
+		    
+		  }
+	});
+	}else{
+		layer.msg('参数异常');
+	}
+
+}
 </script>
 </head>
 
@@ -51,7 +165,7 @@ $(function() {
                 <td>${c.time?string("yyyy-MM-dd HH:mm:ss")}</td>
                 <td>[#if c.payStatus]已付款[#else]未付款[/#if]</td>
                 <td>${c.statusName!}</td>
-                <td><a href="${base}/member/reserveView.jspx?id=${c.id}">查看<a/>[#if c.status==1]|<a href="${base}/buy/reward${c.id}.jspx?type=2">付款<a/>|<a href="${base}/member/reserveCancel.jspx?id=${c.id}">取消<a/>[/#if]</td>
+                <td><a href="${base}/member/reserveView.jspx?id=${c.id}">查看<a/>[#if c.status==1][#if c.payStatus]|<a href="#" onclick="javascript:reserveRefund('${c.orderNum!}');">退费<a/>[#else]|<a href="${base}/buy/reward${c.id}.jspx?type=2">付款<a/>|<a href="#" onclick="javascript:reserveCancel('${c.id!}');">取消<a/>[/#if][/#if]</td>
               </tr>
               [/#list]
               <tr>

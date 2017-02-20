@@ -152,7 +152,9 @@ public class WeixinPay {
 		} 
 		return map;
 	}
-	
+	public static void main(String args[]){
+		test();
+	}
 	public static void test(){		
 		
 		String url="https://api.mch.weixin.qq.com/secapi/pay/refund"; //
@@ -163,8 +165,8 @@ public class WeixinPay {
 		paramMap.put("device_info", "WEB");
 		paramMap.put("nonce_str",  RandomStringUtils.random(10,Num62.N62_CHARS));
 		paramMap.put("op_user_id", "1428676402");
-		paramMap.put("out_trade_no","148697605719451653");
-		paramMap.put("out_refund_no","148697605719451653");
+		paramMap.put("out_trade_no","148756056128696879");
+		paramMap.put("out_refund_no","148756056128696879");
 		paramMap.put("refund_fee","1");
 		paramMap.put("total_fee","1");
 		

@@ -11,7 +11,7 @@
 		<property name="time" column="time" type="timestamp" not-null="true" length="19"/>
 		<property name="payStatus" column="pay_status" type="boolean" not-null="false" length="1"/>
 		<property name="orderNum" column="order_num" type="string" not-null="false" length="50"/>
-		<property name="cancelReason" column="calcel_reason" type="string" not-null="false" length="500"/>
+		<property name="cancelReason" column="cancel_reason" type="string" not-null="false" length="500"/>
 		<property name="diagnosis" column="diagnosis" type="string" not-null="false" length="20000"/>
 		<property name="clinicalDiagnosis" column="clinical_diagnosis" type="string" not-null="false" length="20000"/>		
 		<many-to-one name="reserveUser" column="reserve_user_id" class="com.caihong.core.entity.CmsUser" not-null="true"></many-to-one>

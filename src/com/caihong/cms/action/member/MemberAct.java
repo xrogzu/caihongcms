@@ -170,7 +170,7 @@ public class MemberAct {
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER,MEMBER_RESERVE_VIEW );
 	}
-	@RequestMapping(value = "/member/reserveCancel.jspx")
+	@RequestMapping(value = "/member/reserveCancel.jspx", method = RequestMethod.POST)
 	public void reserveCancel(HttpServletRequest request,Integer pageNo,Integer id,String reason,
 			HttpServletResponse response, ModelMap model) {
 		

@@ -29,9 +29,6 @@ $(function() {
 	//;
 	[/#if]
 	
-	
-	
-
 });
 
 
@@ -59,10 +56,14 @@ $(function() {
         <div class="member-text tggl">
           <form id="tableForm"  method="post">
           [#if reserve??]
+         
           <table cellpadding="0" cellspacing="0" id="doctor">
             <tbody>
               <tr>
-                <td class="s-p">预约医生</td><td width="40%">${reserve.doctorUser.realname!reserve.doctorUser.username}(${reserve.price!}元)</td><td class="s-p" rowspan="2">医生头像</td><td width="30%" rowspan="2" ><img src="${reserve.doctorUser.userImg!}" width="100"height="100"/></td>
+              <td class="tggl-top" colspan="4"><div align="left">医生信息</div></td>
+             </tr>
+              <tr>
+                <td class="s-p">会诊医生：</td><td width="40%">${reserve.doctorUser.realname!reserve.doctorUser.username}(${reserve.price!}元)</td><td class="s-p" rowspan="2">医生头像</td><td width="30%" rowspan="2" ><img src="${reserve.doctorUser.userImg!}" width="100"height="100"/></td>
               </tr>
               <tr>
                 <td class="s-p">医生性别：</td><td>[#if reserve.doctorUser.gender??]${reserve.doctorUser.gender?string('男','女')}[#else]保密[/#if]</td>
@@ -71,42 +72,64 @@ $(function() {
                 <td class="s-p">国籍：</td><td colspan="1">${reserve.doctorUser.nation.name!}</td> <td class="s-p">部门：</td><td colspan="1">${reserve.doctorUser.department.name!}</td>
               </tr>
                 <tr>
-                <td class="s-p">专业：</td><td colspan="1">${reserve.doctorUser.major.name!}</td> <td class="s-p">职称（级别）：</td><td colspan="1">${reserve.doctorUser.jobTitle.name!}(${doctor.user.jobLevel.name!})</td>
+                <td class="s-p">专业：</td><td colspan="1">${reserve.doctorUser.major.name!}</td> <td class="s-p">职称（级别）：</td><td colspan="1">${reserve.doctorUser.jobTitle.name!}(${reserve.doctorUser.jobLevel.name!})</td>
               </tr>              
               
-            </tbody>
-          </table>
-          
-          <table cellpadding="0" cellspacing="0" id="patient" style="display:none">
-            <tbody>
+           <tr>
+           <td class="tggl-top" colspan="4">病人信息<img src="/${res}/images/member-job.png"></td>
+           </tr>
              <tr>
-                <td class="s-p">病人姓名：</td><td><input type="text" name="name" vld="{required:true}"  maxlength="100" class="member-change" /></td><td class="s-p">性别：</td><td>[@p.radio name="gender" id="gender"  list={"true":"男","false":"女"}/]</td>
+                <td class="s-p">病人姓名：</td><td>${reserve.patient.name}</td><td class="s-p">性别：</td><td>[#if reserve.patient.gender]男[#else]女[/#if]</td>
               </tr>
               <tr>
-                <td class="s-p">手机：</td><td><input type="text" name="telphone" vld="{required:true}"  maxlength="50" class="member-change" /></td><td class="s-p">出生日期：</td><td><input type="text" name="birthday" id="birthday"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" class="member-change date" /></td>
+                <td class="s-p">手机：</td><td>${reserve.patient.telphone}</td><td class="s-p">出生日期：</td><td>${reserve.patient.birthday}</td>
               </tr><tr>
-              	<td class="s-p">身份证号：</td><td><input type="text" id="idNo" onblur="javascript:idNoChange(this.value);" name="idNo" vld="{required:true}" maxlength="100" class="member-change" /></td><td class="s-p">职业：</td><td>[@p.select name="job"  list={"1":"普通员工","2":"工人","3":"农民","4":"其他"}/]</td>
+              	<td class="s-p">身份证号：</td><td>${reserve.patient.idNo}</td><td class="s-p">职业：</td><td>${reserve.patient.jobName!}</td>
                  </tr><tr>
-                 <td class="s-p">工作地址：</td><td><input type="text" name="workAddress"  maxlength="100" class="member-change" /></td><td class="s-p">家庭地址：</td><td><input type="text" name="homeAddress"  maxlength="100" class="member-change" /></td>
+                 <td class="s-p">工作地址：</td><td>${reserve.patient.workAddress!}</td><td class="s-p">家庭地址：</td><td>${reserve.patient.homeAddress!}</td>
              
               </tr>
               <tr>
-                <td class="s-p">临床诊断：</td><td colspan="3"><textarea vld="{required:true}" name="clinicalDiagnosis" cols="50" rows="20"></textarea></td>              
+                <td class="s-p">临床诊断：</td><td colspan="3">${reserve.clinicalDiagnosis!}</td>              
               </tr>
               <tr>
-               <td class="s-p">会诊时间：</td><td colspan="1"><input type="text" name="expectTime"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" class="member-change date" /></td>
-              <td colspan="2"></td>
-              </tr>
+              <td class="tggl-top" colspan="4">预约信息<img src="/${res}/images/member-job.png"></td>
+              	</tr>
               <tr>
-               <td class="s-p">附件上传：</td><td colspan="3"><input type="file" name="file_upload" id="file_upload" />
-              
+               <td class="s-p">期望会诊时间：</td><td colspan="1">${reserve.expectTime}</td>
+              <td class="s-p">预约状态：</td><td colspan="1">${reserve.statusName}</td>
+              </tr>
+              [#if reserve.status==4]
+               <tr>
+               <td class="s-p">取消原因：</td><td colspan="3">${reserve.cancelReason!"无"}</td>              
+              </tr>
+              [#elseif  reserve.status==3]
+	               <tr>
+	               <td class="s-p">医生诊断：</td><td colspan="3">${reserve.diagnosis}</td>              
+	              </tr>
+              [/#if]
+              <tr>
+               <td class="s-p">附件信息：</td><td colspan="3">
+               		 [#if reserve.attachments?size gt 0]
+              		<table>
+              		 <tr>
+                		<td class="tggl-top">附件名</td><td class="tggl-top">操作</td>                
+             		 </tr>
+             		 [#list reserve.attachments as c]
+             		 <tr>
+		                
+		                <td>${c.name!}</td>
+		                <td><a href="${base}${c.path}">下载</a></td>
+		               </tr>
+             		 [/#list]
+              		</table>
+              		 [#else]
+		                <div>暂无附件信息</div>
+		            [/#if]
                </td>
               </tr>
-              <tr>
-              <td colspan="4">
+              	<tr><td colspan="4"> [#if reserve.status==1]<a href="${base}/buy/reward${reserve.id}.jspx?type=2">去支付&nbsp;&nbsp;&nbsp;</a>[/#if]<a href="#" onclick="history.go(-1);">返回</a></td></tr>
              
-              <a  onclick="javascript:formSubmit()">保存</a>&nbsp;&nbsp;<a onclick="javascript:formReset()"> 重置</a></td>
-              </tr>
              
             </tbody>
           </table>

@@ -37,6 +37,7 @@ public class Reserve implements Serializable {
 			return "";
 		}
 	}
+	
 	public java.lang.Integer getId() {
 		return id;
 	}

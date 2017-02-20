@@ -662,6 +662,7 @@ public class ContentOrderAct {
 				   Reserve reserve=reserveMng.findById(b.getObjectId());		   	    	
 		   	    	reserve.setPayStatus(false);
 		   	    	reserve.setStatus(ReserveStatus.CANCEL.getValue());
+		   	    	reserve.setCancelReason("退费");
 		   	    	reserveMng.save(reserve);
 			   }
 		    }
@@ -722,6 +723,7 @@ public class ContentOrderAct {
 			   	    	Reserve reserve=reserveMng.findById(objectId);
 			   	    	rewardAmount=reserve.getPrice();
 			   	    	reserve.setPayStatus(true);
+			   	    	reserve.setOrderNum(orderNumber);
 			   	    	reserveMng.update(reserve);
 			   	    }
 			   	    order.setObjectId(objectId);
