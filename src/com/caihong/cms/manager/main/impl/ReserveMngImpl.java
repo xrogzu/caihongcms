@@ -21,8 +21,8 @@ public class ReserveMngImpl implements ReserveMng {
 		return page;
 	}
 	@Transactional(readOnly = true)
-	public Pagination search(Integer userid,Integer doctorid,Date startDate,Date endDate,Boolean paystatus,Integer status,int pageNo, int pageSize){
-		return dao.search(userid, doctorid, startDate, endDate, paystatus, status, pageNo, pageSize);
+	public Pagination search(Integer userid,Integer doctorid,Date startDate,Date endDate,Boolean paystatus,Integer status,int pageNo, int pageSize,String patientName,String doctorname){
+		return dao.search(userid, doctorid, startDate, endDate, paystatus, status, pageNo, pageSize, patientName, doctorname);
 	}
 	@Transactional(readOnly = true)
 	public Reserve findById(Integer id) {

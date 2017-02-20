@@ -254,13 +254,15 @@ public class WeixinPay {
 		paramMap.put("appid", config.getWeixinAppId());
 		// 微信支付分配的商户号 [必填]
 		paramMap.put("mch_id", config.getWeixinAccount());		
-		paramMap.put("nonce_str", UUIDGenerator.getUUID());
+		paramMap.put("device_info", "WEB");
+		paramMap.put("nonce_str", RandomStringUtils.random(10,Num62.N62_CHARS));
 		paramMap.put("op_user_id", config.getWeixinAccount());
 		paramMap.put("out_trade_no",orderNum);
 		paramMap.put("out_refund_no",orderNum);
 		paramMap.put("refund_fee",PayUtil.changeY2F(rewardAmount));
 		paramMap.put("total_fee",PayUtil.changeY2F(rewardAmount));
-		paramMap.put("transaction_id","");
+		
+		
 		if (StringUtils.isNotBlank(config.getTransferApiPassword())) {
 			// 根据微信签名规则，生成签名
 			paramMap.put("sign",PayUtil.createSign(paramMap, config.getTransferApiPassword()));
@@ -269,14 +271,15 @@ public class WeixinPay {
 		
 		String resXml ="";
 		try {
-        	KeyStore keyStore  = KeyStore.getInstance("PKCS12");
+			KeyStore keyStore  = KeyStore.getInstance("PKCS12");
             FileInputStream instream = new FileInputStream(new File(WeixinPay.class.getResource(".").getFile().toString()+"apiclient_cert.p12"));//放退款证书的路径
             try {
-                keyStore.load(instream, config.getAlipayAccount().toCharArray());
+                keyStore.load(instream, config.getWeixinAccount().toCharArray());
             } finally {
                 instream.close();
             }
-            SSLContext sslcontext = SSLContexts.custom().loadKeyMaterial(keyStore, config.getAlipayAccount().toCharArray()).build();
+
+            SSLContext sslcontext = SSLContexts.custom().loadKeyMaterial(keyStore, config.getWeixinAccount().toCharArray()).build();
             SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
                     sslcontext,
                     new String[] { "TLSv1" },
@@ -291,13 +294,12 @@ public class WeixinPay {
             CloseableHttpResponse response = httpclient.execute(httpPost);
             try {
                 HttpEntity entity = response.getEntity();              
-                String line = "";  
                 if (entity != null) {
                     System.out.println("Response content length: " + entity.getContentLength());
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent(),"UTF-8"));
                     String text;        			
                     while ((text = bufferedReader.readLine()) != null) {
-                    	line=line+text;                       
+                    	resXml=resXml+text;                       
                     }                   
                 }
                 EntityUtils.consume(entity);               

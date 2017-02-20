@@ -7,13 +7,16 @@
 		<id name="id" type="java.lang.Integer" column="id"><generator class="identity"/></id>
 		<property name="price" column="price" type="double" not-null="true" length="20"/>
 		<property name="expectTime" column="expect_time" type="timestamp" not-null="false" length="19"/>
+		<property name="consultTime" column="consult_time" type="timestamp" not-null="false" length="19"/>
+		<property name="cancelTime" column="cancel_time" type="timestamp" not-null="false" length="19"/>
 		<property name="status" column="status" type="integer" not-null="true" length="11"/>
 		<property name="time" column="time" type="timestamp" not-null="true" length="19"/>
 		<property name="payStatus" column="pay_status" type="boolean" not-null="false" length="1"/>
 		<property name="orderNum" column="order_num" type="string" not-null="false" length="50"/>
 		<property name="cancelReason" column="cancel_reason" type="string" not-null="false" length="500"/>
 		<property name="diagnosis" column="diagnosis" type="string" not-null="false" length="20000"/>
-		<property name="clinicalDiagnosis" column="clinical_diagnosis" type="string" not-null="false" length="20000"/>		
+		<property name="clinicalDiagnosis" column="clinical_diagnosis" type="string" not-null="false" length="20000"/>
+		<property name="prescription" column="prescription" type="string" not-null="false" length="20000"/>				
 		<many-to-one name="reserveUser" column="reserve_user_id" class="com.caihong.core.entity.CmsUser" not-null="true"></many-to-one>
 		<many-to-one name="patient" column="patient_id" class="com.caihong.cms.entity.main.Patient" not-null="true"></many-to-one>
 		<many-to-one name="doctorUser" column="doctor_id" class="com.caihong.core.entity.CmsUser" not-null="false"></many-to-one>

@@ -723,6 +723,7 @@ public class ContentOrderAct {
 			   	    	Reserve reserve=reserveMng.findById(objectId);
 			   	    	rewardAmount=reserve.getPrice();
 			   	    	reserve.setPayStatus(true);
+			   	    	reserve.setStatus(ReserveStatus.ARRANGED.getValue());
 			   	    	reserve.setOrderNum(orderNumber);
 			   	    	reserveMng.update(reserve);
 			   	    }

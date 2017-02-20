@@ -18,7 +18,10 @@ public class Reserve implements Serializable {
 	private java.lang.Integer id;
 	private java.lang.Double price;
 	private java.util.Date expectTime;
+	private java.util.Date consultTime;
+	private java.util.Date cancelTime;
 	private java.lang.Integer status;
+	private String prescription;
 	private java.util.Date time;
 	private java.lang.Boolean payStatus;
 	private java.lang.String orderNum;	
@@ -56,12 +59,36 @@ public class Reserve implements Serializable {
 	public void setExpectTime(java.util.Date expectTime) {
 		this.expectTime = expectTime;
 	}
+	public java.util.Date getConsultTime() {
+		return consultTime;
+	}
+
+	public void setConsultTime(java.util.Date consultTime) {
+		this.consultTime = consultTime;
+	}
+
+	public java.util.Date getCancelTime() {
+		return cancelTime;
+	}
+
+	public void setCancelTime(java.util.Date cancelTime) {
+		this.cancelTime = cancelTime;
+	}
+
 	public java.lang.Integer getStatus() {
 		return status;
 	}
 	public void setStatus(java.lang.Integer status) {
 		this.status = status;
 	}
+	public String getPrescription() {
+		return prescription;
+	}
+
+	public void setPrescription(String prescription) {
+		this.prescription = prescription;
+	}
+
 	public java.util.Date getTime() {
 		return time;
 	}

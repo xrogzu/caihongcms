@@ -8,16 +8,31 @@
 <script src="${resSys}/jquery.js" type="text/javascript"></script>
 <script src="${resSys}/front.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="/${res}/css/index.css" />
-
-<!--[if lt IE 9]> 
-<script src="/${res}/js/html5shiv.min.js"></script>
-<script src="/${res}/js/respond.min.js"></script>
-<![endif]-->
-
+<script type="text/javascript" src="${base}/thirdparty/layer/layer.js"></script>
+<script src="${base}/thirdparty/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<style type="text/css">
+textarea{
+border: 1px solid #DADADA;
+color: #888;
+height: 100px;
+margin-bottom: 16px;
+margin-right: 6px;
+margin-top: 2px;
+outline: 0 none;
+padding: 3px 3px 3px 5px;
+width: 90%;
+font-size: 12px;
+line-height:15px;
+box-shadow: inset 0px 1px 4px #ECECEC;
+-moz-box-shadow: inset 0px 1px 4px #ECECEC;
+-webkit-box-shadow: inset 0px 1px 4px #ECECEC;
+}
+</style>
 <script type="text/javascript">
 $(function() {
 	$("#jvForm").validate();
 });
+
 </script>
 </head>
 
@@ -30,33 +45,42 @@ $(function() {
     <div class="memberLeft clearfix"> 
       <div class="member-nav">
         <ul>
-        <li><a href="${base}/member/index.jspx">个人资料</a></li>    
+        <li><a href="${base}/member/index.jspx">个人资料</a></li>  
          [#if user.group.id==2]
-        <li><a href="${base}/member/doctorWork.jspx" >看诊管理</a></li>
-        [/#if]   
+        <li><a href="${base}/member/doctorWork.jspx" class="on">看诊管理</a></li>
+        [/#if]     
         <li><a href="${base}/member/orders.jspx" >我的订单</a></li>
-        <li><a href="${base}/member/reserve.jspx" class="on">预约会诊</a></li>
+       	<li><a href="${base}/member/reserve.jspx" >预约会诊</a></li>
         <li><a href="${base}/member/reserveRecord.jspx" >预约记录</a></li>
+     
         </ul>
       </div>
       <div class="member-main">
-        <div class="member-child"><a href="#" class="on">医生选择</a></div>
+        <div class="member-child"><a href="#" class="on">诊断历史</a></div>
         <div class="member-text tggl">
-          <form id="tableForm" action="buy_list.jspx" method="post">
-           
+          <form id="jvForm" action="doctorWork.jspx" method="post">
+          <div>&nbsp;&nbsp;病人姓名:<input type="text" name="patientName" class="member-change" value="${patientName!}" />&nbsp;&nbsp;&nbsp;支付状态：[@p.select name="payStatus" value=payStatus list={"":"","1":"已支付","0":"未支付"}/]&nbsp;&nbsp;&nbsp;
+            	订单状态:[@p.select name="status" value=status  list={"":"","1":"申请中","2":"等待会诊","3":"已会诊","4":"已取消"}/]
+            <br/>&nbsp;&nbsp;预约时间:<input name="startDate" value="${startDate!}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="member-change date"/>~<input name="endDate" value="${endDate!}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="member-change date"/>
+            	<input type="submit"  class="member-submit" value="查询"></input>
+            </div>
+            <br/>
           [#if pagination.list?size gt 0]
           <table cellpadding="0" cellspacing="0">
             <tbody>
               <tr>
-                <td class="tggl-top">医生姓名</td><td class="tggl-top">诊断金额</td><td class="tggl-top">坐诊时间</td><td class="tggl-top">操作</td>
+                <td class="tggl-top">ID</td><td class="tggl-top">金额</td><td class="tggl-top">看诊医生</td><td class="tggl-top">病人姓名</td><td class="tggl-top">预约时间</td><td class="tggl-top">支付状态</td><td class="tggl-top">预约状态</td><td class="tggl-top">操作</td>
               </tr>
               [#list pagination.list as c]
               <tr>
-                <td>${c.user.realname!c.user.username}</td>
+                <td>${c.id!}</td>
                 <td>${c.price}</td>
-                <td>${c.zuozhen}</td>
-                
-                <td><a href="${base}/member/reserveApply.jspx?userid=${c.id}">预约</a></td>
+                <td>${c.doctorUser.realname!c.doctorUser.username}</td>
+                <td>${c.patient.name!}</td>
+                <td>${c.time?string("yyyy-MM-dd HH:mm:ss")}</td>
+                <td>[#if c.payStatus]已付款[#else]未付款[/#if]</td>
+                <td>${c.statusName!}</td>
+                <td><a href="${base}/member/doctorView.jspx?id=${c.id}">查看<a/></td>
               </tr>
               [/#list]
               <tr>
@@ -91,7 +115,7 @@ $(function() {
             }
             </script>
             [#else]
-                <div>暂无可预约资源</div>
+                <div>暂无记录</div>
             [/#if]
             </form>
         </div>

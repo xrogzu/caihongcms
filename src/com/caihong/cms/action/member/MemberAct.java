@@ -5,6 +5,7 @@ import static com.caihong.common.page.SimplePage.cpn;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -62,7 +63,9 @@ public class MemberAct {
 	public static final String MEMBER_RESERVE = "tpl.memberReserve";
 	public static final String MEMBER_RESERVE_DOCTOR = "tpl.memberReserveDoctor";
 	public static final String MEMBER_RESERVE_RECORD ="tpl.memberReserveRecord";
-	public static final String MEMBER_RESERVE_VIEW="tpl.memberReserveView";
+	public static final String MEMBER_RESERVE_VIEW="tpl.memberReserveView";	
+	public static final String MEMBER_DOCTOR_WORK="tpl.memberDoctorWork";
+	public static final String MEMBER_DOCTOR_VIEW="tpl.memberDoctorView";
 	
 	/**
 	 * 会员中心页
@@ -118,7 +121,7 @@ public class MemberAct {
 	}
 	
 	@RequestMapping(value = "/member/reserveRecord.jspx")
-	public String reserveRecord(HttpServletRequest request,Integer pageNo,Integer doctorid,Date startDate,Date endDate,Boolean payStatus,Integer status,
+	public String reserveRecord(HttpServletRequest request,Integer pageNo,Integer doctorid,Date startDate,Date endDate,Boolean payStatus,Integer status,String doctorname,
 			HttpServletResponse response, ModelMap model) {
 		CmsSite site = CmsUtils.getSite(request);
 		CmsUser user = CmsUtils.getUser(request);
@@ -127,11 +130,100 @@ public class MemberAct {
 		if (user == null) {
 			return FrontUtils.showLogin(request, model, site);
 		}
-		Pagination pagination=reserveMng.search(user.getId(), doctorid, startDate, endDate, payStatus, status, cpn(pageNo), CookieUtils.getPageSize(request));
+		if(startDate!=null){
+			model.addAttribute("startDate",startDate);
+		}
+		if(endDate!=null){
+			model.addAttribute("endDate",endDate);
+		}
+		if(payStatus!=null){
+			model.addAttribute("payStatus",payStatus);
+		}
+		if(status!=null){
+			model.addAttribute("status",status);
+		}
+		if(doctorname!=null){
+			model.addAttribute("doctorname",doctorname);
+		}
+		
+		Pagination pagination=reserveMng.search(user.getId(), doctorid, startDate, endDate, payStatus, status, cpn(pageNo), CookieUtils.getPageSize(request),null,doctorname);
 		model.addAttribute("pagination",pagination);
 		
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER, MEMBER_RESERVE_RECORD);
+	}
+	
+	@RequestMapping(value = "/member/doctorWork.jspx")
+	public String doctorWork(HttpServletRequest request,Integer pageNo,Date startDate,Date endDate,Boolean payStatus,Integer status,String patientName,
+			HttpServletResponse response, ModelMap model) {
+		CmsSite site = CmsUtils.getSite(request);
+		CmsUser user = CmsUtils.getUser(request);
+		FrontUtils.frontData(request, model, site);
+		
+		if (user == null) {
+			return FrontUtils.showLogin(request, model, site);
+		}
+		
+		boolean mo=true;
+		if(startDate!=null){
+			model.addAttribute("startDate",startDate);
+			mo=false;
+		}
+		if(endDate!=null){
+			model.addAttribute("endDate",endDate);
+			mo=false;
+		}
+		if(payStatus!=null){
+			model.addAttribute("payStatus",payStatus);
+			mo=false;
+		}
+		if(status!=null){
+			model.addAttribute("status",status);
+			mo=false;
+		}
+		if(patientName!=null){
+			model.addAttribute("patientName",patientName);
+			mo=false;
+		}
+		if(mo){
+			if(payStatus==null){
+				payStatus=true;
+			}
+			if(status==null){
+				status=ReserveStatus.ARRANGED.getValue();
+			}
+		}
+		List<ReserveStatus> statusList=Arrays.asList(ReserveStatus.values());
+		Pagination pagination=reserveMng.search(null, user.getId(), startDate, endDate, payStatus, status, cpn(pageNo), CookieUtils.getPageSize(request),patientName,null);
+		model.addAttribute("pagination",pagination);
+		model.addAttribute("statusList",statusList);
+		return FrontUtils.getTplPath(request, site.getSolutionPath(),
+				TPLDIR_MEMBER, MEMBER_DOCTOR_WORK);
+	}
+	
+	@RequestMapping(value = "/member/doctorSave.jspx")
+	public void doctorSave(HttpServletRequest request,Reserve reserve,
+			HttpServletResponse response, ModelMap model) {
+		CmsSite site = CmsUtils.getSite(request);
+		CmsUser user = CmsUtils.getUser(request);
+		FrontUtils.frontData(request, model, site);
+		
+		if (user == null) {
+			ResponseUtils.renderJson(response, "0");
+		}else{
+			
+				if(reserve.getDiagnosis()==null){
+					ResponseUtils.renderJson(response, "0");
+				}else{
+					reserve.setStatus(ReserveStatus.CONSULTATION.getValue());
+					reserve.setConsultTime(new Date());
+					reserveMng.update(reserve);
+					
+					ResponseUtils.renderJson(response, "1");
+				}
+			
+		}
+		
 	}
 	
 	@RequestMapping(value = "/member/reserve.jspx")
@@ -170,6 +262,26 @@ public class MemberAct {
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER,MEMBER_RESERVE_VIEW );
 	}
+	@RequestMapping(value = "/member/doctorView.jspx")
+	public String doctorView(HttpServletRequest request,Integer pageNo,Integer id,
+			HttpServletResponse response, ModelMap model) {
+		CmsSite site = CmsUtils.getSite(request);
+		CmsUser user = CmsUtils.getUser(request);
+		FrontUtils.frontData(request, model, site);
+		
+		if (user == null) {
+			return FrontUtils.showLogin(request, model, site);
+		}
+		if(id!=null){
+			Reserve reserve=reserveMng.findById(id);
+			if(reserve!=null){
+				model.addAttribute("reserve",reserve);
+			}
+		}
+		
+		return FrontUtils.getTplPath(request, site.getSolutionPath(),
+				TPLDIR_MEMBER,MEMBER_DOCTOR_VIEW );
+	}
 	@RequestMapping(value = "/member/reserveCancel.jspx", method = RequestMethod.POST)
 	public void reserveCancel(HttpServletRequest request,Integer pageNo,Integer id,String reason,
 			HttpServletResponse response, ModelMap model) {
@@ -181,6 +293,7 @@ public class MemberAct {
 				if(reserve.getStatus()==ReserveStatus.RESERVE.getValue()){
 					reserve.setStatus(ReserveStatus.CANCEL.getValue());
 					reserve.setCancelReason(reason);
+					reserve.setCancelTime(new Date());
 					reserveMng.save(reserve);
 					out="1";
 				}

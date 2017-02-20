@@ -19,7 +19,7 @@ public class ReserveDaoImpl extends HibernateBaseDao<Reserve, Integer> implement
 		Pagination page = findByCriteria(crit, pageNo, pageSize);
 		return page;
 	}
-	public Pagination search(Integer userid,Integer doctorid,Date startDate,Date endDate,Boolean paystatus,Integer status,int pageNo, int pageSize){
+	public Pagination search(Integer userid,Integer doctorid,Date startDate,Date endDate,Boolean paystatus,Integer status,int pageNo, int pageSize,String patientName,String doctorname){
 		String hql=" select bean from Reserve bean where 1=1 ";
 		Finder f=Finder.create(hql);
 		if(userid!=null){
@@ -39,6 +39,12 @@ public class ReserveDaoImpl extends HibernateBaseDao<Reserve, Integer> implement
 		}
 		if(status!=null){
 			f.append(" and bean.status=:status").setParam("status", status);
+		}
+		if(StringUtils.isNotBlank(doctorname)){
+			f.append(" and bean.doctorUser.realname like :doctorname").setParam("doctorname", "%"+doctorname+"%");
+		}
+		if(StringUtils.isNotBlank(patientName)){
+			f.append(" and bean.patient.name like :patientName").setParam("patientName", "%"+patientName+"%");
 		}
 		f.setCacheable(true);
 		return find(f, pageNo, pageSize);

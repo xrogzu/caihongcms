@@ -5,8 +5,8 @@ package com.caihong.common.web;
  *
  */
 public enum ReserveStatus {
-	RESERVE(1,"已申请"),
-	ARRANGED(2,"已安排"),
+	RESERVE(1,"申请中"),
+	ARRANGED(2,"等待会诊"),
 	CONSULTATION(3,"已会诊"),
 	CANCEL(4,"已取消");
 	private Integer value;
