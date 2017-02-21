@@ -8,13 +8,25 @@
 <link rel="stylesheet" href="/${mobileRes!}/css/pages/self.css"/>
 <style type="text/css">
 .head-box .head-icon-outer .head-icon {
-    position: absolute;
-    width: 5.4rem;
-    height: 5.4rem;
-    border-radius: 50%;
-    top: 0.175rem;
-    left: 0.175rem;
-    background: url([#if user.userImg??]${user.userImg}[#else]${res}/images/userImg-large.png[/#if]) center center no-repeat;
+   width: 122px;
+height: 122px;
+padding:2px;
+background: #ececec;
+border-radius:122px;
+box-shadow: 0px 0px 1px rgba(0,0,0,0.4);
+-moz-border-radius: 122px;
+-webkit-border-radius: 122px;
+
+}
+.commentAvatarImage{
+width:122px;
+height:122px;
+line-height: 0;	/* remove line-height */ 
+display: inline-block;	/* circle wraps image */
+border-radius: 50%;	/* relative value */
+-moz-border-radius: 50%;
+-webkit-border-radius: 50%;
+transition: linear 0.25s;
 }
 </style>       
  </head>
@@ -26,7 +38,7 @@
                <h3>${user.realname!}</h3>
                 <a href="${base}/member/portrait.jspx">
                <div class="head-icon-outer">
-                    <div class="head-icon" ></div>
+                    <div class="head-icon" ><img alt="" class="commentAvatarImage" src="${user.userImg}"></div>
                </div>
                </a>
                <h5>头像点击可以更换</h5>

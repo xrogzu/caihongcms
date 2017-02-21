@@ -1,10 +1,14 @@
 package com.caihong.cms.action.front;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,9 +20,16 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.caihong.common.web.ResponseUtils;
 
+import sun.misc.BASE64Decoder;
+
 @Controller
 public class UploadifyAct {
 		private static final String url="uploads";
+		/**
+		 * 文件上传
+		 * @param request
+		 * @param response
+		 */
 		@RequestMapping(value = "/uploadify/uploadify.jspx")
 	    public void upload(HttpServletRequest request, HttpServletResponse response) {
 //	        request = new MulpartRequestWrapper(request);
@@ -61,4 +72,42 @@ public class UploadifyAct {
 	            
 	            ResponseUtils.renderJson(response, returnUrl);  
 	    }
+		/**
+		 * 二进制转图片
+		 * @param byteString
+		 * @return
+		 */
+		public static String saveByteImg(HttpServletRequest request,String byteString){
+			BASE64Decoder decoder = new sun.misc.BASE64Decoder(); 
+			String returnUrl="/"+url+"/";
+			try {   
+				 
+			        String ctxPath=request.getSession().getServletContext().getRealPath("/")+url+"/"; 
+			        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");  
+			        String ymd = sdf.format(new Date());  
+			        ctxPath += ymd + "/";  
+			        returnUrl+=ymd+ "/";
+			        //创建文件夹  
+			            File file = new File(ctxPath);    
+			            if (!file.exists()) {    
+			                file.mkdirs();    
+			            }    
+			            String uuid =com.caihong.common.util.UUIDGenerator.getUUID()+".";// 返回一个随机UUID。
+		                String suffix ="jpg";
+		                String newFileName =  uuid + (suffix!=null?suffix:"");// 构成新文件名。   
+		                returnUrl=returnUrl+newFileName;
+			            
+	            byte[] bytes1 = decoder.decodeBuffer(byteString.split(",")[1]);   
+	               
+	            ByteArrayInputStream bais = new ByteArrayInputStream(bytes1);   
+	            BufferedImage bi1 =ImageIO.read(bais);   
+	            File w2 = new File(ctxPath + newFileName);//可以是jpg,png,gif格式   
+	            ImageIO.write(bi1, suffix, w2);//不管输出什么格式图片，此处不需改动   
+	        } catch (IOException e) {   
+	            e.printStackTrace();   
+	        }   
+			return returnUrl;
+		}
+		
+		
 }

@@ -21,6 +21,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.caihong.cms.action.front.UploadifyAct;
 import com.caihong.cms.entity.assist.CmsWebservice;
 import com.caihong.cms.entity.main.Patient;
 import com.caihong.cms.entity.main.Reserve;
@@ -290,6 +291,28 @@ public class MemberAct {
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER,MEMBER_DOCTOR_VIEW );
 	}
+	@RequestMapping(value = "/member/imageUnload.jspx", method = RequestMethod.POST)
+	public void imageUnload(HttpServletRequest request,Integer id,String byteString,
+			HttpServletResponse response, ModelMap model) {
+		
+		String out="0";
+		
+		if(id!=null){
+			CmsUser user = cmsUserMng.findById(id);
+			if(user!=null){
+				String path=UploadifyAct.saveByteImg(request, byteString);
+				System.out.println(path);
+				if(path!=null&&!path.equals("")){
+					user.getUserExt().setUserImg(path);
+					cmsUserMng.updateUser(user);
+					out="1";
+				}
+				
+			}
+		}
+		ResponseUtils.renderJson(response, out);
+	}
+	
 	@RequestMapping(value = "/member/reserveCancel.jspx", method = RequestMethod.POST)
 	public void reserveCancel(HttpServletRequest request,Integer pageNo,Integer id,String reason,
 			HttpServletResponse response, ModelMap model) {
