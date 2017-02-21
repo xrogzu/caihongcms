@@ -6,29 +6,33 @@
 <title>会员中心 - ${site.name} </title>
 [#include "member_header.html"/]
 <link rel="stylesheet" href="/${mobileRes!}/css/pages/self.css"/>
-        <script>(function (doc, win) {
-          var docEl = doc.documentElement,
-            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-            recalc = function () {
-              var clientWidth = docEl.clientWidth;
-              if (!clientWidth) return;
-              docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
-            };
-
-          if (!doc.addEventListener) return;
-          win.addEventListener(resizeEvt, recalc, false);
-          doc.addEventListener('DOMContentLoaded', recalc, false);
-        })(document, window);</script>
+<style type="text/css">
+.head-box .head-icon-outer .head-icon {
+    position: absolute;
+    width: 5.4rem;
+    height: 5.4rem;
+    border-radius: 50%;
+    top: 0.175rem;
+    left: 0.175rem;
+    background: url([#if user.userImg??]${user.userImg}[#else]${res}/images/userImg-large.png[/#if]) center center no-repeat;
+}
+</style>       
  </head>
     <body>
         <header>
+        	
             <div class="head-box">
+           
                <h3>${user.realname!}</h3>
+                <a href="${base}/member/portrait.jspx">
                <div class="head-icon-outer">
-                    <div class="head-icon"></div>
+                    <div class="head-icon" ></div>
                </div>
+               </a>
                <h5>头像点击可以更换</h5>
+               
             </div>
+            
         </header>
         <article>
             <div class="weui_cells weui_cells_access">
@@ -39,6 +43,7 @@
                     <i class="iconfont">&#xe642;</i>
                 </a>
             </div>
+            
             <div class="weui_cells weui_cells_access">
                 <a class="weui_cell" href="${base}/member/pwd.jspx">
                     <div class="weui_cell_bd weui_cell_primary">

@@ -582,7 +582,7 @@ button,input[type="button"],input[type="submit"],input[type="checkbox"],input[ty
 
 
 .tab:active,.tab.active {
-    color: #1da02b
+    color: #36acf4
 }
 
 .rectbar,.slidebar,.tabbar {
@@ -590,7 +590,7 @@ button,input[type="button"],input[type="submit"],input[type="checkbox"],input[ty
 }
 
 .slidebar .tab:active,.slidebar .tab.active {
-    border-color: #1da02b
+    border-color: #36acf4
 }
 
 
@@ -609,7 +609,7 @@ button,input[type="button"],input[type="submit"],input[type="checkbox"],input[ty
 
 
 .titlebar {
-    background-color: #1da02b;
+    background-color: #36acf4;
     border-color: #ddd;
     min-height: 44px;
     border-bottom: 1px solid;
@@ -682,7 +682,7 @@ button,input[type="button"],input[type="submit"],input[type="checkbox"],input[ty
 }
 
 .titlebar.reverse {
-    background-color: #0b8cf5;
+    background-color: #36acf4;
     border-color: #36acf4
 }
 
@@ -1093,7 +1093,7 @@ button,input[type="button"],input[type="submit"],input[type="checkbox"],input[ty
 }
 
 .weui_btn_primary{
-    background: #1da02b;
+    background: #f45438;
 }
 
 .weui_btn_warn{

@@ -67,6 +67,12 @@ public class MemberAct {
 	public static final String MEMBER_DOCTOR_WORK="tpl.memberDoctorWork";
 	public static final String MEMBER_DOCTOR_VIEW="tpl.memberDoctorView";
 	
+	public static final String HOME="home";
+	public static final String ORDER="order";
+	public static final String RESERVE="reserve";
+	public static final String RECORD="record";
+	public static final String DOCTOR="doctor";
+	
 	/**
 	 * 会员中心页
 	 * 
@@ -91,6 +97,7 @@ public class MemberAct {
 		if (user == null) {
 			return FrontUtils.showLogin(request, model, site);
 		}
+		model.addAttribute("_index", HOME);
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER, MEMBER_CENTER);
 	}
@@ -115,7 +122,7 @@ public class MemberAct {
 		}
 		Pagination pagination=orderMng.getPageByUser(user.getId(), type, cpn(pageNo), CookieUtils.getPageSize(request));
 		model.addAttribute("pagination",pagination);
-		
+		model.addAttribute("_index", ORDER);
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER, MEMBER_ORDER);
 	}
@@ -145,7 +152,7 @@ public class MemberAct {
 		if(doctorname!=null){
 			model.addAttribute("doctorname",doctorname);
 		}
-		
+		model.addAttribute("_index", RECORD);
 		Pagination pagination=reserveMng.search(user.getId(), doctorid, startDate, endDate, payStatus, status, cpn(pageNo), CookieUtils.getPageSize(request),null,doctorname);
 		model.addAttribute("pagination",pagination);
 		
@@ -193,6 +200,7 @@ public class MemberAct {
 				status=ReserveStatus.ARRANGED.getValue();
 			}
 		}
+		model.addAttribute("_index", DOCTOR);
 		List<ReserveStatus> statusList=Arrays.asList(ReserveStatus.values());
 		Pagination pagination=reserveMng.search(null, user.getId(), startDate, endDate, payStatus, status, cpn(pageNo), CookieUtils.getPageSize(request),patientName,null);
 		model.addAttribute("pagination",pagination);
@@ -238,7 +246,7 @@ public class MemberAct {
 		}
 		Pagination pagination=userScheduleMng.getPage(userid, startDate, endDate, nationId, majorId, jobTitleId, jobLevelId,  cpn(pageNo), CookieUtils.getPageSize(request));
 		model.addAttribute("pagination",pagination);
-		
+		model.addAttribute("_index", RESERVE);
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER,MEMBER_RESERVE_DOCTOR );
 	}
@@ -258,7 +266,7 @@ public class MemberAct {
 				model.addAttribute("reserve",reserve);
 			}
 		}
-		
+		model.addAttribute("_index", RESERVE);
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER,MEMBER_RESERVE_VIEW );
 	}
@@ -278,7 +286,7 @@ public class MemberAct {
 				model.addAttribute("reserve",reserve);
 			}
 		}
-		
+		model.addAttribute("_index", DOCTOR);
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER,MEMBER_DOCTOR_VIEW );
 	}
@@ -318,7 +326,7 @@ public class MemberAct {
 				model.addAttribute("doctor",doctor);
 			}
 		}
-		
+		model.addAttribute("_index", RESERVE);
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER,MEMBER_RESERVE );
 	}
@@ -386,6 +394,7 @@ public class MemberAct {
 		if (user == null) {
 			return FrontUtils.showLogin(request, model, site);
 		}
+		model.addAttribute("_index", HOME);
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER, MEMBER_PROFILE);
 	}
@@ -410,6 +419,7 @@ public class MemberAct {
 		if (user == null) {
 			return FrontUtils.showLogin(request, model, site);
 		}
+		model.addAttribute("_index", HOME);
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER, MEMBER_PORTRAIT);
 	}
@@ -446,6 +456,7 @@ public class MemberAct {
 		cmsWebserviceMng.callWebService("false",user.getUsername(), null, 
 				user.getEmail(),user.getTelphone(),null,null, ext,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
 		log.info("update CmsUserExt success. id={}", user.getId());
+		model.addAttribute("_index", HOME);
 		return FrontUtils.showSuccess(request, model, nextUrl);
 	}
 
@@ -471,6 +482,7 @@ public class MemberAct {
 		if (user == null) {
 			return FrontUtils.showLogin(request, model, site);
 		}
+		model.addAttribute("_index", HOME);
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER, MEMBER_PASSWORD);
 	}
@@ -518,6 +530,7 @@ public class MemberAct {
 		if (errors.hasErrors()) {
 			return FrontUtils.showError(request, response, model, errors);
 		}
+		model.addAttribute("_index", HOME);
 		cmsUserMng.updatePwdEmail(user.getId(), newPwd, email,telphone);
 		cmsWebserviceMng.callWebService("false",user.getUsername(), newPwd, 
 				email,telphone, null,null,null,CmsWebservice.SERVICE_TYPE_UPDATE_USER);
@@ -545,6 +558,7 @@ public class MemberAct {
 		if (user == null) {
 			return FrontUtils.showLogin(request, model, site);
 		}
+		model.addAttribute("_index", HOME);
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER, MEMBER_ACCOUNT);
 	}
@@ -579,6 +593,7 @@ public class MemberAct {
 		if(errors.hasErrors()){
 			return FrontUtils.showError(request, response, model, errors);
 		}
+		model.addAttribute("_index", HOME);
 		cmsUserAccountMng.updateAccountInfo(accountWeiXin, accountAlipy, drawAccount,user);
 		log.info("update CmsUserExt success. id={}", user.getId());
 		return FrontUtils.showSuccess(request, model, nextUrl);

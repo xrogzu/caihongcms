@@ -1,12 +1,12 @@
 
 .titlebar.reverse{
-	border-color:#0b8cf5; 
+	border-color:#36acf4; 
 }
 .head-box{
 	position: relative;
 	padding-top: 10px;
 	height: 210px;
-	background-color: #0b8cf5;
+	background-color: #36acf4;
 }
 
 .head-box h3{

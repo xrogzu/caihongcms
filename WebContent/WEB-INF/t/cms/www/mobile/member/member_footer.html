@@ -1,24 +1,33 @@
 <footer>
             <ul class="menubar animated fadeInUp delay3">
-               <li class="tab">
-                    <i class="iconfont">&#xe63c;</i>
-                    <label class="tab-label">订单</label>
-                    <span class="point"></span>
-                </li>
-                <li class="tab">
-                    <i class="iconfont">&#xe63d;</i>
-                    <label class="tab-label">病历</label>
-                    <span class="point"></span>
-                </li>
-                <li class="tab active">
-                    <i class="iconfont">&#xe63f;</i>
-                    <label class="tab-label">诊断</label>
-                    <span class="point"></span>
-                </li>
-                <li class="tab" onclick="javascript:home();">
+            <li class="tab[#if _index=='home'] active[/#if]" onclick="javascript:home();">
                     <i class="iconfont" >&#xe63e;</i>
                     <label class="tab-label" >我</label>
                 </li>
+               <li class="tab[#if _index=='order'] active[/#if]"  onclick="javascript:order();">
+                    <i class="iconfont">&#xe63c;</i>
+                    <label class="tab-label">订单</label>
+                   
+                </li>
+                <li class="tab[#if _index=='record'] active[/#if]" onclick="javascript:record();">
+                    <i class="iconfont">&#xe63d;</i>
+                    <label class="tab-label">病历</label>
+                   
+                </li>
+                
+                <li class="tab[#if _index=='reserve'] active[/#if]" onclick="javascript:reserve();">
+                    <i class="iconfont">&#xe63f;</i>
+                    <label class="tab-label">预约</label>
+                   
+                </li>
+                [#if user.group.id==2]
+                <li class="tab[#if _index=='doctor'] active[/#if]" onclick="javascript:doctor();">
+                    <i class="iconfont">&#xe63f;</i>
+                    <label class="tab-label">诊断</label>
+                   
+                </li>
+                [/#if]
+                
             </ul>
 </footer>
 <script type="text/javascript">
@@ -28,4 +37,17 @@
     function home(){
     	window.open("${base}/member/index.jspx",'_self') 
     }
+    function order(){
+    	window.open("${base}/member/orders.jspx",'_self') 
+    }
+    function reserve(){
+    	window.open("${base}/member/reserve.jspx",'_self') 
+    }
+    function record(){
+    	window.open("${base}/member/reserveRecord.jspx",'_self') 
+    }
+    function doctor(){
+    	window.open("${base}/member/doctorWork.jspx",'_self') 
+    }
+    
 </script>

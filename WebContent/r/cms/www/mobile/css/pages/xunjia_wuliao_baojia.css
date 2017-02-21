@@ -1,7 +1,7 @@
 
 .titlebar.reverse {
-    background-color: #1da02b;
-    border-color: #1da02b;
+    background-color: #36acf4;
+    border-color: #36acf4;
 }
 
 .xunjia-box{
@@ -10,7 +10,7 @@
 
 .xunjia-box .inner{
 	position: relative;
-	padding-left: 110px;
+	padding-left: 80px;
 	border-bottom: 1px solid #d9d9d9;
 	height: 2.025rem;
 	line-height: 2.025rem;
@@ -19,7 +19,7 @@
 
 .xunjia-box .inner.innerP{
 	position: relative;
-	padding-left: 110px;
+	padding-left: 80px;
 	border-bottom: 1px solid #d9d9d9;
 	font-size: 14px;
 	height: auto;
@@ -28,7 +28,7 @@
 .xunjia-box .inner .item-name{
 	position: absolute;
 	left: 0;
-	width: 110px;
+	width: 80px;
 	top: 0;
 	bottom: 0;
 	text-align: right;
@@ -59,12 +59,12 @@
 	padding-top: 0.3125rem;
 }
 
-.xunjia-box .inner .item-value input[type=text]{
+.xunjia-box .inner .item-value  input[type=text], input[type=password]{
 	border: 1px solid #bebebe;
 	border-radius: 3px;
 	padding: 0.1rem;
 	line-height: 1.2rem;
-	width: 100%;
+	width: 80%;
 }
 
 .xunjia-box .inner .item-value textarea{
@@ -81,7 +81,7 @@
 	border-radius: 3px;
 	padding: 0.1rem;
 	line-height: 1.2rem;
-	width: 100%;
+	width: 80%;	
 	appearance:menulist;
 	-webkit-appearance: menulist;
 }
@@ -89,7 +89,7 @@
 .xunjia-box .inner .item-value .weui_btn{
 	font-size: 0.7rem;
 	line-height: 1.4rem;
-	background-color: #1da02b;
+	background-color: #36acf4;
 }
 
 
@@ -100,3 +100,4 @@
 .weui_cells:before{
 	border:0;
 }
+

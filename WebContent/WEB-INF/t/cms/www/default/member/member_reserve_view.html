@@ -85,7 +85,7 @@ $(function() {
                 <td class="s-p">病人姓名：</td><td>${reserve.patient.name}</td><td class="s-p">性别：</td><td>[#if reserve.patient.gender]男[#else]女[/#if]</td>
               </tr>
               <tr>
-                <td class="s-p">手机：</td><td>${reserve.patient.telphone}</td><td class="s-p">出生日期：</td><td>${reserve.patient.birthday}</td>
+                <td class="s-p">手机：</td><td>${reserve.patient.telphone}</td><td class="s-p">出生日期：</td><td>${reserve.patient.birthday!}</td>
               </tr><tr>
               	<td class="s-p">身份证号：</td><td>${reserve.patient.idNo}</td><td class="s-p">职业：</td><td>${reserve.patient.jobName!}</td>
                  </tr><tr>
@@ -99,14 +99,20 @@ $(function() {
               <td class="tggl-top" colspan="4"><div align="left">预约信息</div></td>
               	</tr>
               <tr>
-               <td class="s-p">期望会诊时间：</td><td colspan="1">${reserve.expectTime}</td>
+               <td class="s-p">期望会诊时间：</td><td colspan="1">${reserve.expectTime?string('yyyy-MM-dd')}</td>
               <td class="s-p">预约状态：</td><td colspan="1">${reserve.statusName}</td>
               </tr>
               [#if reserve.status==4]
                <tr>
+               <td class="s-p">取消时间：</td><td colspan="3">${reserve.cancelTime?string('yyyy-MM-dd')}</td>              
+              </tr>
+               <tr>
                <td class="s-p">取消原因：</td><td colspan="3">${reserve.cancelReason!"无"}</td>              
               </tr>
               [#elseif  reserve.status==3]
+               <tr>
+	               <td class="s-p">会诊时间：</td><td colspan="3">${reserve.consultTime?string('yyyy-MM-dd')}</td>              
+	              </tr>
 	               <tr>
 	               <td class="s-p">会诊诊断：</td><td colspan="3">${reserve.diagnosis!}</td>              
 	              </tr>

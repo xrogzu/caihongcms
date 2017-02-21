@@ -5,20 +5,61 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
 <title>会员中心 - ${site.name} </title>
 [#include "member_header.html"/]
- <link rel="stylesheet" href="/${mobileRes!}css/pages/person_info.css"/>
-        <script>(function (doc, win) {
-          var docEl = doc.documentElement,
-            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-            recalc = function () {
-              var clientWidth = docEl.clientWidth;
-              if (!clientWidth) return;
-              docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
-            };
+<script src="${resSys}/IDNumber.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="/${mobileRes!}/css/pages/xunjia_wuliao_baojia.css"/>
+<script>
+$(function() {        	
+    $("#jvForm").validate();
 
-          if (!doc.addEventListener) return;
-          win.addEventListener(resizeEvt, recalc, false);
-          doc.addEventListener('DOMContentLoaded', recalc, false);
-        })(document, window);</script>
+     var opt = {  
+            theme: "android-ics light", 
+            display: 'modal', //显示方式  
+            lang: "zh",  
+            setText: '确定', //确认按钮名称
+            cancelText: "取消",  
+            dateFormat: 'yyyy-mm-dd', //返回结果格式化为年月格式  
+            dateOrder: 'yyyymmdd', //面板中日期排列格式
+            onBeforeShow: function (inst) {
+    		
+              }, 
+            headerText: function (valueText) { //自定义弹出框头部格式  
+                array = valueText.split('-');  
+                return array[0] + "年" + array[1] + "月" + array[2] + "日";  
+            }  
+        };
+
+      $("#birthday").mobiscroll().date(opt); 
+ });
+
+
+function idNoChange(idNo){
+	if(IdentityCodeValid(idNo)){
+		 var tmpStr = "";
+		 var sexStr="";
+         var birthday = $("#birthday");
+
+         idNo = $.trim(idNo);
+
+         if(idNo.length == 15){
+             tmpStr = idNo.substring(6, 12);
+             tmpStr = "19" + tmpStr;
+             tmpStr = tmpStr.substring(0, 4) + "-" + tmpStr.substring(4, 6) + "-" + tmpStr.substring(6);
+             sexStr = parseInt(iIdNo.substring(14, 1),10) % 2 ? "true" : "false";
+            
+         }else{
+             var tmpStr = idNo.substring(6, 14);
+             tmpStr = tmpStr.substring(0, 4) + "-" + tmpStr.substring(4, 6) + "-" + tmpStr.substring(6);
+             sexStr = parseInt(idNo.substring(17, 1),10) % 2 ? "true" : "false";
+           
+         }
+         
+         birthday.val(tmpStr);
+         
+        $("#gender").val(sexStr);
+         
+	}
+}
+</script>       
 </head>
 
 <body>
@@ -30,100 +71,101 @@
                 <h1>个人资料</h1>
             </div>
         </header>
-        <article style="bottom: 54px;">
-            <div class="weui_cells weui_cells_access animated fadeInRight">
-              <a class="weui_cell" href="javascript:;">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <div class="weui-row weui-no-gutter">
-                        <div class="label weui-col-20">用户名:</div>
-                        <div class="weui-col-80">${user.username!}</div>
+     <form id="jvForm" action="profile.jspx" method="post"> 
+         <article style="bottom: 54px;">
+        <ul class="xunjia-box">
+        	<li class="inner">
+                 <div class="item-name">用户名:</div>
+                  <div class="item-value">${user.username!}</div>
+               </li>
+               <li class="inner">
+                 <div class="item-name">彩虹币:</div>
+                  <div class="item-value">${user.grain!}</div>
+               </li>
+                <li class="inner">
+                 <div class="item-name">会员组:</div>
+                  <div class="item-value">${user.group.name!}</div>
+               </li>
+               <li class="inner">
+                  <div class="item-name">真实姓名:</div>
+                  <div class="item-value">
+                   	<div class="input-wrap">
+                         <input type="text" name="realname" value="${user.realname!}" vld="{required:true}"   />
+                        </div>
+                  </div>
+               </li>
+               <li class="inner">
+                  <div class="item-name">性别:</div>
+                  <div class="item-value">
+                   	<div class="input-wrap">                   	  
+					           
+  [@p.select name="gender" id="gender" value=user.gender  list={"":"保密","true":"男","false":"女"}/]
+					    </div>
+                        </div>
+                  </div>
+               </li>
+                <li class="inner">
+                  <div class="item-name">身份证号:</div>
+                  <div class="item-value">
+                   	<div class="input-wrap">
+                        <input type="text" name="idNo" id="idNo" value="${user.idNo!}" onblur="javascript:idNoChange(this.value);"></input>
+                        </div>
+                  </div>
+               </li>
+                <li class="inner">
+                  <div class="item-name">出生日期:</div>
+                  <div class="item-value">
+                   	<div class="input-wrap">
+                        <input type="text" name="birthday" id="birthday" value="${user.birthday?string('yyyy-MM-dd')}"></input>
+                        </div>
+                  </div>
+               </li>
+                 <li class="inner">
+                    <div class="item-name">E-mail:</div>
+                    <div class="item-value">
+                        <div class="input-wrap">
+                         <input type="text" name="email" value="${user.email!?html}" vld="{required:true,email:true}"   />
+                        </div>
                     </div>
-                </div>
-              </a>
-              <a class="weui_cell" href="javascript:;">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <div class="weui-row weui-no-gutter">
-                        <div class="label weui-col-20">会员组:</div>
-                        <div class="weui-col-80">${user.group.name}</div>
+                </li>
+                 <li class="inner">
+                    <div class="item-name">自我介绍:</div>
+                    <div class="item-value">
+                        <div class="input-wrap" style="height:80px">
+                         <input type="text" name="intro" value="${user.intro!?html}"/>
+                        </div>
                     </div>
-                </div>
-              </a>
-               <a class="weui_cell" href="javascript:;">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <div class="weui-row weui-no-gutter">
-                        <div class="label weui-col-20">邮箱:</div>
-                        <div class="weui-col-80">${user.email!}</div>
+                </li>
+                <li class="inner">
+                    <div class="item-name">电话:</div>
+                    <div class="item-value">
+                        <div class="input-wrap">
+                         <input type="text" name="telphone" value="${user.telphone!}"    />
+                        </div>
                     </div>
-                </div>
-              </a>
-              <a class="weui_cell" href="javascript:;">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <div class="weui-row weui-no-gutter">
-                        <div class="label weui-col-20">真实姓名:</div>
-                        <div class="weui-col-80">${user.realname!}</div>
+                </li>
+                 <li class="inner">
+                    <div class="item-name">来自:</div>
+                    <div class="item-value">
+                        <div class="input-wrap">
+                         <input type="text" name="comefrom" value="${user.comefrom!}"    />
+                        </div>
                     </div>
-                </div>
-              </a>
-               <a class="weui_cell" href="javascript:;">
+                </li>
+        </ul>
+        </article>
+            <div class="weui_cells weui_cells_access animated fadeInRight">            
+			  <a class="weui_cell" href="javascript:;">
                 <div class="weui_cell_bd weui_cell_primary">
                     <div class="weui-row weui-no-gutter">
-                        <div class="label weui-col-20">性别:</div>
-                        <div class="weui-col-80">[#if user.gender??]${user.gender?string('男','女')}[#else]保密[/#if]</div>
-                    </div>
-                </div>
-              </a>
-               <a class="weui_cell" href="javascript:;">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <div class="weui-row weui-no-gutter">
-                        <div class="label weui-col-20">出生日期：</div>
-                        <div class="weui-col-80">${(user.birthday?string('yyyy-MM-dd'))!}</div>
-                    </div>
-                </div>
-              </a>
-                <a class="weui_cell" href="javascript:;">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <div class="weui-row weui-no-gutter">
-                        <div class="label weui-col-20">自我介绍：</div>
-                        <div class="weui-col-80">${user.intro!}</div>
-                    </div>
-                </div>
-              </a>
-               <a class="weui_cell" href="javascript:;">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <div class="weui-row weui-no-gutter">
-                        <div class="label weui-col-20">来自：</div>
-                        <div class="weui-col-80">${user.comefrom!}</div>
-                    </div>
-                </div>
-              </a>
-                <a class="weui_cell" href="javascript:;">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <div class="weui-row weui-no-gutter">
-                        <div class="label weui-col-20">QQ：</div>
-                        <div class="weui-col-80">${user.qq!}</div>
-                    </div>
-                </div>
-              </a>
-                
-                 <a class="weui_cell" href="javascript:;">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <div class="weui-row weui-no-gutter">
-                        <div class="label weui-col-20">电话：</div>
-                        <div class="weui-col-80">${user.phone!}</div>
-                    </div>
-                </div>
-              </a>
-                 <a class="weui_cell" href="javascript:;">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <div class="weui-row weui-no-gutter">
-                        <div class="label weui-col-20">手机：</div>
-                        <div class="weui-col-80">${user.telphone!?html}</div>
+                 		<input type="submit" value="提交" class="weui_btn weui_btn_primary"/>
                     </div>
                 </div>
               </a>
                 
             </div>
-        </article>
+            </form>
+       
   [#include "member_footer.html"/]      
     
 

@@ -139,20 +139,14 @@ function save(){
               <td class="tggl-top" colspan="4"><div align="left">预约信息</div></td>
               	</tr>
               <tr>
-               <td class="s-p">期望会诊时间：</td><td colspan="1">${reserve.expectTime?string('yyyy-MM-dd')}</td>
+               <td class="s-p">期望会诊时间：</td><td colspan="1">${reserve.expectTime}</td>
               <td class="s-p">预约状态：</td><td colspan="1">${reserve.statusName}</td>
               </tr>
               [#if reserve.status==4]
-              <tr>
-               <td class="s-p">取消时间：</td><td colspan="3">${reserve.cancelTime?string('yyyy-MM-dd')}</td>              
-              </tr>
                <tr>
                <td class="s-p">取消原因：</td><td colspan="3">${reserve.cancelReason!"无"}</td>              
               </tr>
               [#elseif  reserve.status==3]
-              <tr>
-	               <td class="s-p">会诊实际那：</td><td colspan="3">${reserve.consultTime?string('yyyy-MM-dd')}</td>              
-	              </tr>
 	               <tr>
 	               <td class="s-p">会诊意见：</td><td colspan="3">${reserve.diagnosis!}</td>              
 	              </tr>

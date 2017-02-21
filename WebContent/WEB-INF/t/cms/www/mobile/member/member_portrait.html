@@ -1,68 +1,109 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>更换头像 - ${site.name} - Powered by caihong</title>
-<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
-<link type="text/css" rel="stylesheet" href="css/index.css" />
-<script src="${resSys}/jquery.js" type="text/javascript"></script>
-<script src="${resSys}/front.js" type="text/javascript"></script>
-<script type="text/javascript">
-$(function() {
-	$("#jvForm").validate();
-});
-</script>
-
-<!--[if lt IE 9]> 
-<script src="js/html5shiv.min.js"></script>
-<script src="js/respond.min.js"></script>
-<![endif]-->
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+<title>会员中心 - ${site.name} </title>
+<style type="text/css"></style>
+<link rel="stylesheet" href="${resSys}/photo/linkstyle.css"/>
+  <script src="${resSys}/jquery.js"></script>
+  <script src="${resSys}/photo/clamp.min.js"></script>
 </head>
 
 <body>
-[#include "../include/top.html"/]
-[#include "../include/header.html"/]
-<div class="member-con">
-  <div class="m-pos"><a href="${base}/">首页</a> > <span>会员中心</span></div>
-  <div class="member clearfix">
-    <div class="memberLeft clearfix"> 
-     
-      <div class="member-main">
-        <div class="member-child"><a href="${base}/member/index.jspx">用户信息</a>|<a href="${base}/member/profile.jspx" class="on">修改个人资料</a>|<a href="${base}/member/portrait.jspx">更换头像</a>|<a href="${base}/member/pwd.jspx">修改密码</a></div>
-        <div class="member-text">
-          [#include "image_upload.html"/]
-          <form id="jvForm" action="profile.jspx" method="post">
-          <table cellpadding="0" cellspacing="0">
-            <table cellpadding="0" cellspacing="0">
-            <tbody>
-              <tr>
-                <td width="180" style="padding-top:30px;"><div class="ghtx">[#if user.userImg??]<img src="${user.userImg}">[#else]<img src="/${res}/images/userImg.jpg">[/#if]<div></td>
-                <td>
-                  <input type="text" name="name" class="member-change" style="width:320px;">
-                  <p style="font-size:12px; color:#b4b4b4; line-height:36px;">上传图片格式： jpg、png、gif</p>
-                  <div><input type="button" class="change-Btn" value="浏览"><input type="button" class="change-Btn" value="上传"><input type="button" class="change-Btn" value="裁剪"></div>
-                </td>
-              </tr>
-              <tr>
-                <td></td>
-                <td><input type="submit" class="member-submit" value="提交"></td>
-              </tr>
-            </tbody>
-          </table>
-          </form>
+<div class="row">
+        					<div class="container">
+ <!--    照片添加    -->
+<div class="z_photo">
+            <div class="z_file">
+                <input type="file" name="file" id="file" value="" accept="image/*" multiple onchange="imgChange('z_photo','z_file');" />
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="memberRight">
-      <div class="memberImg">[#if user.userImg??]<img src="${user.userImg}">[#else]<img src="/${res}/images/userImg.jpg">[/#if]</div>
-      <div class="memberName">您好，<span>${user.username}</span></div>
-      <div class="memberOut"><a href="logout.jspx?returnUrl=/">退出</a></div>
-    </div>
-    <div class="m-sj"></div>
-  </div>
+
+        <!--遮罩层-->
+        <div class="z_mask">
+            <!--弹出框-->
+            <div class="z_alert">
+                <p>确定要删除图片？</p>
+                <p>
+                    <span class="z_cancel">取消</span>
+                    <span class="z_sure">确定</span>
+                </p>
+            </div>
+ </div>
 </div>
-[#include "../include/footer.html"/]
+</div>
+
+<script src="${resSys}/photo/normal-js.js"></script>
+
+
+ <script>
+ $(function() {
+	var oWidth=$(".z_photo").outerWidth()*0.5-5;
+    $(".z_file").css({"height":oWidth+'px',"width":oWidth+'px'});
+});
+ function imgChange(obj1, obj2) {
+     //获取点击的文本框
+     var file = document.getElementById("file");
+     //存放图片的父级元素
+     var imgContainer = document.getElementsByClassName(obj1)[0];
+     //获取的图片文件
+     var fileList = file.files;
+     //文本框的父级元素
+     var input = document.getElementsByClassName(obj2)[0];
+     var imgArr = [];
+     //遍历获取到得图片文件
+     for (var i = 0; i < fileList.length; i++) {
+     
+         var imgUrl = window.URL.createObjectURL(file.files[i]);
+         imgArr.push(imgUrl);
+         var img = document.createElement("img");
+         img.setAttribute("src", imgArr[i]);
+         
+         img.style.height=($(".z_photo").outerWidth()*0.25-5)+'px';
+         var imgAdd = document.createElement("div");
+         var iconAdd = document.createElement("img");
+         iconAdd.setAttribute("src", "${resSys}/img/cancel_icon.png");
+         iconAdd.setAttribute("class", "z_iconImg");
+         
+         imgAdd.setAttribute("class", "z_addImg");
+         imgAdd.appendChild(img);
+         imgAdd.appendChild(iconAdd);
+         imgContainer.appendChild(imgAdd);
+         $(".z_file").appendTo(".z_photo");
+         if($(".z_addImg").length>3){
+         	$(".z_file").hide();
+         }
+     };
+     imgRemove();
+ };
+ 
+ /*删除图片*/
+ function imgRemove() {
+     var imgList = document.getElementsByClassName("z_addImg");
+     var mask = document.getElementsByClassName("z_mask")[0];
+     var cancel = document.getElementsByClassName("z_cancel")[0];
+     var sure = document.getElementsByClassName("z_sure")[0];
+     for (var j = 0; j < imgList.length; j++) {
+         imgList[j].index = j;
+         imgList[j].onclick = function() {
+             var t = this;
+             mask.style.display = "block";
+             cancel.onclick = function() {
+                 mask.style.display = "none";
+             };
+             sure.onclick = function() {
+                 mask.style.display = "none";
+                 t.style.display = "none";
+             };
+             if($(".z_addImg").length>3){
+         	    $(".z_file").show();
+             }
+         }
+     };
+ };
+</script>      
+
+
 </body>
 </html>
