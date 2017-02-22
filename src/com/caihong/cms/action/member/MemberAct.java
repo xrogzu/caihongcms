@@ -4,6 +4,7 @@ import static com.caihong.cms.Constants.TPLDIR_MEMBER;
 import static com.caihong.common.page.SimplePage.cpn;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.caihong.cms.action.front.UploadifyAct;
 import com.caihong.cms.entity.assist.CmsWebservice;
+import com.caihong.cms.entity.main.Order;
 import com.caihong.cms.entity.main.Patient;
 import com.caihong.cms.entity.main.Reserve;
 import com.caihong.cms.entity.main.ReserveAttachment;
@@ -127,6 +131,43 @@ public class MemberAct {
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER, MEMBER_ORDER);
 	}
+	@RequestMapping(value = "/member/ordersJson.jspx")
+	public void ordersJson(HttpServletRequest request,Integer pageNo,Integer pageSize,Integer type,
+			HttpServletResponse response, ModelMap model) {
+		CmsUser user = CmsUtils.getUser(request);
+		JSONArray array=new JSONArray();
+		if(pageSize==null){
+			pageSize=5;
+		}
+		if(pageNo==null){
+			pageNo=1;
+		}
+		
+		Pagination pagination=orderMng.getPageByUser(user.getId(), type,pageNo, pageSize);
+		if(pagination!=null &&pagination.getTotalCount()>0){
+			List<Order> list=(List<Order>)pagination.getList();
+			SimpleDateFormat format =new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			try {
+				for(Order order:list){
+					JSONObject object = new JSONObject();
+					object.put("amount", order.getAmount());
+					object.put("note", order.getNote());
+					object.put("id", order.getId());
+					object.put("orderNum", order.getOrderNum());
+					object.put("time", format.format(order.getTime()));
+					object.put("typeName", order.getTypeName());
+					object.put("statusName", order.getStatusName());
+					object.put("status", order.getStatus());
+					object.put("totalPage", pagination.getTotalPage());
+					array.put(object);
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		ResponseUtils.renderJson(response, array.toString());
+	
+	}
 	
 	@RequestMapping(value = "/member/reserveRecord.jspx")
 	public String reserveRecord(HttpServletRequest request,Integer pageNo,Integer doctorid,Date startDate,Date endDate,Boolean payStatus,Integer status,String doctorname,
@@ -159,6 +200,44 @@ public class MemberAct {
 		
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER, MEMBER_RESERVE_RECORD);
+	}
+	@RequestMapping(value = "/member/reserveRecordJson.jspx")
+	public void reserveRecordJson(HttpServletRequest request,Integer pageNo,Integer pageSize,Integer doctorid,Date startDate,Date endDate,Boolean payStatus,Integer status,String doctorname,
+			HttpServletResponse response, ModelMap model) {
+		CmsUser user = CmsUtils.getUser(request);
+		if(pageSize==null){
+			pageSize=5;
+		}
+		if(pageNo==null){
+			pageNo=1;
+		}		
+		JSONArray array=new JSONArray();	
+		Pagination pagination=reserveMng.search(user.getId(), doctorid, startDate, endDate, payStatus, status, cpn(pageNo), CookieUtils.getPageSize(request),null,doctorname);
+		if(pagination!=null &&pagination.getTotalCount()>0){
+			List<Reserve> list=(List<Reserve>)pagination.getList();
+			SimpleDateFormat format =new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			try {
+				for(Reserve order:list){
+					JSONObject object = new JSONObject();
+					object.put("price", order.getPrice());
+					object.put("id", order.getId());
+					object.put("time",format.format(order.getTime()));
+					object.put("status", order.getStatus());
+					object.put("payStatus", order.getPayStatus());
+					object.put("statusName", order.getStatusName());
+					object.put("doctorUserName", order.getDoctorUser().getUsername());
+					object.put("note", order.getDoctorUser().getJobLevel().getName()+order.getDoctorUser().getJobTitle().getName());
+					object.put("doctorImg", order.getDoctorUser().getUserImg());
+					object.put("patientName", order.getPatient().getName());
+					object.put("doctorRealName", order.getDoctorUser().getRealname());
+					object.put("totalPage", pagination.getTotalPage());
+					array.put(object);
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		ResponseUtils.renderJson(response, array.toString());
 	}
 	
 	@RequestMapping(value = "/member/doctorWork.jspx")

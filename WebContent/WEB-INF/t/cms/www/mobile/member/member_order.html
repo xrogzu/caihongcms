@@ -9,6 +9,70 @@
 <script type="text/javascript">
 $(function() {
 	$("#jvForm").validate();
+
+	 var page = 0;
+	 
+    var totalPage = 0;
+    
+    var loading = false;
+	 load();
+    $(window).scroll(function () {
+        if ($(document).scrollTop() + $(window).height() >= $(document).height()) {
+            load();
+        }
+    });
+    function load() {
+        if (page > totalPage || loading) {
+            return;
+        }
+        page++;
+        loading = true;
+        $.ajax({
+            "url": '${base}/member/ordersJson.jspx',
+            dataType: 'json',
+            data: {                 
+            	pageNo: page,
+            	pageSize: 5
+            },
+            success: function (res) {
+            	console.info(res);
+                try {
+                    if (res) {
+                    	for (var i=0;i<res.length;i++){
+                    		var c =res[i];
+                    		totalPage=c.totalPage;
+                    		var a=$("<a class='weui_cell' href='javascript:;'></a>");
+                    		var div1=$("<div class='weui_cell_bd weui_cell_primary'></div>");
+                    		var div2=$("<div class='wuliao-title'><label>"+c.orderNum+"</label><span>-"+c.note+"</span></div>");
+                    		var div3=$("<div class='detail clearfix'><span class='date'>订单日期："+c.time+"</span><span class='require'>价格：<label>"+c.amount+"元</label></span></div>");
+                    		var cl="class='green'";
+                    		if(c.status==2){
+                    			cl="class='yellow'";
+                    		}else if(c.status==3){
+                    			cl="class='gray'";
+                    		}
+                    		
+                    		var div4=$("<div class='org'><span>类型："+c.typeName+"</span><label "+cl+">"+c.statusName+"</label></div>");
+                    		div1.append(div2,div3,div4);
+                    		a.append(div1);
+                    		$("#hotlist").append(a);
+                    	
+                    	}
+                        
+                    }
+                }catch (e) {
+                   
+                } finally {
+                    loading = false;
+                }
+            },
+            error: function () {
+                loading = false;
+            }
+        })
+    }
+
+            
 });
 </script>
 </head>
@@ -23,27 +87,9 @@ $(function() {
     </div>
  </header>
  <article style="bottom: 0;">
-    <div class="weui_cells weui_cells_access">  
+    <div class="weui_cells weui_cells_access" id="hotlist">  
     [#if pagination.list?size gt 0]
-    	[#list pagination.list as c]
-    		<a class="weui_cell" href="javascript:;">
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <div class="wuliao-title">
-                            <label>${c.orderNum!}</label>
-                            <span>${c.note!}</span>
-                        </div>
-                        <div class="detail clearfix">
-                            <span class="date">订单日期：${c.time?string("yyyy-MM-dd HH:mm:ss")}</span>
-                            <span class="require">价格：<label>${c.amount!}元</label></span>
-                            
-                        </div>
-                        <div class="org">
-                            <span>类型：${c.typeName!}</span>
-                            <label [#if c.status==1]class="green"[#elseif c.status==2]class="yellow"[#else]class="gray"[/#if]>${c.statusName!}</label>
-                        </div>
-                    </div>
-         	</a>
-         	[/#list]
+    	
          [#else]
                 <div>暂无订单记录</div>
          [/#if]

@@ -46,7 +46,9 @@ public class ReserveDaoImpl extends HibernateBaseDao<Reserve, Integer> implement
 		if(StringUtils.isNotBlank(patientName)){
 			f.append(" and bean.patient.name like :patientName").setParam("patientName", "%"+patientName+"%");
 		}
+		f.append(" order by bean.time desc");
 		f.setCacheable(true);
+		
 		return find(f, pageNo, pageSize);
 	}
 	public Reserve findById(Integer id) {

@@ -1,153 +1,145 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${site.name} - Powered by caihong</title>
-<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
-<script src="${resSys}/jquery.js" type="text/javascript"></script>
-<script src="${resSys}/front.js" type="text/javascript"></script>
-<script src="${resSys}/IDNumber.js" type="text/javascript"></script>
-<link href="${base}/thirdparty/uploadify/uploadify.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" type="text/css" href="/${res}/css/index.css" />
-<script type="text/javascript" src="${base}/thirdparty/uploadify/jquery.uploadify.js"></script>
-<script type="text/javascript" src="${base}/thirdparty/layer/layer.js"></script>
-<script src="${base}/thirdparty/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
-
-
-<script type="text/javascript">
-$(function() {
-	
-	$("#tableForm").validate();
-	[#if reserve??]
-		
-	[#else]
-	layer.msg("参数异常!",{
-        time:1000},function(){
-        	window.location="${base}/member/reserveRecord.jspx"
-        });
-	//;
-	[/#if]
-	
-});
-
-
-
-</script>
-</head>
-
-<body>
-[#include "../include/top.html"/]
-[#include "../include/header.html"/]
-<div class="member-con">
-  <div class="m-pos"><a href="${base}/">首页</a> > <span>会员中心</span></div>
-  <div class="member clearfix">
-    <div class="memberLeft clearfix"> 
-      <div class="member-nav">
-        <ul>
-        <li><a href="${base}/member/index.jspx">个人资料</a></li>    
-         [#if user.group.id==2]
-        <li><a href="${base}/member/doctorWork.jspx" >看诊管理</a></li>
-        [/#if]   
-        <li><a href="${base}/member/orders.jspx" >我的订单</a></li>
-        <li><a href="${base}/member/reserve.jspx" >预约会诊</a></li>
-         <li><a href="${base}/member/reserveRecord.jspx" class="on">预约记录</a></li>
-        </ul>
-      </div>
-      <div class="member-main">
-        <div class="member-child"><a href="${base}/member/reserveRecord.jspx" >预约记录</a>|<a  href="#" class="on">预约详情</a></div>
-        <div class="member-text tggl">
-          <form id="tableForm"  method="post">
-          [#if reserve??]
-         
-          <table cellpadding="0" cellspacing="0" id="doctor">
-            <tbody>
-              <tr>
-              <td class="tggl-top" colspan="4"><div align="left">医生信息</div></td>
-             </tr>
-              <tr>
-                <td class="s-p">会诊医生：</td><td width="40%">${reserve.doctorUser.realname!reserve.doctorUser.username}(${reserve.price!}元)</td><td class="s-p" rowspan="2">医生头像</td><td width="30%" rowspan="2" ><img src="${reserve.doctorUser.userImg!}" width="100"height="100"/></td>
-              </tr>
-              <tr>
-                <td class="s-p">医生性别：</td><td>[#if reserve.doctorUser.gender??]${reserve.doctorUser.gender?string('男','女')}[#else]保密[/#if]</td>
-              </tr>
-              <tr>
-                <td class="s-p">国籍：</td><td colspan="1">${reserve.doctorUser.nation.name!}</td> <td class="s-p">部门：</td><td colspan="1">${reserve.doctorUser.department.name!}</td>
-              </tr>
-                <tr>
-                <td class="s-p">专业：</td><td colspan="1">${reserve.doctorUser.major.name!}</td> <td class="s-p">职称（级别）：</td><td colspan="1">${reserve.doctorUser.jobTitle.name!}(${reserve.doctorUser.jobLevel.name!})</td>
-              </tr>              
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+<title>预约详情-${site.name} </title>
+[#include "member_header.html"/]
+ <link rel="stylesheet" href="/${mobileRes!}/css/pages/xunjia_detail.css"/>
+  </head>
+    <body>
+        <header>
+            <div class="titlebar reverse">
+                <a href="javascript:back()">
+                    <i class="iconfont">&#xe640;</i>
+                </a>
+                <h1>预约详情</h1>
+            </div>
+        </header>
+        <article style="bottom: 0;">
+            <ul class="xunjia-tab clearfix">
+                <li class="red">医生信息</li>
+            </ul>
+            <ul class="xunjia-box">
+                <li class="inner">
+                    <div class="item-name">会诊医生：</div>
+                    <div class="item-value">${reserve.doctorUser.realname!reserve.doctorUser.username}</div>
+                </li>
+                <li class="inner">
+                    <div class="item-name">价格：</div>
+                    <div class="item-value">${reserve.price!}元</div>
+                </li>
+                <li class="inner">
+                    <div class="item-name">医生性别：</div>
+                    <div class="item-value">
+                       [#if reserve.doctorUser.gender??]${reserve.doctorUser.gender?string('男','女')}[#else]保密[/#if]
+                    </div>
+                </li>
+                <li class="inner">
+                    <div class="item-name">国籍：</div>
+                    <div class="item-value">
+                        ${reserve.doctorUser.nation.name!}
+                    </div>
+                </li>
+                <li class="inner">
+                    <div class="item-name">部门：</div>
+                    <div class="item-value">
+                        ${reserve.doctorUser.department.name!}
+                    </div>
+                </li>
+                <li class="inner">
+                    <div class="item-name">专业职称：</div>
+                    <div class="item-value">
+                      ${reserve.doctorUser.major.name!}${reserve.doctorUser.jobLevel.name!}${reserve.doctorUser.jobTitle.name!})
+                    </div>
+                </li>
+               
+            </ul>
+             <ul class="xunjia-tab clearfix">
+                <li class="red">病人信息</li>
+            </ul>
+            <ul class="xunjia-box">
+                <li class="inner">
+                    <div class="item-name">病人姓名：</div>
+                    <div class="item-value">${reserve.patient.name}</div>
+                </li>
+                <li class="inner">
+                    <div class="item-name">性别：</div>
+                    <div class="item-value">[#if reserve.patient.gender]男[#else]女[/#if]</div>
+                </li>
+                <li class="inner">
+                    <div class="item-name">身份证号：</div>
+                    <div class="item-value">
+                       ${reserve.patient.idNo}
+                    </div>
+                </li>
+                <li class="inner">
+                    <div class="item-name">出生日期：</div>
+                    <div class="item-value">
+                        ${reserve.patient.birthday}
+                    </div>
+                </li>
+                <li class="inner">
+                    <div class="item-name">工作地址：</div>
+                    <div class="item-value">
+                        ${reserve.patient.workAddress!}
+                    </div>
+                </li>
+                <li class="inner">
+                    <div class="item-name">临床诊断：</div>
+                    <div class="item-value">
+                      ${reserve.clinicalDiagnosis!}
+                    </div>
+                </li>
+                <li class="inner">
+                    <div class="item-name">附件：</div>
+                     [#if reserve.attachments?size gt 0]
+                     	 [#list reserve.attachments as c]
+                     	  <div class="item-value green">
+                        	<a href="${base}${c.path}">${c.name!}</a>
+                    	</div>
+                     	 [/#list]
+                     [#else]
+                     	无
+                     [/#if]
+                   
+                </li>
+            </ul>
+            <ul class="xunjia-tab clearfix">
+                <li class="green">预约信息</li>
+            </ul>
+            <ul class="xunjia-box">
+                <li class="inner">
+                    <div class="item-name">期望会诊时间：</div>
+                    <div class="item-value">${reserve.expectTime}</div>
+                </li>
+                <li class="inner">
+                    <div class="item-name">预约状态：</div>
+                    <div class="item-value red">${reserve.statusName}</div>
+                </li>
+                [#if reserve.status==4]
+                 <li class="inner">
+                    <div class="item-name">取消原因：</div>
+                    <div class="item-value">${reserve.cancelReason!"无"}</div>
+                </li>
               
-           <tr>
-            <td class="tggl-top" colspan="4"><div align="left">病人信息</div></td>
-           </tr>
-             <tr>
-                <td class="s-p">病人姓名：</td><td>${reserve.patient.name}</td><td class="s-p">性别：</td><td>[#if reserve.patient.gender]男[#else]女[/#if]</td>
-              </tr>
-              <tr>
-                <td class="s-p">手机：</td><td>${reserve.patient.telphone}</td><td class="s-p">出生日期：</td><td>${reserve.patient.birthday}</td>
-              </tr><tr>
-              	<td class="s-p">身份证号：</td><td>${reserve.patient.idNo}</td><td class="s-p">职业：</td><td>${reserve.patient.jobName!}</td>
-                 </tr><tr>
-                 <td class="s-p">工作地址：</td><td>${reserve.patient.workAddress!}</td><td class="s-p">家庭地址：</td><td>${reserve.patient.homeAddress!}</td>
-             
-              </tr>
-              <tr>
-                <td class="s-p">临床诊断：</td><td colspan="3">${reserve.clinicalDiagnosis!}</td>              
-              </tr>
-              <tr>
-              <td class="tggl-top" colspan="4"><div align="left">预约信息</div></td>
-              	</tr>
-              <tr>
-               <td class="s-p">期望会诊时间：</td><td colspan="1">${reserve.expectTime}</td>
-              <td class="s-p">预约状态：</td><td colspan="1">${reserve.statusName}</td>
-              </tr>
-              [#if reserve.status==4]
-               <tr>
-               <td class="s-p">取消原因：</td><td colspan="3">${reserve.cancelReason!"无"}</td>              
-              </tr>
               [#elseif  reserve.status==3]
-	               <tr>
-	               <td class="s-p">会诊诊断：</td><td colspan="3">${reserve.diagnosis!}</td>              
-	              </tr>
-	               <tr>
-	               <td class="s-p">处方意见：</td><td colspan="3">${reserve.prescription!}</td>              
-	              </tr>
+               <li class="inner">
+                    <div class="item-name">会诊诊断：</div>
+                    <div class="item-value">${reserve.diagnosis!}</div>
+                </li>
+                <li class="inner">
+                    <div class="item-name">处方意见：：</div>
+                    <div class="item-value">${reserve.prescription!}</div>
+                </li>
+	             
               [/#if]
-              <tr>
-               <td class="s-p">附件信息：</td><td colspan="3">
-               		 [#if reserve.attachments?size gt 0]
-              		<table>
-              		 <tr>
-                		<td class="tggl-top">附件名</td><td class="tggl-top">操作</td>                
-             		 </tr>
-             		 [#list reserve.attachments as c]
-             		 <tr>
-		                
-		                <td>${c.name!}</td>
-		                <td><a href="${base}${c.path}">下载</a></td>
-		               </tr>
-             		 [/#list]
-              		</table>
-              		 [#else]
-		                <div>暂无附件信息</div>
-		            [/#if]
-               </td>
-              </tr>
-              	<tr><td colspan="4"> [#if reserve.status==1]<a href="${base}/buy/reward${reserve.id}.jspx?type=2">去支付&nbsp;&nbsp;&nbsp;</a>[/#if]<a href="#" onclick="history.go(-1);">返回</a></td></tr>
-             
-             
-            </tbody>
-          </table>
-          [/#if]
-            </form>
-        </div>
-      </div>
-    </div>
-    [#include "../include/member-right.html" /]
-    <div class="m-sj"></div>
-  </div>
-</div>
-[#include "../include/footer.html"/]
+                <li class="inner no-padding">
+                	[#if reserve.status==1]<a href="${base}/buy/reward${reserve.id}.jspx?type=2" class="weui_btn weui_btn_primary">去支付</a>[/#if]
+                   <a  class="weui_btn weui_btn_primary" href="javascript:back()">返回</a>
+                </li>
+            </ul>
+        </article>           
+[#include "member_footer.html"/]             
 </body>
 </html>
