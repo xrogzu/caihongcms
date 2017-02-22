@@ -5,9 +5,9 @@ package com.caihong.common.web;
  *
  */
 public enum OrderStatus {
-	PAID(1,"支付"),
+	PAID(1,"已支付"),
 	UNPAID(2,"未支付"),
-	CANCEL(3,"退费取消");
+	CANCEL(3,"已取消");
 	private Integer value;
 	private String name;
 	public void setValue(Integer value) {

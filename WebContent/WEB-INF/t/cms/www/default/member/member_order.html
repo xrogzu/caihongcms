@@ -42,12 +42,12 @@ $(function() {
       <div class="member-main">
         <div class="member-child"><a href="#" class="on">订单查询</a></div>
         <div class="member-text tggl">
-          <form id="tableForm" action="buy_list.jspx" method="post">
+          <form id="tableForm" action="orders.jspx" method="post">
           [#if pagination.list?size gt 0]
           <table cellpadding="0" cellspacing="0">
             <tbody>
               <tr>
-                <td class="tggl-top">订单号</td><td class="tggl-top">金额</td><td class="tggl-top">内容</td><td class="tggl-top">类型</td><td class="tggl-top">购买时间</td>
+                <td class="tggl-top">订单号</td><td class="tggl-top">金额</td><td class="tggl-top">内容</td><td class="tggl-top">类型</td><td class="tggl-top">购买时间</td><td class="tggl-top">状态</td>
               </tr>
               [#list pagination.list as c]
               <tr>
@@ -56,6 +56,7 @@ $(function() {
                 <td>${c.note}</td>
                 <td>${c.typeName!}</td>
                 <td>${c.time?string("yyyy-MM-dd HH:mm:ss")}</td>
+                 <td>${c.statusName!}</td>
               </tr>
               [/#list]
               <tr>
@@ -82,7 +83,7 @@ $(function() {
                 try{
                     var tableForm = document.getElementById("tableForm");
                     $("input[name=pageNo]").val(pageNo);
-                    tableForm.action="buy_list.jspx";
+                    tableForm.action="orders.jspx";
                     tableForm.submit();
                 } catch(e) {
                     alert('_gotoPage(pageNo)方法出错');

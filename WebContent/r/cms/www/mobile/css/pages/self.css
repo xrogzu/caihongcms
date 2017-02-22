@@ -32,18 +32,9 @@
 	left: 50%;
 	margin-top: -2.875rem;
 	margin-left: -2.875rem;
-	background-color: #fff;
+	
 }
 
-.head-box .head-icon-outer .head-icon{
-	position: absolute;
-	width: 5.4rem;
-	height: 5.4rem;
-	border-radius: 50%;
-	top: 0.175rem;
-	left: 0.175rem;
-	background: url(../../images/icon.jpg) center center no-repeat;
-}
 
 .weui_btn_primary{
 	margin-top: 20px;

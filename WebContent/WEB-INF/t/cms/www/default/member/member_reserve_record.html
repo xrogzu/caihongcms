@@ -29,7 +29,7 @@ box-shadow: inset 0px 1px 4px #ECECEC;
 </style>
 <script type="text/javascript">
 $(function() {
-	$("#jvForm").validate();
+	$("#tableForm").validate();
 });
 function reserveCancel(reserveid){
 	if(reserveid){
@@ -202,7 +202,7 @@ function reserveRefund(orderNumber){
                 try{
                     var tableForm = document.getElementById("tableForm");
                     $("input[name=pageNo]").val(pageNo);
-                    tableForm.action="buy_list.jspx";
+                    tableForm.action="reserveRecord.jspx";
                     tableForm.submit();
                 } catch(e) {
                     alert('_gotoPage(pageNo)方法出错');
