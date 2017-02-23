@@ -536,13 +536,16 @@ public class MemberAct {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/member/profile.jspx", method = RequestMethod.POST)
-	public String profileSubmit(CmsUserExt ext, String nextUrl,String telphone,
+	public String profileSubmit(CmsUserExt ext, String nextUrl,String telphone,String idNo,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap model) throws IOException {
 		CmsSite site = CmsUtils.getSite(request);
 		CmsUser user = CmsUtils.getUser(request);
 		if(StringUtils.isNotBlank(telphone)){
 			user.setTelphone(telphone);
+		}
+		if(StringUtils.isNotBlank(idNo)){
+			user.setIdNo(idNo);
 		}
 		FrontUtils.frontData(request, model, site);
 		MemberConfig mcfg = site.getConfig().getMemberConfig();
