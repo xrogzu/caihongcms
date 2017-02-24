@@ -24,6 +24,17 @@ box-shadow: inset 0px 1px 4px #ECECEC;
 -moz-box-shadow: inset 0px 1px 4px #ECECEC;
 -webkit-box-shadow: inset 0px 1px 4px #ECECEC;
 }
+
+ img {
+    vertical-align: middle;
+    display: inline-block;
+    margin-right: 10px;
+    width: 28px;
+    height: 28px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+
 </style>
 <script type="text/javascript">
 $(function() {
@@ -31,7 +42,7 @@ $(function() {
 });
 var page = 0;
 
-var totalPage = 0;
+var totalPage = 1;
 
 var loading = false;
 load();
@@ -41,7 +52,7 @@ $(window).scroll(function () {
     }
 });
 function load() {
-    if (page > totalPage || loading) {
+    if (page >= totalPage) {
         return;
     }
     page++;
@@ -62,7 +73,7 @@ function load() {
                 		totalPage=c.totalPage;
                 		var a=$("<a class='weui_cell' href='${base}/member/reserveView.jspx?id="+c.id+"'></a>");
                 		var div1=$("<div class='weui_cell_bd weui_cell_primary'></div>");
-                		var div2=$("<div class='wuliao-title'><label>"+c.doctorUserName+"</label><span>-"+c.note+"</span></div>");
+                		var div2=$("<div class='wuliao-title'><img src='"+c.doctorImg+"'/><label>"+c.doctorUserName+"</label><span>-"+c.note+"</span></div>");
                 		var div3=$("<div class='detail clearfix'><span class='date'>预约日期："+c.time+"</span><span class='require'>价格：<label>"+c.price+"元</label></span></div>");
                 		var cl="class='green'";
                 		if(c.status==3){

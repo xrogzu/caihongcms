@@ -58,6 +58,7 @@ public class UserScheduleDaoImpl extends HibernateBaseDao<UserSchedule, Integer>
 		if(jobLevelId!=null){
 			f.append(" and ext.jobLevel.id=:jobLevelId").setParam("jobLevelId", jobLevelId);
 		}
+		f.append(" order by bean.createTime desc");
 		f.setCacheable(true);
 		return find(f, pageNo, pageSize);
 	}

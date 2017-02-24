@@ -330,6 +330,41 @@ public class MemberAct {
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER,MEMBER_RESERVE_DOCTOR );
 	}
+	
+	@RequestMapping(value = "/member/reserveJson.jspx")
+	public void reserveJson(HttpServletRequest request,Integer pageNo,Integer pageSize,Integer userid,Date startDate,Date endDate, Integer nationId,Integer majorId, Integer jobTitleId,Integer jobLevelId,
+			HttpServletResponse response, ModelMap model) {
+		if(pageSize==null){
+			pageSize=5;
+		}
+		if(pageNo==null){
+			pageNo=1;
+		}		
+		Pagination pagination=userScheduleMng.getPage(userid, startDate, endDate, nationId, majorId, jobTitleId, jobLevelId,  cpn(pageNo), pageSize);
+		
+		
+		JSONArray array=new JSONArray();	
+		if(pagination!=null &&pagination.getTotalCount()>0){
+			List<UserSchedule> list=(List<UserSchedule>)pagination.getList();
+			SimpleDateFormat format =new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			try {
+				for(UserSchedule us:list){
+					JSONObject object = new JSONObject();
+					object.put("id", us.getId());
+					object.put("zuozhen",us.getZuozhen());
+					object.put("price", us.getPrice());
+					object.put("username", us.getUser().getRealname()==null?us.getUser().getUsername():us.getUser().getRealname());
+					object.put("userImg", us.getUser().getUserImg());
+					object.put("note",  us.getUser().getJobLevel().getName()+ us.getUser().getJobTitle().getName());
+					object.put("totalPage", pagination.getTotalPage());
+					array.put(object);
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		ResponseUtils.renderJson(response, array.toString());
+	}
 	@RequestMapping(value = "/member/reserveView.jspx")
 	public String reserveView(HttpServletRequest request,Integer pageNo,Integer id,
 			HttpServletResponse response, ModelMap model) {
@@ -346,7 +381,7 @@ public class MemberAct {
 				model.addAttribute("reserve",reserve);
 			}
 		}
-		model.addAttribute("_index", RESERVE);
+		model.addAttribute("_index",RECORD);
 		return FrontUtils.getTplPath(request, site.getSolutionPath(),
 				TPLDIR_MEMBER,MEMBER_RESERVE_VIEW );
 	}

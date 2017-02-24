@@ -35,22 +35,27 @@ $(function() {
 	//;
 	[/#if]
 	$("#patient").hide();
-	
+	var i=1;
 	$("#file_upload").uploadify({
 		'height'        : 30,
 		'multi'		  :true,
 		'swf'           : '${base}/thirdparty/uploadify/uploadify.swf?ver=' + new Date()*1,
 		'uploader'      : '${base}/uploadify/uploadify.jspx;jsessionid=${sessionId!}',
 		'buttonText'    : '添加附件',
-		'width'         : 120,		
+		'width'         : 120,	
+		'queueID': 'fileQueue',
 		
+		 'auto': true,
 		'fileTypeExts': '*.gif; *.jpg; *.png;*.doc;*.docx;*.pdf;*.ppt;*.pptx;*.rar;*.zip;*.7z;*.gz',
 		'cancelImg' :  '${base}/uploadify/uploadify-cancel.png',
-		'onUploadSuccess':function(file, data, response){  
-				console.info(file);
-	            $("#fpaths").val($("#fpaths").val()+","+data);
-	            $("#fnames").val($("#fnames").val()+","+file.name);
-	            
+		'onUploadSuccess':function(file, data, response){ 				
+	            $("#fpaths").val($("#fpaths").val()+data+",");
+	            $("#fnames").val($("#fnames").val()+file.name+",");
+	            var vid="tr"+i;
+	          
+	            var tr=$("<tr id='"+vid+"'><td>"+file.name+"</td><td><a href='#' onclick='javascript:deleteFile(\""+vid+"\",\""+data+"\",\""+file.name+"\")'>删除</a></td></tr>");
+	            $("#attrs").append(tr);
+	            i=i+1;
 	      }
 	});
 	
@@ -58,9 +63,21 @@ $(function() {
 
 });
 
+function deleteFile(id,path,name){
 
+			$("#"+id).remove();
+			var paths=$("#fpaths").val();
+			var names=$("#fnames").val();
+			 $("#fpaths").val(paths.replace(path+",",""));
+		     $("#fnames").val(names.replace(name+",",""));
+		 
+}
 
 function formSubmit(){
+	var flag = $("#tableForm").valid();
+	if(!flag){
+		return;
+	}
 	$.ajax({
        
         type: "POST",
@@ -75,7 +92,7 @@ function formSubmit(){
             if(data){
             	layer.open({
            		 type:1,
-           		 title: '预约成功',
+           		 title: '支付确认',
            		 shade: 0.8,
            		 shadeClose:true,
            		btn:['确认支付'],
@@ -165,7 +182,7 @@ function idNoChange(idNo){
                 <td class="s-p">性别：</td><td>[#if doctor.user.gender??]${doctor.user.gender?string('男','女')}[#else]保密[/#if]</td>
               </tr>
               <tr>
-                <td class="s-p">国籍：</td><td colspan="1">${doctor.user.nation.name!}</td> <td class="s-p">部门：</td><td colspan="1">${doctor.user.department.name!}</td>
+                <td class="s-p">国籍：</td><td colspan="1">[#if doctor.user.nation??]${doctor.user.nation.name!}[/#if]</td> <td class="s-p">部门：</td><td colspan="1">[#if doctor.user.department??]${doctor.user.department.name!}[/#if]</td>
               </tr>
                 <tr>
                 <td class="s-p">专业：</td><td colspan="1">${doctor.user.major.name!}</td> <td class="s-p">职称（级别）：</td><td colspan="1">${doctor.user.jobTitle.name!}(${doctor.user.jobLevel.name!})</td>
@@ -182,7 +199,7 @@ function idNoChange(idNo){
           <table cellpadding="0" cellspacing="0" id="patient" style="display:none">
             <tbody>
              <tr>
-                <td class="s-p">病人姓名：</td><td><input type="text" name="name" vld="{required:true}"  maxlength="100" class="member-change" /></td><td class="s-p">性别：</td><td>[@p.radio name="gender" id="gender"  list={"true":"男","false":"女"}/]</td>
+                <td class="s-p">病人姓名：</td><td><input type="text" name="name" vld="{required:true}"  maxlength="100" class="member-change" /></td><td class="s-p">性别：</td><td>[@p.select name="gender" id="gender"  list={"true":"男","false":"女"}/]</td>
               </tr>
               <tr>
                 <td class="s-p">手机：</td><td><input type="text" name="telphone" vld="{required:true}"  maxlength="50" class="member-change" /></td><td class="s-p">出生日期：</td><td><input type="text" name="birthday" id="birthday"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" class="member-change date" /></td>
@@ -200,15 +217,24 @@ function idNoChange(idNo){
               <td colspan="2"></td>
               </tr>
               <tr>
-               <td class="s-p">附件上传：</td><td colspan="3"><input type="file" name="file_upload" id="file_upload" />
-              
+               <td class="s-p">附件上传：</td><td colspan="3"  ><div id="fileQueue"></div>
+                <input type="file" name="file_upload" id="file_upload" />
+                <input type="hidden" id="fpaths" name="fpaths" value=""/><input type="hidden" id="fnames" name="fnames" value=""/>
                </td>
               </tr>
               <tr>
               <td colspan="4">
-              <input type="hidden" id="fpaths" name="fpaths" value=""/><input type="hidden" id="fnames" name="fnames" value=""/>
+              <table id="attrs">
+              		 <tr>
+                		<td class="tggl-top">附件名</td><td class="tggl-top">操作</td>                
+             		 </tr>
+             	</table>
+              </td>
+              </tr>
+              <tr>
+              <td colspan="4">
               <input type="hidden" name="price" value="${doctor.price}"></input> <input type="hidden" name="userid" value="${doctor.id}"></input>
-              <a  onclick="javascript:formSubmit()">保存</a>&nbsp;&nbsp;<a onclick="javascript:formReset()"> 重置</a></td>
+              <a  onclick="javascript:formSubmit()">保存</a>&nbsp;&nbsp;<a onclick="javascript:formReset()">重置</a></td>
               </tr>
              
             </tbody>

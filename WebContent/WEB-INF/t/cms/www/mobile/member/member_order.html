@@ -12,7 +12,7 @@ $(function() {
 
 	 var page = 0;
 	 
-    var totalPage = 0;
+    var totalPage = 1;
     
     var loading = false;
 	 load();
@@ -22,7 +22,7 @@ $(function() {
         }
     });
     function load() {
-        if (page > totalPage || loading) {
+        if (page >= totalPage ) {
             return;
         }
         page++;
@@ -35,7 +35,6 @@ $(function() {
             	pageSize: 5
             },
             success: function (res) {
-            	console.info(res);
                 try {
                     if (res) {
                     	for (var i=0;i<res.length;i++){
